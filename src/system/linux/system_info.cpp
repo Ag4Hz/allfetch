@@ -1,6 +1,8 @@
 #include "allfetch/core/argparser.hpp"
 #include "allfetch/system/system_info.hpp"
 #include <sys/utsname.h>
+#include <string>
+#include <fstream>
 
 namespace allfetch::system
 {
@@ -35,6 +37,21 @@ namespace allfetch::system
                     kernelName = buffer.sysname;
                     kernelVersion = buffer.release;
                     architecture = buffer.machine;
+                }
+
+                std::ifstream file("/etc/os-release");
+                if (!file.is_open())
+                {
+                    file.open("/usr/lib/os-release");
+                }
+
+                std::string line;
+                while (std::getline(file, line))
+                {
+                    if (line.find("PRETTY_NAME=") == 0)
+                    {
+                        version = line.substr(13, line.size() - 14); // Remove quotes
+                    }
                 }
             }
         } linux;
