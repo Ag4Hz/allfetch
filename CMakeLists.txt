@@ -8,7 +8,22 @@ project(allfetch
 
 add_executable(allfetch
     src/main.cpp
+    src/core/argparser.cpp
 )
+
+target_include_directories(allfetch PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+
+if (WIN32)
+    target_sources(allfetch PRIVATE
+        src/system/windows/system_info.cpp
+    )
+elseif (UNIX)
+    target_sources(allfetch PRIVATE
+        src/system/linux/system_info.cpp
+    )
+endif()
 
 set_target_properties(allfetch PROPERTIES
     CXX_STANDARD 20
