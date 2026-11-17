@@ -1,0 +1,51 @@
+#include "allfetch/core/argparser.hpp"
+#include "allfetch/system/system_info.hpp"
+#include <sys/utsname.h>
+
+namespace allfetch::system
+{
+
+    /* Implementation of the getSystemInfo function
+    Output:
+        SystemInfo: The system information
+    */
+    SystemInfo getSystemInfo()
+    {
+        SystemInfo info;
+
+        // Get the operating system information
+        struct Linux
+        {
+            std::string name;
+            std::string version;
+            std::string kernelName;
+            std::string kernelVersion;
+            std::string architecture;
+            Linux()
+            {
+                name = "Linux";
+                version = "Unknown";
+                kernelName = "Unknown";
+                kernelVersion = "Unknown";
+                architecture = "Unknown";
+
+                struct utsname buffer;
+                if (uname(&buffer) == 0)
+                {
+                    kernelName = buffer.sysname;
+                    kernelVersion = buffer.release;
+                    architecture = buffer.machine;
+                }
+            }
+        } linux;
+
+        info.osInfo.name = linux.name;
+        info.osInfo.version = linux.version;
+        info.osInfo.kernelName = linux.kernelName;
+        info.osInfo.kernelVersion = linux.kernelVersion;
+        info.osInfo.architecture = linux.architecture;
+
+        return info;
+    }
+
+}

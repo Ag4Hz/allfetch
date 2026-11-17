@@ -20,7 +20,7 @@ if (WIN32)
     target_sources(allfetch PRIVATE
         src/system/windows/system_info.cpp
     )
-elseif (UNIX)
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_sources(allfetch PRIVATE
         src/system/linux/system_info.cpp
     )
