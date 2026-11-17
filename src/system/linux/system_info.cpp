@@ -46,13 +46,17 @@ namespace allfetch::system
                 }
 
                 std::string line;
+                std::string wholeName;
                 while (std::getline(file, line))
                 {
                     if (line.find("PRETTY_NAME=") == 0)
                     {
-                        version = line.substr(13, line.size() - 14); // Remove quotes
+                        wholeName = line.substr(13, line.size() - 14); // Remove quotes
                     }
                 }
+
+                name = wholeName.substr(0, wholeName.find(" "));
+                version = wholeName.substr(wholeName.find(" ") + 1);
             }
         } linux;
 
