@@ -9,6 +9,7 @@ project(allfetch
 add_executable(allfetch
     src/main.cpp
     src/core/argparser.cpp
+    src/core/command_dispatch.cpp
 )
 
 target_include_directories(allfetch PRIVATE
