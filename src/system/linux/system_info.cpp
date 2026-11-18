@@ -1,8 +1,8 @@
 #include "allfetch/system/linux/os_info.hpp"
 #include "allfetch/system/system_info.hpp"
-#include <sys/utsname.h>
-#include <string>
-#include <fstream>
+#include "allfetch/system/linux/memory_info.hpp"
+#include "allfetch/system/linux/cpu_info.hpp"
+#include "allfetch/system/linux/gpu_info.hpp"
 
 namespace allfetch::system
 {

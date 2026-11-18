@@ -20,6 +20,19 @@ if (WIN32)
     target_sources(allfetch PRIVATE
         src/system/windows/system_info.cpp
     )
+
+    target_link_libraries(allfetch PRIVATE
+        advapi32
+        dxgi
+        dxguid
+        dxcore
+        powrprof
+    )
+
+    target_compile_definitions(allfetch PRIVATE
+        _WIN32_WINNT=0x0A00
+        WINVER=0x0A00
+    )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_sources(allfetch PRIVATE
         src/system/linux/system_info.cpp

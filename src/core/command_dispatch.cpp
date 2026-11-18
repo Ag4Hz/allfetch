@@ -2,6 +2,8 @@
 #include "allfetch/core/argparser.hpp"
 #include "allfetch/system/system_info.hpp"
 #include <iostream>
+#include <sstream>
+#include <string>
 
 namespace allfetch::core
 {
@@ -24,12 +26,63 @@ namespace allfetch::core
 
     void handleFetch()
     {
-        allfetch::system::SystemInfo info = allfetch::system::getSystemInfo();
+        const auto info = allfetch::system::getSystemInfo();
+        const auto formatValue = [](auto value, const char *unit = "") -> std::string
+        {
+            if (value < 0)
+            {
+                return "Unknown";
+            }
+
+            std::ostringstream text;
+            text << value << unit;
+            return text.str();
+        };
+
         std::cout << "Operating System: " << info.osInfo.name << "\n"
                   << "Version: " << info.osInfo.version << "\n"
                   << "Kernel Name: " << info.osInfo.kernelName << "\n"
                   << "Kernel Version: " << info.osInfo.kernelVersion << "\n"
-                  << "Architecture: " << info.osInfo.architecture << "\n";
+                  << "Architecture: " << info.osInfo.architecture << "\n"
+                  << "\nCPU: " << info.cpuInfo.model << "\n"
+                  << "CPU Vendor: " << info.cpuInfo.vendor << "\n"
+                  << "CPU Architecture: " << info.cpuInfo.architecture << "\n"
+                  << "Physical Cores: " << formatValue(info.cpuInfo.physicalCores) << "\n"
+                  << "Logical Cores: " << formatValue(info.cpuInfo.logicalCores) << "\n"
+                  << "Online Cores: " << formatValue(info.cpuInfo.onlineCores) << "\n"
+                  << "Base Frequency: " << formatValue(info.cpuInfo.baseFrequency, " MHz") << "\n"
+                  << "Max Frequency: " << formatValue(info.cpuInfo.maxFrequency, " MHz") << "\n"
+                  << "\nPhysical Memory Total: " << formatValue(info.memoryInfo.totalPhysicalMemory, " bytes") << "\n"
+                  << "Physical Memory Available: " << formatValue(info.memoryInfo.availablePhysicalMemory, " bytes") << "\n";
+
+        const auto &memory = info.memoryInfo;
+        const long long usedMemory =
+            memory.totalPhysicalMemory >= 0 &&
+                    memory.availablePhysicalMemory >= 0 &&
+                    memory.availablePhysicalMemory <= memory.totalPhysicalMemory
+                ? memory.totalPhysicalMemory - memory.availablePhysicalMemory
+                : -1;
+
+        std::cout << "Physical Memory Used: " << formatValue(usedMemory, " bytes") << "\n"
+                  << "Process Virtual Memory Total: " << formatValue(memory.totalVirtualMemory, " bytes") << "\n"
+                  << "Process Virtual Memory Available: " << formatValue(memory.availableVirtualMemory, " bytes") << "\n";
+
+        if (info.gpuInfo.empty())
+        {
+            std::cout << "\nGPU: Unavailable\n";
+        }
+
+        for (std::size_t index = 0; index < info.gpuInfo.size(); ++index)
+        {
+            const auto &gpu = info.gpuInfo[index];
+            std::cout << "\nGPU " << index << ": " << gpu.model << "\n"
+                      << "GPU Vendor: " << gpu.vendor << "\n"
+                      << "GPU Driver: " << gpu.driverVersion << "\n"
+                      << "GPU Type: " << gpu.type << "\n"
+                      << "GPU Device ID: " << formatValue(gpu.deviceId) << "\n"
+                      << "Dedicated GPU Memory: " << formatValue(gpu.memorySizeMB, " MiB") << "\n"
+                      << "Shared GPU Memory Limit: " << formatValue(gpu.sharedMemorySizeMB, " MiB") << "\n";
+        }
     }
 
     /* Implementation of the dispatchCommand function

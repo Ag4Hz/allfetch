@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace allfetch::system
 {
@@ -55,7 +56,7 @@ namespace allfetch::system
         OSInfo osInfo;
         MemoryInfo memoryInfo;
         CPUInfo cpuInfo;
-        GPUInfo gpuInfo;
+        std::vector<GPUInfo> gpuInfo;
     };
 
     // Function to get the system information
