@@ -235,6 +235,35 @@ namespace allfetch::system
                 }
             }
 
+            DISPLAYCONFIG_GET_ADVANCED_COLOR_INFO_2 color{};
+
+            color.header.type =
+                DISPLAYCONFIG_DEVICE_INFO_GET_ADVANCED_COLOR_INFO_2;
+            color.header.size = sizeof(color);
+            color.header.adapterId = path.targetInfo.adapterId;
+            color.header.id = path.targetInfo.id;
+
+            const LONG colorStatus = DisplayConfigGetDeviceInfo(&color.header);
+
+            if (colorStatus == ERROR_SUCCESS)
+            {
+                info.bitsPerColorChannel =
+                    static_cast<int>(color.bitsPerColorChannel);
+
+                if (color.highDynamicRangeUserEnabled)
+                {
+                    info.hdrStatus = "Enabled";
+                }
+                else if (color.highDynamicRangeSupported)
+                {
+                    info.hdrStatus = "Supported";
+                }
+                else
+                {
+                    info.hdrStatus = "Unsupported";
+                }
+            }
+
             result.push_back(info);
         }
 
