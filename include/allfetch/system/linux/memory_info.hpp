@@ -50,4 +50,3 @@ namespace allfetch::system
         return memoryInfo;
     }
 }
-}
