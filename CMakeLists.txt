@@ -17,6 +17,13 @@ target_include_directories(allfetch PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(allfetch PRIVATE
+        -static-libgcc
+        -static-libstdc++
+    )
+endif()
+
 if (WIN32)
     target_link_libraries(allfetch PRIVATE
         advapi32
@@ -60,6 +67,16 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
                 ALLFETCH_HAS_XRANDR=1
             )
         endif()
+    endif()
+
+    pkg_check_modules(GIO QUIET IMPORTED_TARGET gio-2.0)
+
+    if(GIO_FOUND)
+        target_link_libraries(allfetch PRIVATE PkgConfig::GIO)
+
+        target_compile_definitions(allfetch PRIVATE
+            ALLFETCH_HAS_GIO=1
+        )
     endif()
 endif()
 

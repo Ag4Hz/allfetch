@@ -8,6 +8,7 @@
 #include "allfetch/system/windows/battery_info.hpp"
 #include "allfetch/system/windows/disk_info.hpp"
 #include "allfetch/system/windows/title_info.hpp"
+#include "allfetch/system/windows/window_manager_info.hpp"
 #elif defined(__linux__)
 #include "allfetch/system/linux/os_info.hpp"
 #include "allfetch/system/linux/memory_info.hpp"
@@ -17,6 +18,7 @@
 #include "allfetch/system/linux/battery_info.hpp"
 #include "allfetch/system/linux/disk_info.hpp"
 #include "allfetch/system/linux/title_info.hpp"
+#include "allfetch/system/linux/window_manager_info.hpp"
 #endif
 
 #include "allfetch/system/system_info.hpp"
@@ -56,6 +58,7 @@ namespace allfetch::system
         info.localeInfo = getLocaleInfo();
         info.colorsInfo = getColorsInfo();
         info.titleInfo = getTitleInfo();
+        info.windowManagerInfo = getWindowManagerInfo();
 
         return info;
     }

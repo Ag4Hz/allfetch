@@ -200,6 +200,13 @@ namespace allfetch::system
         long long pid = -1;
     };
 
+    // Struct to hold window manager information
+    struct WindowManagerInfo
+    {
+        std::string name = "Unknown";
+        std::string theme = "Unknown";
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -219,6 +226,7 @@ namespace allfetch::system
         LocaleInfo localeInfo;
         ColorsInfo colorsInfo;
         TitleInfo titleInfo;
+        WindowManagerInfo windowManagerInfo;
     };
 
     // Function to get the system information

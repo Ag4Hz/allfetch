@@ -287,6 +287,12 @@ namespace allfetch::core
             << "Account Shell: " << title.userShell << '\n'
             << "Process ID: " << formatValue(title.pid) << '\n'
             << "Working Directory: " << title.cwd << '\n';
+
+        std::cout
+            << "\nWindow Manager: "
+            << info.windowManagerInfo.name << '\n'
+            << "Window Manager Theme: "
+            << info.windowManagerInfo.theme << '\n';
     }
 
     /* Implementation of the dispatchCommand function
