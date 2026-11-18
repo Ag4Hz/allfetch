@@ -71,7 +71,27 @@ namespace allfetch::core
 
         std::cout << "Physical Memory Used: " << formatValue(usedMemory, " bytes") << "\n"
                   << "Process Virtual Memory Total: " << formatValue(memory.totalVirtualMemory, " bytes") << "\n"
-                  << "Process Virtual Memory Available: " << formatValue(memory.availableVirtualMemory, " bytes") << "\n";
+                  << "Process Virtual Memory Available: " << formatValue(memory.availableVirtualMemory, " bytes") << "\n\n";
+
+        const auto uptime = info.uptimeInfo.seconds;
+
+        if (uptime < 0)
+        {
+            std::cout << "Uptime: Unknown\n";
+        }
+        else
+        {
+            const auto days = uptime / 86400;
+            const auto hours = (uptime % 86400) / 3600;
+            const auto minutes = (uptime % 3600) / 60;
+            const auto seconds = uptime % 60;
+
+            std::cout << "Uptime: "
+                      << days << "d "
+                      << hours << "h "
+                      << minutes << "m "
+                      << seconds << "s\n";
+        }
 
         if (info.gpuInfo.empty())
         {

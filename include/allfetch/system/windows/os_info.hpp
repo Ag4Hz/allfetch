@@ -121,7 +121,7 @@ namespace
 
 }
 
-inline allfetch::system::OSInfo getWindowsInfo()
+inline allfetch::system::OSInfo getOSInfo()
 {
     allfetch::system::OSInfo windows;
     windows.name = "Windows";

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sys/utsname.h>
 
-inline allfetch::system::OSInfo getLinuxInfo()
+inline allfetch::system::OSInfo getOSInfo()
 {
     allfetch::system::OSInfo linux;
     linux.name = "Linux";

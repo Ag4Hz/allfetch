@@ -31,6 +31,12 @@ namespace allfetch::system
         std::string version = "Unknown";
     };
 
+    // Struct to hold uptime information
+    struct UptimeInfo
+    {
+        long long seconds = -1;
+    };
+
     // Struct to hold the memory information
     struct MemoryInfo
     {
@@ -75,6 +81,7 @@ namespace allfetch::system
         std::vector<GPUInfo> gpuInfo;
         TerminalInfo terminalInfo;
         ShellInfo shellInfo;
+        UptimeInfo uptimeInfo;
     };
 
     // Function to get the system information
