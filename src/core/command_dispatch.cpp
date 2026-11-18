@@ -135,6 +135,60 @@ namespace allfetch::core
                       << "Dedicated GPU Memory: " << formatValue(gpu.memorySizeMB, " MiB") << "\n"
                       << "Shared GPU Memory Limit: " << formatValue(gpu.sharedMemorySizeMB, " MiB") << "\n";
         }
+
+        if (info.displayInfo.empty())
+        {
+            std::cout << "\nDisplay: Unavailable\n";
+        }
+
+        for (std::size_t index = 0;
+             index < info.displayInfo.size();
+             ++index)
+        {
+            const auto &display = info.displayInfo[index];
+
+            std::cout << "\nDisplay " << index << ": "
+                      << display.name << '\n'
+                      << "Display ID: " << formatValue(display.id) << '\n'
+                      << "Primary: "
+                      << (display.primaryKnown
+                              ? (display.primary ? "Yes" : "No")
+                              : "Unknown")
+                      << '\n'
+                      << "Width: " << formatValue(display.width, " px") << '\n'
+                      << "Height: " << formatValue(display.height, " px") << '\n'
+                      << "Refresh Rate: "
+                      << formatValue(display.refreshRateHz, " Hz") << '\n'
+                      << "Effective DPI: "
+                      << formatValue(display.effectiveDpi) << '\n'
+                      << "Scaled Width: "
+                      << formatValue(display.scaledWidth, " px") << '\n'
+                      << "Scaled Height: "
+                      << formatValue(display.scaledHeight, " px") << '\n'
+                      << "Preferred Width: "
+                      << formatValue(display.preferredWidth, " px") << '\n'
+                      << "Preferred Height: "
+                      << formatValue(display.preferredHeight, " px") << '\n'
+                      << "Preferred Refresh Rate: "
+                      << formatValue(display.preferredRefreshRateHz, " Hz") << '\n'
+                      << "Physical Width: "
+                      << formatValue(display.physicalWidthMm, " mm") << '\n'
+                      << "Physical Height: "
+                      << formatValue(display.physicalHeightMm, " mm") << '\n'
+                      << "Rotation: "
+                      << formatValue(display.rotationDegrees, " degrees") << '\n'
+                      << "Bits Per Color Channel: "
+                      << formatValue(display.bitsPerColorChannel) << '\n'
+                      << "HDR: " << display.hdrStatus << '\n'
+                      << "DRR: " << display.drrStatus << '\n'
+                      << "Type: " << display.type << '\n'
+                      << "Manufacture Year: "
+                      << formatValue(display.manufactureYear) << '\n'
+                      << "Manufacture Week: "
+                      << formatValue(display.manufactureWeek) << '\n'
+                      << "Serial: " << display.serial << '\n'
+                      << "Platform API: " << display.platformApi << '\n';
+        }
     }
 
     /* Implementation of the dispatchCommand function

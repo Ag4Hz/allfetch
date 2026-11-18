@@ -25,6 +25,7 @@ if (WIN32)
         dxcore
         powrprof
         iphlpapi
+        shcore
     )
 
     target_compile_definitions(allfetch PRIVATE
@@ -43,6 +44,19 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         target_compile_definitions(allfetch PRIVATE
             ALLFETCH_HAS_VULKAN=1
         )
+    endif()
+
+    find_package(PkgConfig QUIET)
+
+    if(PkgConfig_FOUND)
+        pkg_check_modules(XRANDR QUIET IMPORTED_TARGET x11 xrandr)
+
+        if(XRANDR_FOUND)
+            target_link_libraries(allfetch PRIVATE PkgConfig::XRANDR)
+            target_compile_definitions(allfetch PRIVATE
+                ALLFETCH_HAS_XRANDR=1
+            )
+        endif()
     endif()
 endif()
 

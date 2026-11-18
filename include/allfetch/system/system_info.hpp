@@ -99,6 +99,43 @@ namespace allfetch::system
         std::string uuid = "Unknown";
     };
 
+    // Struct to hold display information
+    struct DisplayInfo
+    {
+        std::string name = "Unknown";
+        std::string drrStatus = "Unknown";
+        std::string hdrStatus = "Unknown";
+        std::string type = "Unknown";
+        std::string serial = "Unknown";
+        std::string platformApi = "Unknown";
+
+        bool primary = false;
+        bool primaryKnown = false;
+        long long id = -1;
+
+        int width = -1;
+        int height = -1;
+
+        int effectiveDpi = -1;
+        int scaledWidth = -1;
+        int scaledHeight = -1;
+
+        int preferredWidth = -1;
+        int preferredHeight = -1;
+
+        int physicalWidthMm = -1;
+        int physicalHeightMm = -1;
+
+        int rotationDegrees = -1;
+        int bitsPerColorChannel = -1;
+
+        int manufactureYear = -1;
+        int manufactureWeek = -1;
+
+        double refreshRateHz = -1.0;
+        double preferredRefreshRateHz = -1.0;
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -112,9 +149,9 @@ namespace allfetch::system
         UptimeInfo uptimeInfo;
         SwapInfo swapInfo;
         std::vector<LocalIPInfo> localIPInfo;
+        std::vector<DisplayInfo> displayInfo;
     };
 
     // Function to get the system information
     SystemInfo getSystemInfo();
-
 }
