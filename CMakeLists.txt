@@ -38,9 +38,18 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         src/system/linux/system_info.cpp
     )
     
-    find_package(Vulkan REQUIRED)
-    
-    target_link_libraries(allfetch PRIVATE Vulkan::Vulkan)
+    option(ALLFETCH_ENABLE_VULKAN "Enable Vulkan GPU detection" ON)
+
+    if(ALLFETCH_ENABLE_VULKAN)
+        find_package(Vulkan QUIET)
+    endif()
+
+    if(ALLFETCH_ENABLE_VULKAN AND Vulkan_FOUND)
+        target_link_libraries(allfetch PRIVATE Vulkan::Vulkan)
+        target_compile_definitions(allfetch PRIVATE
+            ALLFETCH_HAS_VULKAN=1
+        )
+    endif()
 endif()
 
 set_target_properties(allfetch PROPERTIES
