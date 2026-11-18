@@ -273,6 +273,20 @@ namespace allfetch::core
         }
 
         std::cout << "Locale: " << info.localeInfo.name << '\n';
+
+        const auto &title = info.titleInfo;
+
+        std::cout
+            << "\nTitle: " << title.userName << '@' << title.hostName << '\n'
+            << "User ID: " << title.userId << '\n'
+            << "User Name: " << title.userName << '\n'
+            << "Full User Name: " << title.fullUserName << '\n'
+            << "Host Name: " << title.hostName << '\n'
+            << "Home Directory: " << title.homeDir << '\n'
+            << "Executable Path: " << title.exePath << '\n'
+            << "Account Shell: " << title.userShell << '\n'
+            << "Process ID: " << formatValue(title.pid) << '\n'
+            << "Working Directory: " << title.cwd << '\n';
     }
 
     /* Implementation of the dispatchCommand function

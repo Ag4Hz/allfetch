@@ -185,6 +185,21 @@ namespace allfetch::system
         std::vector<std::string> hexValues = std::vector<std::string>(16);
     };
 
+    // Struct to hold information about the user environment
+    struct TitleInfo
+    {
+        std::string userId = "Unknown";
+        std::string userName = "Unknown";
+        std::string fullUserName = "";
+        std::string hostName = "Unknown";
+        std::string homeDir = "Unknown";
+        std::string exePath = "Unknown";
+        std::string userShell = "";
+        std::string cwd = "Unknown";
+
+        long long pid = -1;
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -203,6 +218,7 @@ namespace allfetch::system
         std::vector<BatteryInfo> batteryInfo;
         LocaleInfo localeInfo;
         ColorsInfo colorsInfo;
+        TitleInfo titleInfo;
     };
 
     // Function to get the system information

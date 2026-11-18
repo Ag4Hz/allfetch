@@ -27,6 +27,8 @@ if (WIN32)
         iphlpapi
         shcore
         setupapi
+        userenv
+        netapi32
     )
 
     target_compile_definitions(allfetch PRIVATE
