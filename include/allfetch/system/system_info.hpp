@@ -173,6 +173,18 @@ namespace allfetch::system
         double temperatureCelsius = -999.0;
     };
 
+    // Struct for holding the locale
+    struct LocaleInfo
+    {
+        std::string name = "Unknown";
+    };
+
+    // Struct for holding the color information
+    struct ColorsInfo
+    {
+        std::vector<std::string> hexValues = std::vector<std::string>(16);
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -189,6 +201,8 @@ namespace allfetch::system
         std::vector<DisplayInfo> displayInfo;
         std::vector<DiskInfo> diskInfo;
         std::vector<BatteryInfo> batteryInfo;
+        LocaleInfo localeInfo;
+        ColorsInfo colorsInfo;
     };
 
     // Function to get the system information

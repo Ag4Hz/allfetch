@@ -24,6 +24,24 @@ namespace allfetch::core
         std::cout << "allfetch version " << version << "\n";
     }
 
+    void printColorPalette()
+    {
+        for (int row = 0; row < 2; ++row)
+        {
+            for (int column = 0; column < 8; ++column)
+            {
+                const int background =
+                    (row == 0 ? 40 : 100) + column;
+
+                std::cout
+                    << "\x1b[" << background << "m"
+                    << "  ";
+            }
+
+            std::cout << "\x1b[0m\n";
+        }
+    }
+
     void handleFetch()
     {
         const auto info = allfetch::system::getSystemInfo();
@@ -253,6 +271,8 @@ namespace allfetch::core
 
             std::cout << '\n';
         }
+
+        std::cout << "Locale: " << info.localeInfo.name << '\n';
     }
 
     /* Implementation of the dispatchCommand function
@@ -273,6 +293,10 @@ namespace allfetch::core
             return true;
         case Action::fetch:
             handleFetch();
+            if (result.isColored)
+            {
+                printColorPalette();
+            }
             return true;
         default:
             return false;

@@ -24,6 +24,8 @@
 #include "allfetch/system/swap_info.hpp"
 #include "allfetch/system/local_ip_info.hpp"
 #include "allfetch/system/host_info.hpp"
+#include "allfetch/system/locale_info.hpp"
+#include "allfetch/system/colors_info.hpp"
 
 namespace allfetch::system
 {
@@ -49,6 +51,8 @@ namespace allfetch::system
         info.displayInfo = getDisplayInfo();
         info.diskInfo = getDiskInfo();
         info.batteryInfo = getBatteryInfo();
+        info.localeInfo = getLocaleInfo();
+        info.colorsInfo = getColorsInfo();
 
         return info;
     }
