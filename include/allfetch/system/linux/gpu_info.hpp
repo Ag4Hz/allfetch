@@ -10,8 +10,6 @@
 #include <limits>
 #include <memory>
 
-#else
-
 namespace allfetch::system
 {
     namespace linux_gpu_detail
@@ -190,6 +188,19 @@ namespace allfetch::system
 
         return gpuInfoList;
     }
+
+#else
+/* Function to get the GPU information of the system
+Output:
+    GPUInfo: The GPU information of the system
+*/
+namespace allfetch::system
+{
+    inline std::vector<GPUInfo> getGPUInfo()
+    {
+        return {};
+    }
+}
 }
 
 #endif
