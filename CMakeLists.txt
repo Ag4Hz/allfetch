@@ -37,6 +37,10 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_sources(allfetch PRIVATE
         src/system/linux/system_info.cpp
     )
+    
+    find_package(Vulkan REQUIRED)
+    
+    target_link_libraries(allfetch PRIVATE Vulkan::Vulkan)
 endif()
 
 set_target_properties(allfetch PROPERTIES
