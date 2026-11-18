@@ -170,7 +170,7 @@ namespace allfetch::system
         int cycleCount = -1;
 
         double capacityPercent = -1.0;
-        double temperatureCelsius = -1.0;
+        double temperatureCelsius = -999.0;
     };
 
     // Struct to hold the system information

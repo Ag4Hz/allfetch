@@ -226,6 +226,33 @@ namespace allfetch::core
 
             std::cout << '\n';
         }
+
+        if (info.diskInfo.empty())
+            std::cout << "\nDisk: Unavailable\n";
+
+        for (const auto &disk : info.diskInfo)
+        {
+            std::cout
+                << "\nDisk: " << disk.mountpoint << '\n'
+                << "Name: " << disk.name << '\n'
+                << "Filesystem: " << disk.filesystem << '\n'
+                << "Mounted From: " << disk.mountFrom << '\n'
+                << "Storage Medium: " << disk.type << '\n'
+                << "Total: " << formatValue(disk.totalBytes, " bytes") << '\n'
+                << "Free: " << formatValue(disk.freeBytes, " bytes") << '\n'
+                << "Used: " << formatValue(disk.usedBytes, " bytes") << '\n'
+                << "Total Files/Inodes: " << formatValue(disk.totalFiles) << '\n'
+                << "Used Files/Inodes: " << formatValue(disk.usedFiles) << '\n'
+                << "Creation Time: "
+                << formatValue(disk.creationTimeMs, " ms since Unix epoch")
+                << '\n'
+                << "Volume Type:";
+
+            for (const auto &type : disk.volumeType)
+                std::cout << " [" << type << ']';
+
+            std::cout << '\n';
+        }
     }
 
     /* Implementation of the dispatchCommand function
