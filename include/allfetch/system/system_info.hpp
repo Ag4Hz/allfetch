@@ -87,10 +87,23 @@ namespace allfetch::system
         int prefixLength = -1;
     };
 
+    // Struct to hold host information
+    struct HostInfo
+    {
+        std::string family = "Unknown";
+        std::string name = "Unknown";
+        std::string version = "Unknown";
+        std::string sku = "Unknown";
+        std::string vendor = "Unknown";
+        std::string serial = "Unknown";
+        std::string uuid = "Unknown";
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
         OSInfo osInfo;
+        HostInfo hostInfo;
         MemoryInfo memoryInfo;
         CPUInfo cpuInfo;
         std::vector<GPUInfo> gpuInfo;

@@ -17,6 +17,7 @@
 #include "allfetch/system/uptime_info.hpp"
 #include "allfetch/system/swap_info.hpp"
 #include "allfetch/system/local_ip_info.hpp"
+#include "allfetch/system/host_info.hpp"
 
 namespace allfetch::system
 {
@@ -38,6 +39,7 @@ namespace allfetch::system
         info.uptimeInfo = getUptimeInfo();
         info.swapInfo = getSwapInfo();
         info.localIPInfo = getLocalIPInfo();
+        info.hostInfo = getHostInfo();
 
         return info;
     }

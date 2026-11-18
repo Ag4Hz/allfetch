@@ -97,6 +97,16 @@ namespace allfetch::core
                       << seconds << "s\n";
         }
 
+        const auto &host = info.hostInfo;
+
+        std::cout << "\nHost Family: " << host.family << '\n'
+                  << "Host Name: " << host.name << '\n'
+                  << "Host Version: " << host.version << '\n'
+                  << "Host SKU: " << host.sku << '\n'
+                  << "Host Vendor: " << host.vendor << '\n'
+                  << "Host Serial: " << host.serial << '\n'
+                  << "Host UUID: " << host.uuid << '\n';
+
         if (info.localIPInfo.empty())
         {
             std::cout << "Local IP: Unavailable\n";
