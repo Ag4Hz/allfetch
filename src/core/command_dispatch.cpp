@@ -69,6 +69,10 @@ namespace allfetch::core
                 ? memory.totalPhysicalMemory - memory.availablePhysicalMemory
                 : -1;
 
+        std::cout << "Swap Total: "
+                  << formatValue(info.swapInfo.totalBytes, " bytes") << '\n'
+                  << "Swap Used: "
+                  << formatValue(info.swapInfo.usedBytes, " bytes") << '\n';
         std::cout << "Physical Memory Used: " << formatValue(usedMemory, " bytes") << "\n"
                   << "Process Virtual Memory Total: " << formatValue(memory.totalVirtualMemory, " bytes") << "\n"
                   << "Process Virtual Memory Available: " << formatValue(memory.availableVirtualMemory, " bytes") << "\n\n";

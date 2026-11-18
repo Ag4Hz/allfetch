@@ -72,6 +72,13 @@ namespace allfetch::system
         int sharedMemorySizeMB = -1;
     };
 
+    // Struct to hold swap information
+    struct SwapInfo
+    {
+        long long totalBytes = -1;
+        long long usedBytes = -1;
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -82,6 +89,7 @@ namespace allfetch::system
         TerminalInfo terminalInfo;
         ShellInfo shellInfo;
         UptimeInfo uptimeInfo;
+        SwapInfo swapInfo;
     };
 
     // Function to get the system information

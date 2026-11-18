@@ -14,6 +14,7 @@
 #include "allfetch/system/shell_info.hpp"
 #include "allfetch/system/terminal_info.hpp"
 #include "allfetch/system/uptime_info.hpp"
+#include "allfetch/system/swap_info.hpp"
 
 namespace allfetch::system
 {
@@ -33,6 +34,7 @@ namespace allfetch::system
         info.terminalInfo = getTerminalInfo();
         info.shellInfo = getShellInfo();
         info.uptimeInfo = getUptimeInfo();
+        info.swapInfo = getSwapInfo();
 
         return info;
     }
