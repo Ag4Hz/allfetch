@@ -1,13 +1,16 @@
 #pragma once
 
 #include "allfetch/system/system_info.hpp"
+#include <vector>
 
+#if defined(ALLFETCH_HAS_VULKAN)
 #include <vulkan/vulkan.h>
 
 #include <cstdint>
 #include <limits>
 #include <memory>
-#include <vector>
+
+#else
 
 namespace allfetch::system
 {
@@ -188,3 +191,5 @@ namespace allfetch::system
         return gpuInfoList;
     }
 }
+
+#endif
