@@ -188,6 +188,7 @@ namespace allfetch::system
 
         return gpuInfoList;
     }
+}
 
 #else
 /* Function to get the GPU information of the system
@@ -200,7 +201,6 @@ namespace allfetch::system
     {
         return {};
     }
-}
 }
 
 #endif
