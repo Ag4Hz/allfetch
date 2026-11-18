@@ -34,6 +34,7 @@ namespace allfetch::system
         int physicalCores = -1;
         int logicalCores = -1;
         int onlineCores = -1;
+        float reportedFrequency = -1.0f;
         float baseFrequency = -1.0f;
         float maxFrequency = -1.0f;
     };

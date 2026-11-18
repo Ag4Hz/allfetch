@@ -4,7 +4,7 @@
 
 #include <sys/sysinfo.h>
 #include <sys/utsname.h>
-
+#include <sstream>
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -68,6 +68,23 @@ namespace allfetch::system
             std::ifstream file("/proc/cpuinfo");
             std::string line;
 
+            std::optional<unsigned int> implementer;
+            std::optional<unsigned int> part;
+
+            const auto parseHex = [](const std::string &text)
+                -> std::optional<unsigned int>
+            {
+                std::istringstream input(text);
+                unsigned int value = 0;
+
+                if (input >> std::hex >> value)
+                {
+                    return value;
+                }
+
+                return std::nullopt;
+            };
+
             while (std::getline(file, line))
             {
                 const auto separator = line.find(':');
@@ -85,14 +102,55 @@ namespace allfetch::system
                     continue;
                 }
 
-                if (info.model == "Unknown" && key == "model name")
+                if (key == "model name" && info.model == "Unknown")
                 {
                     info.model = value;
                 }
-
-                if (info.vendor == "Unknown" && key == "vendor_id")
+                else if (key == "vendor_id" && info.vendor == "Unknown")
                 {
                     info.vendor = value;
+                }
+                else if (key == "CPU implementer" && !implementer)
+                {
+                    implementer = parseHex(value);
+                }
+                else if (key == "CPU part" && !part)
+                {
+                    part = parseHex(value);
+                }
+                else if (key == "cpu MHz")
+                {
+                    std::istringstream input(value);
+                    float mhz = 0;
+
+                    if (input >> mhz && mhz > info.reportedFrequency)
+                    {
+                        info.reportedFrequency = mhz;
+                    }
+                }
+            }
+
+            if (implementer && *implementer == 0x41)
+            {
+                if (info.vendor == "Unknown")
+                {
+                    info.vendor = "Arm";
+                }
+
+                if (part && info.model == "Unknown")
+                {
+                    switch (*part)
+                    {
+                    case 0xd03:
+                        info.model = "Arm Cortex-A53";
+                        break;
+                    case 0xd08:
+                        info.model = "Arm Cortex-A72";
+                        break;
+                    case 0xd0b:
+                        info.model = "Arm Cortex-A76";
+                        break;
+                    }
                 }
             }
 

@@ -53,7 +53,9 @@ namespace allfetch::core
                   << "Base Frequency: " << formatValue(info.cpuInfo.baseFrequency, " MHz") << "\n"
                   << "Max Frequency: " << formatValue(info.cpuInfo.maxFrequency, " MHz") << "\n"
                   << "\nPhysical Memory Total: " << formatValue(info.memoryInfo.totalPhysicalMemory, " bytes") << "\n"
-                  << "Physical Memory Available: " << formatValue(info.memoryInfo.availablePhysicalMemory, " bytes") << "\n";
+                  << "Physical Memory Available: " << formatValue(info.memoryInfo.availablePhysicalMemory, " bytes") << "\n"
+                  << "Reported Frequency: "
+                  << formatValue(info.cpuInfo.reportedFrequency, " MHz") << "\n";
 
         const auto &memory = info.memoryInfo;
         const long long usedMemory =
