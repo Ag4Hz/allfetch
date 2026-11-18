@@ -1,21 +1,13 @@
 #pragma once
 
+#include "allfetch/system/system_info.hpp"
 #include <string>
 #include <fstream>
 #include <sys/utsname.h>
 
-struct Linux
+inline allfetch::system::OSInfo getLinuxInfo()
 {
-    std::string name;
-    std::string version;
-    std::string kernelName;
-    std::string kernelVersion;
-    std::string architecture;
-};
-
-Linux getLinuxInfo()
-{
-    Linux linux;
+    allfetch::system::OSInfo linux;
     linux.name = "Linux";
     linux.version = "Unknown";
     linux.kernelName = "Unknown";

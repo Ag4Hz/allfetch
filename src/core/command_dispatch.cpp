@@ -44,6 +44,11 @@ namespace allfetch::core
                   << "Kernel Name: " << info.osInfo.kernelName << "\n"
                   << "Kernel Version: " << info.osInfo.kernelVersion << "\n"
                   << "Architecture: " << info.osInfo.architecture << "\n"
+                  << "\nTerminal: " << info.terminalInfo.name << "\n"
+                  << "Terminal Version: " << info.terminalInfo.version << "\n"
+                  << "Shell: " << info.shellInfo.name << "\n"
+                  << "Shell Executable: " << info.shellInfo.executable << "\n"
+                  << "Shell Version: " << info.shellInfo.version << "\n"
                   << "\nCPU: " << info.cpuInfo.model << "\n"
                   << "CPU Vendor: " << info.cpuInfo.vendor << "\n"
                   << "CPU Architecture: " << info.cpuInfo.architecture << "\n"
@@ -52,10 +57,9 @@ namespace allfetch::core
                   << "Online Cores: " << formatValue(info.cpuInfo.onlineCores) << "\n"
                   << "Base Frequency: " << formatValue(info.cpuInfo.baseFrequency, " MHz") << "\n"
                   << "Max Frequency: " << formatValue(info.cpuInfo.maxFrequency, " MHz") << "\n"
+                  << "Reported Frequency: " << formatValue(info.cpuInfo.reportedFrequency, " MHz") << "\n"
                   << "\nPhysical Memory Total: " << formatValue(info.memoryInfo.totalPhysicalMemory, " bytes") << "\n"
-                  << "Physical Memory Available: " << formatValue(info.memoryInfo.availablePhysicalMemory, " bytes") << "\n"
-                  << "Reported Frequency: "
-                  << formatValue(info.cpuInfo.reportedFrequency, " MHz") << "\n";
+                  << "Physical Memory Available: " << formatValue(info.memoryInfo.availablePhysicalMemory, " bytes") << "\n";
 
         const auto &memory = info.memoryInfo;
         const long long usedMemory =

@@ -16,6 +16,21 @@ namespace allfetch::system
         std::string architecture = "Unknown";
     };
 
+    // Struct to hold terminal information
+    struct TerminalInfo
+    {
+        std::string name = "Unknown";
+        std::string version = "Unknown";
+    };
+
+    // Struct to hold shell information
+    struct ShellInfo
+    {
+        std::string name = "Unknown";
+        std::string executable = "Unknown";
+        std::string version = "Unknown";
+    };
+
     // Struct to hold the memory information
     struct MemoryInfo
     {
@@ -58,6 +73,8 @@ namespace allfetch::system
         MemoryInfo memoryInfo;
         CPUInfo cpuInfo;
         std::vector<GPUInfo> gpuInfo;
+        TerminalInfo terminalInfo;
+        ShellInfo shellInfo;
     };
 
     // Function to get the system information

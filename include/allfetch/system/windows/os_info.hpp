@@ -1,17 +1,9 @@
 #pragma once
 
+#include "allfetch/system/system_info.hpp"
 #include <string>
 #include <windows.h>
 #include <optional>
-
-struct Windows
-{
-    std::string name;
-    std::string version;
-    std::string kernelName;
-    std::string kernelVersion;
-    std::string architecture;
-};
 
 namespace
 {
@@ -129,9 +121,9 @@ namespace
 
 }
 
-Windows getWindowsInfo()
+inline allfetch::system::OSInfo getWindowsInfo()
 {
-    Windows windows;
+    allfetch::system::OSInfo windows;
     windows.name = "Windows";
     windows.version = "Unknown";
     windows.kernelName = "Unknown";
