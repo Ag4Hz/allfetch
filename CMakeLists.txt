@@ -26,6 +26,7 @@ if (WIN32)
         powrprof
         iphlpapi
         shcore
+        setupapi
     )
 
     target_compile_definitions(allfetch PRIVATE

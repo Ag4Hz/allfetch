@@ -189,6 +189,43 @@ namespace allfetch::core
                       << "Serial: " << display.serial << '\n'
                       << "Platform API: " << display.platformApi << '\n';
         }
+
+        if (info.batteryInfo.empty())
+            std::cout << "\nBattery: Unavailable\n";
+
+        for (const auto &battery : info.batteryInfo)
+        {
+            std::cout
+                << "\nBattery: " << battery.modelName << '\n'
+                << "Manufacturer: " << battery.manufacturer << '\n'
+                << "Manufacture Date: " << battery.manufactureDate << '\n'
+                << "Technology: " << battery.technology << '\n'
+                << "Serial: " << battery.serial << '\n'
+                << "Charge: "
+                << formatValue(battery.capacityPercent, " %") << '\n'
+                << "Cycle Count: "
+                << formatValue(battery.cycleCount) << '\n'
+                << "Time Remaining: "
+                << formatValue(battery.timeRemainingSeconds, " s") << '\n';
+
+            // Negative temperatures can be valid.
+            std::cout << "Temperature: ";
+
+            if (battery.temperatureCelsius == -1.0)
+                std::cout << "Unknown\n";
+            else
+                std::cout << battery.temperatureCelsius << " C\n";
+
+            std::cout << "Status:";
+
+            if (battery.status.empty())
+                std::cout << " Unknown";
+
+            for (const auto &status : battery.status)
+                std::cout << " [" << status << ']';
+
+            std::cout << '\n';
+        }
     }
 
     /* Implementation of the dispatchCommand function

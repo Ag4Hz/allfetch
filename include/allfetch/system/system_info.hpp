@@ -136,6 +136,43 @@ namespace allfetch::system
         double preferredRefreshRateHz = -1.0;
     };
 
+    // Struct to hold disk/harddrive information
+    struct DiskInfo
+    {
+        std::string filesystem = "Unknown";
+        std::string mountpoint = "Unknown";
+        std::string mountFrom = "Unknown";
+        std::string type = "Unknown";
+        std::string name = "";
+        std::vector<std::string> volumeType;
+
+        long long totalBytes = -1;
+        long long freeBytes = -1;
+        long long usedBytes = -1;
+
+        long long totalFiles = -1;
+        long long usedFiles = -1;
+
+        long long creationTimeMs = -1;
+    };
+
+    // Struct to hold battery information
+    struct BatteryInfo
+    {
+        std::string manufacturer = "Unknown";
+        std::string manufactureDate = "Unknown";
+        std::string modelName = "Unknown";
+        std::string technology = "Unknown";
+        std::string serial = "Unknown";
+        std::vector<std::string> status;
+
+        long long timeRemainingSeconds = -1;
+        int cycleCount = -1;
+
+        double capacityPercent = -1.0;
+        double temperatureCelsius = -1.0;
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -150,6 +187,8 @@ namespace allfetch::system
         SwapInfo swapInfo;
         std::vector<LocalIPInfo> localIPInfo;
         std::vector<DisplayInfo> displayInfo;
+        std::vector<DiskInfo> diskInfo;
+        std::vector<BatteryInfo> batteryInfo;
     };
 
     // Function to get the system information

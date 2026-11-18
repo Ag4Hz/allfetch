@@ -5,12 +5,14 @@
 #include "allfetch/system/windows/gpu_info.hpp"
 #include "allfetch/system/windows/cpu_info.hpp"
 #include "allfetch/system/windows/display_info.hpp"
+#include "allfetch/system/windows/battery_info.hpp"
 #elif defined(__linux__)
 #include "allfetch/system/linux/os_info.hpp"
 #include "allfetch/system/linux/memory_info.hpp"
 #include "allfetch/system/linux/gpu_info.hpp"
 #include "allfetch/system/linux/cpu_info.hpp"
 #include "allfetch/system/linux/display_info.hpp"
+#include "allfetch/system/linux/battery_info.hpp"
 #endif
 
 #include "allfetch/system/system_info.hpp"
@@ -43,6 +45,8 @@ namespace allfetch::system
         info.localIPInfo = getLocalIPInfo();
         info.hostInfo = getHostInfo();
         info.displayInfo = getDisplayInfo();
+        // info.diskInfo = getDiskInfo();
+        info.batteryInfo = getBatteryInfo();
 
         return info;
     }
