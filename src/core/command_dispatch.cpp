@@ -97,6 +97,18 @@ namespace allfetch::core
                       << seconds << "s\n";
         }
 
+        if (info.localIPInfo.empty())
+        {
+            std::cout << "Local IP: Unavailable\n";
+        }
+
+        for (const auto &ip : info.localIPInfo)
+        {
+            std::cout << "Local IP (" << ip.interfaceName << "): "
+                      << ip.address << '/'
+                      << ip.prefixLength << '\n';
+        }
+
         if (info.gpuInfo.empty())
         {
             std::cout << "\nGPU: Unavailable\n";

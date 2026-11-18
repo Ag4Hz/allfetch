@@ -79,6 +79,14 @@ namespace allfetch::system
         long long usedBytes = -1;
     };
 
+    // Struct to hold local IP information
+    struct LocalIPInfo
+    {
+        std::string interfaceName = "Unknown";
+        std::string address = "Unknown";
+        int prefixLength = -1;
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -90,6 +98,7 @@ namespace allfetch::system
         ShellInfo shellInfo;
         UptimeInfo uptimeInfo;
         SwapInfo swapInfo;
+        std::vector<LocalIPInfo> localIPInfo;
     };
 
     // Function to get the system information

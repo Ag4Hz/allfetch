@@ -24,6 +24,7 @@ if (WIN32)
         dxguid
         dxcore
         powrprof
+        iphlpapi
     )
 
     target_compile_definitions(allfetch PRIVATE

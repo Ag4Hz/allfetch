@@ -1,4 +1,5 @@
 #if defined(_WIN32)
+#include <winsock2.h>
 #include "allfetch/system/windows/os_info.hpp"
 #include "allfetch/system/windows/memory_info.hpp"
 #include "allfetch/system/windows/gpu_info.hpp"
@@ -15,6 +16,7 @@
 #include "allfetch/system/terminal_info.hpp"
 #include "allfetch/system/uptime_info.hpp"
 #include "allfetch/system/swap_info.hpp"
+#include "allfetch/system/local_ip_info.hpp"
 
 namespace allfetch::system
 {
@@ -35,6 +37,7 @@ namespace allfetch::system
         info.shellInfo = getShellInfo();
         info.uptimeInfo = getUptimeInfo();
         info.swapInfo = getSwapInfo();
+        info.localIPInfo = getLocalIPInfo();
 
         return info;
     }
