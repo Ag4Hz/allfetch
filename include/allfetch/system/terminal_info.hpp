@@ -8,7 +8,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include <cstdlib>
 #include <string>
 
 #if defined(_WIN32)
@@ -27,11 +26,7 @@ namespace allfetch::system
     {
         TerminalInfo terminalInfo;
 
-        const auto environment = [](const char *name)
-        {
-            const char *value = std::getenv(name);
-            return value != nullptr ? std::string(value) : std::string{};
-        };
+        using terminal_font_detail::environment;
 
         const auto collectFont = [&]()
         {
@@ -73,14 +68,22 @@ namespace allfetch::system
             return terminalInfo;
         }
 
+        // Multiplexers can retain environment hints from an outer terminal.
+        if (!environment("TMUX").empty() || !environment("STY").empty())
+            return terminalInfo;
+
         const auto program = environment("TERM_PROGRAM");
 
         if (!program.empty() && program != "tmux" &&
             program != "screen")
         {
-            terminalInfo.name = program == "vscode"
-                                    ? "VS Code integrated terminal"
-                                    : program;
+            const auto normalized = terminal_font_detail::normalizeGuid(program);
+            if (normalized == "vscode")
+                terminalInfo.name = "VS Code integrated terminal";
+            else if (normalized == "windowsterminal" || normalized == "windows terminal")
+                terminalInfo.name = "Windows Terminal";
+            else
+                terminalInfo.name = program;
 
             const auto version = environment("TERM_PROGRAM_VERSION");
 
@@ -93,14 +96,8 @@ namespace allfetch::system
             return terminalInfo;
         }
 
-        // A multiplexer can retain hints from an outer terminal.
-        if (!environment("TMUX").empty() ||
-            !environment("STY").empty())
-        {
-            return terminalInfo;
-        }
-
-        if (!environment("WT_SESSION").empty())
+        if (!environment("WT_SESSION").empty() ||
+            !environment("WT_PROFILE_ID").empty())
         {
             terminalInfo.name = "Windows Terminal";
         }
@@ -124,6 +121,17 @@ namespace allfetch::system
             if (window != nullptr && IsWindowVisible(window))
             {
                 terminalInfo.name = "Windows Console";
+            }
+            else if (!terminal_font_detail::windowsTerminalExecutable().empty())
+            {
+                terminalInfo.name = "Windows Terminal";
+            }
+            else if (window != nullptr &&
+                     !terminal_font_detail::defaultWindowsTerminalPackage().empty())
+            {
+                // Delegated console launches need not inherit WT_SESSION.
+                // This is the configured default host, not a live process query.
+                terminalInfo.name = "Windows Terminal";
             }
         }
 #endif

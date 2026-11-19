@@ -73,16 +73,15 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
                 ALLFETCH_HAS_XRANDR=1
             )
         endif()
-    endif()
+        pkg_check_modules(GIO QUIET IMPORTED_TARGET gio-2.0)
 
-    pkg_check_modules(GIO QUIET IMPORTED_TARGET gio-2.0)
+        if(GIO_FOUND)
+            target_link_libraries(allfetch PRIVATE PkgConfig::GIO)
 
-    if(GIO_FOUND)
-        target_link_libraries(allfetch PRIVATE PkgConfig::GIO)
-
-        target_compile_definitions(allfetch PRIVATE
-            ALLFETCH_HAS_GIO=1
-        )
+            target_compile_definitions(allfetch PRIVATE
+                ALLFETCH_HAS_GIO=1
+            )
+        endif()
     endif()
 endif()
 

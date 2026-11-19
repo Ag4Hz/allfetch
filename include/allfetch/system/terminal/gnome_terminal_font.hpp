@@ -51,11 +51,22 @@ namespace allfetch::system::terminal_font_detail
         const std::string &profileId,
         TerminalInfo &info)
     {
-        if (!g_uuid_string_is_valid(profileId.c_str()))
+        std::string selectedProfile = profileId;
+        if (selectedProfile.empty())
+        {
+            Settings profiles(
+                openSettings("org.gnome.Terminal.ProfilesList"),
+                &g_object_unref);
+            if (!profiles)
+                return;
+            selectedProfile = settingsString(profiles.get(), "default");
+        }
+
+        if (!g_uuid_string_is_valid(selectedProfile.c_str()))
             return;
 
         const std::string path =
-            "/org/gnome/terminal/legacy/profiles:/:" + profileId + "/";
+            "/org/gnome/terminal/legacy/profiles:/:" + selectedProfile + "/";
 
         Settings profile(
             openSettings(
@@ -89,8 +100,9 @@ namespace allfetch::system::terminal_font_detail
         if (!font.empty())
         {
             info.font = font;
-            info.fontSource =
-                "GNOME Terminal profile settings";
+            info.fontSource = profileId.empty()
+                                  ? "GNOME Terminal default-profile settings"
+                                  : "GNOME Terminal profile settings";
         }
     }
 }
