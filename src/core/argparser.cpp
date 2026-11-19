@@ -39,6 +39,10 @@ namespace allfetch::core
                 result.action = Action::version;
                 ActionSet = true;
             }
+            else if (strcmp(argv[i], "--json") == 0 || strcmp(argv[i], "-j") == 0)
+            {
+                result.isJson = true;
+            }
             else if (strcmp(argv[i], "--no-color") == 0)
             {
                 result.isColored = false;

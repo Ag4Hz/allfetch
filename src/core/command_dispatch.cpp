@@ -1,6 +1,8 @@
 #include "allfetch/core/command_dispatch.hpp"
 #include "allfetch/core/argparser.hpp"
+#include "allfetch/render/render.hpp"
 #include "allfetch/system/system_info.hpp"
+#include <exception>
 #include <iostream>
 #include <algorithm>
 #include <charconv>
@@ -57,6 +59,7 @@ namespace allfetch::core
                   << "Options:\n"
                   << "  -h, --help       Show this help message\n"
                   << "  -v, --version    Show version information\n"
+                  << "  -j, --json       Print system information as JSON\n"
                   << "      --no-color   Disable colored output\n";
     }
 
@@ -428,6 +431,20 @@ namespace allfetch::core
             handleVersion();
             return true;
         case Action::fetch:
+            if (result.isJson)
+            {
+                try
+                {
+                    const auto info = allfetch::system::getSystemInfo();
+                    allfetch::render::renderJson(info, std::cout);
+                    return static_cast<bool>(std::cout);
+                }
+                catch (const std::exception &error)
+                {
+                    std::cerr << "Error: " << error.what() << '\n';
+                    return false;
+                }
+            }
             handleFetch();
             return true;
         default:

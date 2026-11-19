@@ -18,6 +18,7 @@ namespace allfetch::core
     {
         Action action = Action::fetch;
         bool isColored = true;
+        bool isJson = false;
         std::string errorMessage;
     };
 
