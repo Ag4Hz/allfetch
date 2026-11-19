@@ -333,6 +333,16 @@ namespace allfetch::core
             << "Window Manager Theme: "
             << info.windowManagerInfo.theme << '\n';
 
+        const auto &appearance = info.desktopAppearanceInfo;
+
+        std::cout
+            << "\nDesktop Theme: " << appearance.theme << '\n'
+            << "Desktop Color Scheme: " << appearance.colorScheme << '\n'
+            << "Icon Theme: " << appearance.iconTheme << '\n'
+            << "Interface Font: " << appearance.font << '\n'
+            << "Cursor Theme: " << appearance.cursorTheme << '\n'
+            << "Cursor Size: " << formatValue(appearance.cursorSize, " px (nominal)") << '\n';
+
         std::cout
             << "Terminal Font: " << info.terminalInfo.font << '\n'
             << "Terminal Font Source: "

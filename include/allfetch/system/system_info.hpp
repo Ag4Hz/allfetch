@@ -209,6 +209,18 @@ namespace allfetch::system
         std::string theme = "Unknown";
     };
 
+    // Struct to hold desktop appearance information
+    struct DesktopAppearanceInfo
+    {
+        std::string theme = "Unknown";
+        std::string colorScheme = "Unknown";
+        std::string iconTheme = "Unknown";
+        std::string cursorTheme = "Unknown";
+        std::string font = "Unknown";
+
+        int cursorSize = -1;
+    };
+
     // Struct to hold the system information
     struct SystemInfo
     {
@@ -229,6 +241,7 @@ namespace allfetch::system
         ColorsInfo colorsInfo;
         TitleInfo titleInfo;
         WindowManagerInfo windowManagerInfo;
+        DesktopAppearanceInfo desktopAppearanceInfo;
     };
 
     // Function to get the system information

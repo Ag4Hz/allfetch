@@ -42,6 +42,7 @@ if (WIN32)
         setupapi
         userenv
         netapi32
+        shlwapi
     )
 
     target_compile_definitions(allfetch PRIVATE
