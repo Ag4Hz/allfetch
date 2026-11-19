@@ -218,6 +218,9 @@ namespace allfetch::system
         std::string cursorTheme = "Unknown";
         std::string font = "Unknown";
 
+        std::vector<std::string> desktopIcons;
+        bool desktopIconsKnown = false;
+
         int cursorSize = -1;
     };
 

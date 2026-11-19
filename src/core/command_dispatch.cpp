@@ -7,8 +7,49 @@
 #include <sstream>
 #include <string>
 
+#if defined(_WIN32)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
+
 namespace allfetch::core
 {
+#if defined(_WIN32)
+    namespace
+    {
+        class Utf8ConsoleOutput
+        {
+            UINT previousCodePage = 0;
+
+        public:
+            Utf8ConsoleOutput()
+            {
+                DWORD mode = 0;
+                if (!GetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), &mode))
+                    return;
+
+                const UINT current = GetConsoleOutputCP();
+                if (current != 0 && current != CP_UTF8)
+                {
+                    std::cout.flush();
+                    if (SetConsoleOutputCP(CP_UTF8))
+                        previousCodePage = current;
+                }
+            }
+
+            ~Utf8ConsoleOutput()
+            {
+                if (previousCodePage != 0)
+                {
+                    std::cout.flush();
+                    SetConsoleOutputCP(previousCodePage);
+                }
+            }
+        };
+    }
+#endif
 
     void handleHelp()
     {
@@ -83,6 +124,9 @@ namespace allfetch::core
 
     void handleFetch()
     {
+#if defined(_WIN32)
+        const Utf8ConsoleOutput consoleOutput;
+#endif
         const auto info = allfetch::system::getSystemInfo();
         const auto formatValue = [](auto value, const char *unit = "") -> std::string
         {
@@ -342,6 +386,24 @@ namespace allfetch::core
             << "Interface Font: " << appearance.font << '\n'
             << "Cursor Theme: " << appearance.cursorTheme << '\n'
             << "Cursor Size: " << formatValue(appearance.cursorSize, " px (nominal)") << '\n';
+
+#if defined(_WIN32)
+        std::cout << "Desktop Icons: ";
+        if (!appearance.desktopIconsKnown)
+            std::cout << "Unknown";
+        else if (appearance.desktopIcons.empty())
+            std::cout << "None";
+        else
+        {
+            for (std::size_t index = 0; index < appearance.desktopIcons.size(); ++index)
+            {
+                if (index != 0)
+                    std::cout << ", ";
+                std::cout << appearance.desktopIcons[index];
+            }
+        }
+        std::cout << '\n';
+#endif
 
         std::cout
             << "Terminal Font: " << info.terminalInfo.font << '\n'

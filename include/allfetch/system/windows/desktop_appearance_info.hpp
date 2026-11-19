@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <shlwapi.h>
+#include <uxtheme.h>
 
 #include <algorithm>
 #include <filesystem>
@@ -11,6 +12,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace allfetch::system
@@ -78,32 +80,114 @@ namespace allfetch::system
                 return utf8(resolved);
             return {};
         }
+
+        inline std::string visualStyle()
+        {
+            wchar_t path[32768]{};
+            if (FAILED(GetCurrentThemeName(path, 32768, nullptr, 0, nullptr, 0)))
+                return {};
+
+            auto name = std::filesystem::path(path).stem().native();
+            if (_wcsicmp(name.c_str(), L"aero") == 0)
+            {
+                using VersionFunction = LONG(WINAPI *)(OSVERSIONINFOW *);
+                const auto module = GetModuleHandleW(L"ntdll.dll");
+                const auto versionFunction = module != nullptr
+                    ? reinterpret_cast<VersionFunction>(GetProcAddress(module, "RtlGetVersion"))
+                    : nullptr;
+                OSVERSIONINFOW version{};
+                version.dwOSVersionInfoSize = sizeof(version);
+                if (versionFunction != nullptr && versionFunction(&version) == 0)
+                {
+                    if (version.dwMajorVersion >= 10 && version.dwBuildNumber >= 22000)
+                        return "Fluent";
+                    if (version.dwMajorVersion > 6 ||
+                        (version.dwMajorVersion == 6 && version.dwMinorVersion >= 2))
+                        return "Metro";
+                }
+                return "Aero";
+            }
+            return utf8(name);
+        }
+
+        inline void collectDesktopIcons(DesktopAppearanceInfo &info)
+        {
+            // The global switch overrides the selection of individual icons.
+            if (const auto hidden = registryNumber(
+                    L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+                    L"HideIcons"); hidden && *hidden == 1)
+            {
+                info.desktopIconsKnown = true;
+                return;
+            }
+
+            constexpr const wchar_t *modern =
+                L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel";
+            constexpr const wchar_t *classic =
+                L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\ClassicStartMenu";
+            HKEY key = nullptr;
+            auto status = RegOpenKeyExW(HKEY_CURRENT_USER, modern, 0, KEY_QUERY_VALUE, &key);
+            if (status == ERROR_FILE_NOT_FOUND || status == ERROR_PATH_NOT_FOUND)
+                status = RegOpenKeyExW(HKEY_CURRENT_USER, classic, 0, KEY_QUERY_VALUE, &key);
+            if (status == ERROR_FILE_NOT_FOUND || status == ERROR_PATH_NOT_FOUND)
+            {
+                info.desktopIcons = {"Recycle Bin"};
+                info.desktopIconsKnown = true;
+                return;
+            }
+            if (status != ERROR_SUCCESS)
+                return;
+
+            const struct IconSetting
+            {
+                const wchar_t *id;
+                const char *name;
+                DWORD hiddenByDefault;
+            } icons[] = {
+                {L"{20D04FE0-3AEA-1069-A2D8-08002B30309D}", "This PC", 1},
+                {L"{59031A47-3F72-44A7-89C5-5595FE6B30EE}", "User's Files", 1},
+                {L"{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}", "Remote Network", 1},
+                {L"{645FF040-5081-101B-9F08-00AA002F954E}", "Recycle Bin", 0},
+                {L"{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}", "Control Panel", 1}};
+
+            std::vector<std::string> visible;
+            bool valid = true;
+            for (const auto &icon : icons)
+            {
+                DWORD hidden = icon.hiddenByDefault;
+                DWORD bytes = sizeof(hidden);
+                status = RegGetValueW(key, nullptr, icon.id, RRF_RT_REG_DWORD,
+                                      nullptr, &hidden, &bytes);
+                if (status == ERROR_FILE_NOT_FOUND)
+                    hidden = icon.hiddenByDefault;
+                else if (status != ERROR_SUCCESS || bytes != sizeof(hidden))
+                {
+                    valid = false;
+                    break;
+                }
+                if (hidden == 0)
+                    visible.emplace_back(icon.name);
+            }
+            RegCloseKey(key);
+            if (valid)
+            {
+                info.desktopIcons = std::move(visible);
+                info.desktopIconsKnown = true;
+            }
+        }
     }
 
     inline DesktopAppearanceInfo getDesktopAppearanceInfo()
     {
         DesktopAppearanceInfo info;
-        constexpr const wchar_t *themes =
-            L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes";
         constexpr const wchar_t *personalize =
             L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
         constexpr const wchar_t *cursors = L"Control Panel\\Cursors";
 
-        if (const auto theme = appearance_detail::registryString(themes, L"CurrentTheme");
-            theme && !theme->empty())
-        {
-            wchar_t name[4096]{};
-            const DWORD length = GetPrivateProfileStringW(
-                L"Theme", L"DisplayName", L"", name, 4096, theme->c_str());
-            std::string resolved;
-            if (length > 0 && length < 4095)
-                resolved = appearance_detail::displayName(name);
-            if (resolved.empty())
-                resolved = appearance_detail::utf8(
-                    std::filesystem::path(*theme).stem().native());
-            if (!resolved.empty())
-                info.theme = resolved;
-        }
+        const auto style = appearance_detail::visualStyle();
+        if (!style.empty())
+            info.theme = style;
+        appearance_detail::collectDesktopIcons(info);
 
         // System UI preference; application light/dark mode is a separate setting.
         if (const auto light = appearance_detail::registryNumber(personalize, L"SystemUsesLightTheme");

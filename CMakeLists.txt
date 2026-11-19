@@ -43,6 +43,7 @@ if (WIN32)
         userenv
         netapi32
         shlwapi
+        uxtheme
     )
 
     target_compile_definitions(allfetch PRIVATE
