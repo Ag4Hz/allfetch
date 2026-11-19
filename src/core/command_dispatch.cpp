@@ -332,6 +332,11 @@ namespace allfetch::core
             << info.windowManagerInfo.name << '\n'
             << "Window Manager Theme: "
             << info.windowManagerInfo.theme << '\n';
+
+        std::cout
+            << "Terminal Font: " << info.terminalInfo.font << '\n'
+            << "Terminal Font Source: "
+            << info.terminalInfo.fontSource << '\n';
     }
 
     /* Implementation of the dispatchCommand function

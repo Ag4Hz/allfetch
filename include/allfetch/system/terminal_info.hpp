@@ -1,6 +1,12 @@
 #pragma once
 
 #include "allfetch/system/system_info.hpp"
+#include "allfetch/system/terminal/win_terminal_font.hpp"
+#include "allfetch/system/terminal/vscode_terminal_font.hpp"
+#include "allfetch/system/terminal/gnome_terminal_font.hpp"
+#include "allfetch/system/terminal/windows_console_font.hpp"
+
+#include <nlohmann/json.hpp>
 
 #include <cstdlib>
 #include <string>
@@ -15,7 +21,9 @@ namespace allfetch::system
     Output:
         TerminalInfo
     */
-    inline TerminalInfo getTerminalInfo()
+    inline TerminalInfo getTerminalInfo(
+        const nlohmann::json &fontSettings = nlohmann::json::object(),
+        const std::string &gnomeProfileId = {})
     {
         TerminalInfo terminalInfo;
 
@@ -23,6 +31,38 @@ namespace allfetch::system
         {
             const char *value = std::getenv(name);
             return value != nullptr ? std::string(value) : std::string{};
+        };
+
+        const auto collectFont = [&]()
+        {
+            if (terminalInfo.name == "Windows Terminal")
+            {
+                terminal_font_detail::collectWindowsTerminalFont(
+                    fontSettings,
+                    environment("WT_PROFILE_ID"),
+                    terminalInfo);
+            }
+            else if (terminalInfo.name == "VS Code integrated terminal")
+            {
+                terminal_font_detail::collectVSCodeFont(
+                    fontSettings,
+                    terminalInfo);
+            }
+#if defined(_WIN32)
+            else if (terminalInfo.name == "Windows Console")
+            {
+                terminal_font_detail::collectWindowsConsoleFont(
+                    terminalInfo);
+            }
+#endif
+#if defined(__linux__) && defined(ALLFETCH_HAS_GIO)
+            else if (terminalInfo.name == "GNOME Terminal")
+            {
+                terminal_font_detail::collectGnomeTerminalFont(
+                    gnomeProfileId,
+                    terminalInfo);
+            }
+#endif
         };
 
         // These hints can describe the SSH client environment rather
@@ -49,6 +89,7 @@ namespace allfetch::system
                 terminalInfo.version = version;
             }
 
+            collectFont();
             return terminalInfo;
         }
 
@@ -63,6 +104,13 @@ namespace allfetch::system
         {
             terminalInfo.name = "Windows Terminal";
         }
+#if defined(__linux__)
+        else if (!environment("GNOME_TERMINAL_SERVICE").empty() &&
+                 !environment("GNOME_TERMINAL_SCREEN").empty())
+        {
+            terminalInfo.name = "GNOME Terminal";
+        }
+#endif
         else if (environment("TERM") == "linux")
         {
             terminalInfo.name = "Linux virtual console";
@@ -80,6 +128,7 @@ namespace allfetch::system
         }
 #endif
 
+        collectFont();
         return terminalInfo;
     }
 }

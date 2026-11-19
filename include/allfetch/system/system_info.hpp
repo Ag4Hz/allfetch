@@ -21,6 +21,8 @@ namespace allfetch::system
     {
         std::string name = "Unknown";
         std::string version = "Unknown";
+        std::string font = "Unknown";
+        std::string fontSource = "Unknown";
     };
 
     // Struct to hold shell information

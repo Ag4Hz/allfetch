@@ -13,6 +13,12 @@ add_executable(allfetch
     src/core/command_dispatch.cpp
 )
 
+find_package(nlohmann_json 3.9 CONFIG REQUIRED)
+
+target_link_libraries(allfetch PRIVATE
+    nlohmann_json::nlohmann_json
+)
+
 target_include_directories(allfetch PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
