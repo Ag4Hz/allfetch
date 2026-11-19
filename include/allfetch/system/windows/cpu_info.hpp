@@ -144,9 +144,11 @@ namespace allfetch::system
                 &frequency,
                 &bytes);
 
-            if (status == ERROR_SUCCESS && frequency != 0)
+            if (status == ERROR_SUCCESS &&
+                bytes == sizeof(frequency) &&
+                frequency != 0)
             {
-                info.baseFrequency = static_cast<float>(frequency);
+                info.reportedFrequency = static_cast<float>(frequency);
             }
         }
 

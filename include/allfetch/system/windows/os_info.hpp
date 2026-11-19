@@ -110,10 +110,17 @@ namespace
 
         if (rtlGetVersion(&osvi) == 0)
         {
-            return std::make_optional<std::string>(
+            std::string version =
                 std::to_string(osvi.dwMajorVersion) + "." +
                 std::to_string(osvi.dwMinorVersion) + "." +
-                std::to_string(osvi.dwBuildNumber));
+                std::to_string(osvi.dwBuildNumber);
+
+            if (const auto revision = getWindowsRevision())
+            {
+                version += "." + std::to_string(*revision);
+            }
+
+            return version;
         }
 
         return std::nullopt;
@@ -126,7 +133,7 @@ inline allfetch::system::OSInfo getOSInfo()
     allfetch::system::OSInfo windows;
     windows.name = "Windows";
     windows.version = "Unknown";
-    windows.kernelName = "Unknown";
+    windows.kernelName = "WIN32_NT";
     windows.kernelVersion = "Unknown";
     windows.architecture = "Unknown";
 
@@ -137,10 +144,6 @@ inline allfetch::system::OSInfo getOSInfo()
     if (const auto windowsRelease = getWindowsRelease())
     {
         windows.version = std::string(windowsRelease->begin(), windowsRelease->end());
-    }
-    if (const auto windowsRevision = getWindowsRevision())
-    {
-        windows.version += " (Build " + std::to_string(*windowsRevision) + ")";
     }
     if (const auto windowsKernelVersion = getWindowsKernelVersion())
     {
