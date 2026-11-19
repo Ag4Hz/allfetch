@@ -41,6 +41,37 @@ namespace allfetch::system::linux_gpu_fallback
         }
     }
 
+    inline std::string pciModel(unsigned vendor, unsigned device)
+    {
+        std::ifstream ids;
+        for (const char *file : {"/usr/share/hwdata/pci.ids", "/usr/share/misc/pci.ids"})
+        {
+            ids.open(file);
+            if (ids) break;
+        }
+        bool inVendor = false;
+        std::string line;
+        while (std::getline(ids, line))
+        {
+            if (line.empty() || line.front() == '#' || line.starts_with("\t\t")) continue;
+            std::istringstream fields(line);
+            unsigned id;
+            if (!(fields >> std::hex >> id)) continue;
+            if (line.front() != '\t')
+            {
+                if (inVendor) break;
+                inVendor = id == vendor;
+            }
+            else if (inVendor && id == device)
+            {
+                std::string name;
+                std::getline(fields >> std::ws, name);
+                return name;
+            }
+        }
+        return {};
+    }
+
     inline std::vector<GPUInfo> collect(
         const fs::path &pciRoot = "/sys/bus/pci/devices",
         const fs::path &drmRoot = "/sys/class/drm")
@@ -79,6 +110,8 @@ namespace allfetch::system::linux_gpu_fallback
                       << std::setw(4) << *vendor << ':'
                       << std::setw(4) << *id;
                 gpu.model = model.str();
+                const auto name = pciModel(*vendor, *id);
+                if (!name.empty()) gpu.model = name;
             }
             else if (driver == "v3d" || driver == "vc4")
             {
