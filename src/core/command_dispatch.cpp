@@ -2,6 +2,8 @@
 #include "allfetch/core/argparser.hpp"
 #include "allfetch/system/system_info.hpp"
 #include <iostream>
+#include <algorithm>
+#include <charconv>
 #include <sstream>
 #include <string>
 
@@ -24,21 +26,58 @@ namespace allfetch::core
         std::cout << "allfetch version " << version << "\n";
     }
 
-    void printColorPalette()
+    void printColorPalette(
+        const allfetch::system::ColorsInfo &colors,
+        bool useColor,
+        bool supportsTrueColor)
     {
-        for (int row = 0; row < 2; ++row)
-        {
-            for (int column = 0; column < 8; ++column)
-            {
-                const int background =
-                    (row == 0 ? 40 : 100) + column;
+        if (!useColor)
+            return;
 
-                std::cout
-                    << "\x1b[" << background << "m"
-                    << "  ";
+        const std::size_t count =
+            std::min<std::size_t>(colors.hexValues.size(), 16);
+
+        for (std::size_t index = 0; index < count; ++index)
+        {
+            const auto &hex = colors.hexValues[index];
+
+            unsigned rgb = 0;
+            bool validHex = false;
+
+            if (hex.size() == 7 && hex.front() == '#')
+            {
+                const auto result = std::from_chars(
+                    hex.data() + 1,
+                    hex.data() + hex.size(),
+                    rgb,
+                    16);
+
+                validHex =
+                    result.ec == std::errc{} && result.ptr == hex.data() + hex.size();
             }
 
-            std::cout << "\x1b[0m\n";
+            if (supportsTrueColor && validHex)
+            {
+                std::cout
+                    << "\x1b[48;2;"
+                    << ((rgb >> 16) & 255) << ';'
+                    << ((rgb >> 8) & 255) << ';'
+                    << (rgb & 255) << 'm';
+            }
+            else
+            {
+                const int background =
+                    index < 8
+                        ? 40 + static_cast<int>(index)
+                        : 100 + static_cast<int>(index - 8);
+
+                std::cout << "\x1b[" << background << 'm';
+            }
+
+            std::cout << "  ";
+
+            if ((index + 1) % 8 == 0 || index + 1 == count)
+                std::cout << "\x1b[0m\n";
         }
     }
 
@@ -313,10 +352,6 @@ namespace allfetch::core
             return true;
         case Action::fetch:
             handleFetch();
-            if (result.isColored)
-            {
-                printColorPalette();
-            }
             return true;
         default:
             return false;
