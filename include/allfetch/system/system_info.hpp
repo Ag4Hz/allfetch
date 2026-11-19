@@ -205,6 +205,8 @@ namespace allfetch::system
     // Struct to hold window manager information
     struct WindowManagerInfo
     {
+        std::string protocol = "Unknown";
+        std::string version = "Unknown";
         std::string name = "Unknown";
         std::string theme = "Unknown";
     };

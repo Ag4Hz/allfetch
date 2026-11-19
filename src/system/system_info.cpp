@@ -12,6 +12,7 @@
 #include "allfetch/system/windows/desktop_appearance_info.hpp"
 #elif defined(__linux__)
 #include "allfetch/system/linux/os_info.hpp"
+#include "allfetch/system/linux/session_info.hpp"
 #include "allfetch/system/linux/memory_info.hpp"
 #include "allfetch/system/linux/gpu_info.hpp"
 #include "allfetch/system/linux/cpu_info.hpp"
@@ -63,6 +64,9 @@ namespace allfetch::system
         info.windowManagerInfo = getWindowManagerInfo();
         info.desktopAppearanceInfo = getDesktopAppearanceInfo();
 
+#if defined(__linux__)
+        linux_session::collect(info);
+#endif
         return info;
     }
 }

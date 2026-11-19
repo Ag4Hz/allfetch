@@ -341,6 +341,21 @@ namespace allfetch::system
 
         if (!devices.empty())
         {
+            const auto count = devices.size();
+            std::vector<bool> matched(count);
+            for (auto &pci : linux_gpu_fallback::collect())
+            {
+                size_t index = 0;
+                while (index < count && (matched[index] || pci.deviceId < 0 ||
+                       devices[index].deviceId != pci.deviceId || devices[index].vendor != pci.vendor))
+                    ++index;
+                if (index == count) devices.push_back(std::move(pci));
+                else
+                {
+                    matched[index] = true;
+                    devices[index].driverVersion = pci.driverVersion;
+                }
+            }
             return devices;
         }
 #endif

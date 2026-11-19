@@ -3,6 +3,10 @@
 #include "allfetch/system/system_info.hpp"
 
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <linux/btrfs.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 #include <sys/statvfs.h>
 #include <sys/sysmacros.h>
 
@@ -173,6 +177,36 @@ namespace allfetch::system
             }
 
             return "Unknown";
+        }
+
+        inline std::string btrfsMedium(const std::string &mountpoint)
+        {
+            const int fd = open(mountpoint.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+            if (fd < 0) return "Unknown";
+            btrfs_ioctl_fs_info_args info{};
+            const bool success = ioctl(fd, BTRFS_IOC_FS_INFO, &info) == 0;
+            close(fd);
+            if (!success) return "Unknown";
+            constexpr char digits[] = "0123456789abcdef";
+            std::string uuid;
+            for (unsigned i = 0; i < sizeof(info.fsid); ++i)
+            {
+                if (i == 4 || i == 6 || i == 8 || i == 10) uuid += '-';
+                uuid += digits[info.fsid[i] >> 4];
+                uuid += digits[info.fsid[i] & 15];
+            }
+            std::set<std::string> types;
+            std::error_code error;
+            fs::directory_iterator entry(fs::path("/sys/fs/btrfs") / uuid / "devices", error), end;
+            unsigned count = 0;
+            while (!error && entry != end)
+            {
+                types.insert(medium(entry->path()));
+                ++count;
+                entry.increment(error);
+            }
+            if (error || count != info.num_devices || types.empty() || types.contains("Unknown")) return "Unknown";
+            return types.size() == 1 ? *types.begin() : "Mixed";
         }
 
         inline int hexDigit(char character)
@@ -380,6 +414,7 @@ namespace allfetch::system
             }
 
             disk_detail::capacity(mountpoint, info);
+            if (filesystem == "btrfs") info.type = disk_detail::btrfsMedium(mountpoint);
             result.push_back(std::move(info));
         }
 

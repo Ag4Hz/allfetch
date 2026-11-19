@@ -29,17 +29,21 @@ inline allfetch::system::OSInfo getOSInfo()
     }
 
     std::string line;
-    std::string wholeName;
+    std::string versionId;
     while (std::getline(file, line))
     {
-        if (line.find("PRETTY_NAME=") == 0)
-        {
-            wholeName = line.substr(13, line.size() - 14); // Remove quotes
-        }
+        const auto sep = line.find('=');
+        if (sep == std::string::npos) continue;
+        auto value = line.substr(sep + 1);
+        if (value.size() >= 2 && (value.front() == '"' || value.front() == '\'') && value.back() == value.front())
+            value = value.substr(1, value.size() - 2);
+        if (value.empty()) continue;
+        if (line.starts_with("NAME=")) linux.name = value;
+        if (line.starts_with("VERSION=")) linux.version = value;
+        if (line.starts_with("VERSION_ID=")) versionId = value;
     }
 
-    linux.name = wholeName.substr(0, wholeName.find(" "));
-    linux.version = wholeName.substr(wholeName.find(" ") + 1);
+    if (linux.version == "Unknown" && !versionId.empty()) linux.version = versionId;
 
     return linux;
 }

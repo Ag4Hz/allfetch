@@ -230,6 +230,8 @@ namespace allfetch::system
     void to_json(nlohmann::json &json, const WindowManagerInfo &info)
     {
         json = {
+            {"protocol", valueOrNull(info.protocol)},
+            {"version", valueOrNull(info.version)},
             {"name", valueOrNull(info.name)},
             {"theme", valueOrNull(info.theme)},
         };
