@@ -127,9 +127,6 @@ namespace allfetch::core
 
     void handleFetch()
     {
-#if defined(_WIN32)
-        const Utf8ConsoleOutput consoleOutput;
-#endif
         const auto info = allfetch::system::getSystemInfo();
         const auto formatValue = [](auto value, const char *unit = "") -> std::string
         {
@@ -431,6 +428,10 @@ namespace allfetch::core
             handleVersion();
             return true;
         case Action::fetch:
+        {
+#if defined(_WIN32)
+            const Utf8ConsoleOutput consoleOutput;
+#endif
             if (result.isJson)
             {
                 try
@@ -447,6 +448,7 @@ namespace allfetch::core
             }
             handleFetch();
             return true;
+        }
         default:
             return false;
         }

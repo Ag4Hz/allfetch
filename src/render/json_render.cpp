@@ -286,6 +286,7 @@ namespace allfetch::render
             {"schemaVersion", 1},
             {"systemInfo", info}};
 
-        output << document.dump(2) << "\n";
+        // Paths and device labels can contain invalid bytes. Keep the rest of the report usable.
+        output << document.dump(2, ' ', false, nlohmann::json::error_handler_t::replace) << '\n';
     }
 }
