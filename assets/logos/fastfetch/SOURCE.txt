@@ -1,0 +1,1 @@
+Upstream: https://github.com/fastfetch-cli/fastfetch/tree/7b3603707fe4b42e7deca52a729c64d13c479ea5/src/logo/ascii
