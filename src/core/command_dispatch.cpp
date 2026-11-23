@@ -6,14 +6,18 @@
 #include <iostream>
 #include <algorithm>
 #include <charconv>
+#include <cstdlib>
 #include <sstream>
 #include <string>
+#include <string_view>
 
 #if defined(_WIN32)
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include <windows.h>
+#elif defined(__linux__)
+#include <unistd.h>
 #endif
 
 namespace allfetch::core
@@ -21,16 +25,28 @@ namespace allfetch::core
 #if defined(_WIN32)
     namespace
     {
-        class Utf8ConsoleOutput
+        class ConsoleOutput
         {
+            HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
             UINT previousCodePage = 0;
+            DWORD previousMode = 0;
+            bool restoreMode = false;
+            bool ansiColor = false;
 
         public:
-            Utf8ConsoleOutput()
+            explicit ConsoleOutput(bool useColor)
             {
                 DWORD mode = 0;
-                if (!GetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), &mode))
+                if (!GetConsoleMode(handle, &mode))
                     return;
+
+                if (useColor)
+                {
+                    const DWORD ansiMode = mode | ENABLE_PROCESSED_OUTPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+                    ansiColor = ansiMode == mode || SetConsoleMode(handle, ansiMode);
+                    restoreMode = ansiColor && ansiMode != mode;
+                    previousMode = mode;
+                }
 
                 const UINT current = GetConsoleOutputCP();
                 if (current != 0 && current != CP_UTF8)
@@ -41,13 +57,16 @@ namespace allfetch::core
                 }
             }
 
-            ~Utf8ConsoleOutput()
+            bool supportsColor() const { return ansiColor; }
+
+            ~ConsoleOutput()
             {
-                if (previousCodePage != 0)
-                {
+                if (restoreMode || previousCodePage != 0)
                     std::cout.flush();
+                if (restoreMode)
+                    SetConsoleMode(handle, previousMode);
+                if (previousCodePage != 0)
                     SetConsoleOutputCP(previousCodePage);
-                }
             }
         };
     }
@@ -125,7 +144,7 @@ namespace allfetch::core
         }
     }
 
-    void handleFetch()
+    void handleFetch(bool useColor)
     {
         const auto info = allfetch::system::getSystemInfo();
         const auto formatValue = [](auto value, const char *unit = "") -> std::string
@@ -409,6 +428,11 @@ namespace allfetch::core
             << "Terminal Font: " << info.terminalInfo.font << '\n'
             << "Terminal Font Source: "
             << info.terminalInfo.fontSource << '\n';
+
+        const char *colorTerm = std::getenv("COLORTERM");
+        const std::string_view colorDepth = colorTerm ? colorTerm : "";
+        printColorPalette(info.colorsInfo, useColor,
+                          colorDepth == "truecolor" || colorDepth == "24bit");
     }
 
     /* Implementation of the dispatchCommand function
@@ -430,7 +454,7 @@ namespace allfetch::core
         case Action::fetch:
         {
 #if defined(_WIN32)
-            const Utf8ConsoleOutput consoleOutput;
+            const ConsoleOutput consoleOutput(result.isColored && !result.isJson);
 #endif
             if (result.isJson)
             {
@@ -446,7 +470,15 @@ namespace allfetch::core
                     return false;
                 }
             }
-            handleFetch();
+#if defined(_WIN32)
+            handleFetch(consoleOutput.supportsColor());
+#elif defined(__linux__)
+            const char *term = std::getenv("TERM");
+            handleFetch(result.isColored && isatty(STDOUT_FILENO) &&
+                        (!term || std::string_view(term) != "dumb"));
+#else
+            handleFetch(false);
+#endif
             return true;
         }
         default:
