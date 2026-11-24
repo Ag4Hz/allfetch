@@ -13,7 +13,10 @@
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
 #elif defined(__linux__)
+#include <filesystem>
+#include <fstream>
 #include <ifaddrs.h>
+#include <net/if_arp.h>
 #include <net/if.h>
 #include <netinet/in.h>
 #endif
@@ -45,6 +48,24 @@ namespace allfetch::system
         }
 
 #if defined(__linux__)
+        inline std::string interfaceType(const char *name)
+        {
+            if (name == nullptr)
+                return "Unknown";
+
+            const auto path = std::filesystem::path("/sys/class/net") / name;
+            std::error_code error;
+            if (std::filesystem::exists(path / "phy80211", error) ||
+                std::filesystem::exists(path / "wireless", error))
+                return "Wi-Fi";
+
+            int hardwareType = 0;
+            std::ifstream typeFile(path / "type");
+            if (typeFile >> hardwareType && hardwareType == ARPHRD_ETHER)
+                return "Ethernet";
+            return "Unknown";
+        }
+
         inline std::optional<int> prefixFromMask(const void *mask)
         {
             const auto *bytes =
@@ -159,6 +180,10 @@ namespace allfetch::system
                         &address->sin_addr);
 
                     info.prefixLength = entry->OnLinkPrefixLength;
+                    if (adapter->IfType == IF_TYPE_ETHERNET_CSMACD)
+                        info.interfaceType = "Ethernet";
+                    else if (adapter->IfType == IF_TYPE_IEEE80211)
+                        info.interfaceType = "Wi-Fi";
                     result.push_back(info);
                 }
             }
@@ -220,6 +245,7 @@ namespace allfetch::system
                 &address->sin_addr);
 
             info.prefixLength = *prefix;
+            info.interfaceType = local_ip_detail::interfaceType(entry->ifa_name);
             result.push_back(info);
         }
 #endif

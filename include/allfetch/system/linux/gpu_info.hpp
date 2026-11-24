@@ -137,6 +137,21 @@ namespace allfetch::system::linux_gpu_fallback
                 gpu.driverVersion = text;
             }
 
+            if (driver == "amdgpu")
+            {
+                std::ifstream levels(device / "pp_dpm_sclk");
+                for (std::string line; std::getline(levels, line);)
+                {
+                    const auto separator = line.find(':');
+                    if (separator == std::string::npos || line.starts_with("S:"))
+                        continue;
+                    std::istringstream fields(line.substr(separator + 1));
+                    double mhz = 0;
+                    if (fields >> mhz && mhz > 0 && mhz > gpu.maxFrequencyMHz)
+                        gpu.maxFrequencyMHz = mhz;
+                }
+            }
+
             devices.push_back(gpu);
         };
 
@@ -387,6 +402,7 @@ namespace allfetch::system
                 {
                     matched[index] = true;
                     devices[index].driverVersion = pci.driverVersion;
+                    devices[index].maxFrequencyMHz = pci.maxFrequencyMHz;
                 }
             }
             return devices;

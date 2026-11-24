@@ -74,6 +74,7 @@ namespace allfetch::system
         int deviceId = -1;
         int memorySizeMB = -1;
         int sharedMemorySizeMB = -1;
+        double maxFrequencyMHz = -1.0;
     };
 
     // Struct to hold swap information
@@ -89,6 +90,7 @@ namespace allfetch::system
         std::string interfaceName = "Unknown";
         std::string address = "Unknown";
         int prefixLength = -1;
+        std::string interfaceType = "Unknown";
     };
 
     // Struct to hold host information

@@ -4,14 +4,94 @@
 #include <windows.h>
 #include <dxgi.h>
 #include <directx/dxcore.h>
+#include <array>
 #include <memory>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace allfetch::system
 {
     namespace gpu_detail
     {
+        // The MinGW headers do not provide d3dkmthk.h. These are the
+        // Windows ABI layouts for the adapter and node queries used below.
+        struct OpenAdapter { LUID luid; UINT handle; };
+        struct CloseAdapter { UINT handle; };
+        struct AdapterQuery { UINT handle; UINT type; void *data; UINT size; };
+        struct NodeMetadata
+        {
+            UINT ordinal;
+            UINT engineType;
+            std::array<unsigned char, 70> remaining;
+        };
+        struct alignas(8) NodePerformance
+        {
+            UINT ordinal;
+            UINT physicalAdapterIndex;
+            ULONGLONG frequency;
+            ULONGLONG maxFrequency;
+            ULONGLONG maxFrequencyOverclocked;
+            ULONG voltage;
+            ULONG maxVoltage;
+            ULONG maxVoltageOverclocked;
+            alignas(8) ULONGLONG transitionLatency;
+            ULONGLONG reserved;
+        };
+
+        inline double maxGraphicsClockMHz(const LUID &luid)
+        {
+            std::unique_ptr<std::remove_pointer_t<HMODULE>, decltype(&FreeLibrary)> gdi(
+                LoadLibraryExW(L"gdi32.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32), &FreeLibrary);
+            if (!gdi)
+                return -1;
+
+            const auto open = reinterpret_cast<LONG (WINAPI *)(OpenAdapter *)>(
+                GetProcAddress(gdi.get(), "D3DKMTOpenAdapterFromLuid"));
+            const auto query = reinterpret_cast<LONG (WINAPI *)(const AdapterQuery *)>(
+                GetProcAddress(gdi.get(), "D3DKMTQueryAdapterInfo"));
+            const auto close = reinterpret_cast<LONG (WINAPI *)(const CloseAdapter *)>(
+                GetProcAddress(gdi.get(), "D3DKMTCloseAdapter"));
+            OpenAdapter adapter{luid, 0};
+            if (!open || !query || !close || open(&adapter) < 0)
+                return -1;
+
+            constexpr UINT nodeMetadataQuery = 25;
+            constexpr UINT nodePerformanceQuery = 61;
+            constexpr UINT graphicsEngine = 1;
+            double frequency = -1;
+            for (UINT node = 0; node < 64; ++node)
+            {
+                NodeMetadata metadata{};
+                metadata.ordinal = node;
+                // Node metadata's ABI payload ends before the C++ tail padding.
+                AdapterQuery request{adapter.handle, nodeMetadataQuery, &metadata, 78};
+                if (query(&request) < 0)
+                    break;
+                if (metadata.engineType != graphicsEngine)
+                    continue;
+
+                NodePerformance performance{};
+                performance.ordinal = node;
+                static_assert(sizeof(NodePerformance) == 64);
+                request = {adapter.handle, nodePerformanceQuery, &performance, sizeof(performance)};
+                LONG status = query(&request);
+                if (status < 0)
+                {
+                    request.size -= sizeof(performance.reserved);
+                    status = query(&request);
+                }
+                if (status >= 0 && performance.maxFrequency > 0)
+                {
+                    frequency = performance.maxFrequency / 1'000'000.0;
+                    break;
+                }
+            }
+            const CloseAdapter opened{adapter.handle};
+            close(&opened);
+            return frequency;
+        }
+
         struct ReleaseInterface
         {
             template <typename T>
@@ -172,6 +252,7 @@ namespace allfetch::system
             gpu.model = gpu_detail::toUtf8(description.Description);
             gpu.vendor = gpu_detail::vendorName(description.VendorId);
             gpu.deviceId = static_cast<int>(description.DeviceId);
+            gpu.maxFrequencyMHz = gpu_detail::maxGraphicsClockMHz(description.AdapterLuid);
 
             // These existing fields store MiB, despite their MB names.
             gpu.memorySizeMB = static_cast<int>(

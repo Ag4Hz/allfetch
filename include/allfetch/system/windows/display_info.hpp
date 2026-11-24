@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace allfetch::system
@@ -131,8 +132,15 @@ namespace allfetch::system
 
                 if (info.name == "Unknown")
                 {
-                    info.name = windows_display_detail::utf8(
+                    const auto devicePath = windows_display_detail::utf8(
                         name.monitorDevicePath);
+                    const std::string_view prefix = R"(\\?\DISPLAY#)";
+                    if (devicePath.starts_with(prefix))
+                    {
+                        const auto end = devicePath.find('#', prefix.size());
+                        if (end != std::string::npos && end > prefix.size())
+                            info.name = devicePath.substr(prefix.size(), end - prefix.size());
+                    }
                 }
             }
 

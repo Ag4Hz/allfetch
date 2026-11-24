@@ -103,6 +103,7 @@ namespace allfetch::system
             {"deviceId", valueOrNull(info.deviceId)},
             {"memorySizeMB", valueOrNull(info.memorySizeMB)},
             {"sharedMemorySizeMB", valueOrNull(info.sharedMemorySizeMB)},
+            {"maxFrequencyMHz", valueOrNull(info.maxFrequencyMHz)},
         };
     }
 
@@ -118,6 +119,7 @@ namespace allfetch::system
     {
         json = {
             {"interfaceName", valueOrNull(info.interfaceName)},
+            {"interfaceType", valueOrNull(info.interfaceType)},
             {"address", valueOrNull(info.address)},
             {"prefixLength", valueOrNull(info.prefixLength)},
         };
