@@ -54,6 +54,7 @@ if (WIN32)
         netapi32
         shlwapi
         uxtheme
+        version
     )
 
     target_compile_definitions(allfetch PRIVATE

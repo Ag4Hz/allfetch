@@ -28,10 +28,18 @@ namespace allfetch::system
 
         using terminal_font_detail::environment;
 
-        const auto collectFont = [&]()
+        const auto collectDetails = [&]()
         {
             if (terminalInfo.name == "Windows Terminal")
             {
+#if defined(_WIN32)
+                if (terminalInfo.version == "Unknown")
+                {
+                    const auto version = terminal_font_detail::windowsTerminalVersion();
+                    if (!version.empty())
+                        terminalInfo.version = version;
+                }
+#endif
                 terminal_font_detail::collectWindowsTerminalFont(
                     fontSettings,
                     environment("WT_PROFILE_ID"),
@@ -46,6 +54,15 @@ namespace allfetch::system
 #if defined(_WIN32)
             else if (terminalInfo.name == "Windows Console")
             {
+                wchar_t systemDirectory[MAX_PATH]{};
+                const auto length = GetSystemDirectoryW(systemDirectory, MAX_PATH);
+                if (length > 0 && length < MAX_PATH)
+                {
+                    const auto version = windows_version_detail::fileVersion(
+                        std::filesystem::path(systemDirectory) / L"conhost.exe");
+                    if (!version.empty())
+                        terminalInfo.version = version;
+                }
                 terminal_font_detail::collectWindowsConsoleFont(
                     terminalInfo);
             }
@@ -92,7 +109,7 @@ namespace allfetch::system
                 terminalInfo.version = version;
             }
 
-            collectFont();
+            collectDetails();
             return terminalInfo;
         }
 
@@ -136,7 +153,7 @@ namespace allfetch::system
         }
 #endif
 
-        collectFont();
+        collectDetails();
         return terminalInfo;
     }
 }

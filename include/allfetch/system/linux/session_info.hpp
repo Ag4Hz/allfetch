@@ -35,12 +35,17 @@ namespace allfetch::system::linux_session
         return output;
     }
 
-    inline std::string versionOf(const char *command, const char *expected)
+    inline std::string versionAfter(const char *command, std::string_view prefix)
     {
-        std::istringstream fields(query(command));
-        std::string name, version;
-        if (fields >> name >> version && name == expected) return version;
-        return "Unknown";
+        const auto output = query(command);
+        const auto start = output.find(prefix);
+        if (start == std::string::npos)
+            return "Unknown";
+        const auto first = start + prefix.size();
+        if (first == output.size() || output[first] < '0' || output[first] > '9')
+            return "Unknown";
+        const auto end = output.find_first_of(" \t\r\n(", first);
+        return output.substr(first, end == std::string::npos ? end : end - first);
     }
 
     inline void paletteEntry(ColorsInfo &colors, const std::string &key, const std::string &rgb)
@@ -113,7 +118,8 @@ namespace allfetch::system::linux_session
     inline void kitty(SystemInfo &info, const std::filesystem::path &config)
     {
         info.terminalInfo.name = "kitty";
-        info.terminalInfo.version = versionOf("kitty --version", "kitty");
+        if (info.terminalInfo.version == "Unknown")
+            info.terminalInfo.version = versionAfter("kitty --version", "kitty ");
         const auto path = config / "kitty/kitty.conf";
         std::ifstream file(path);
         std::string line, key, value;
@@ -134,8 +140,14 @@ namespace allfetch::system::linux_session
     inline void collect(SystemInfo &info)
     {
         if (info.shellInfo.name == "Zsh")
-            info.shellInfo.version = versionOf("zsh --version", "zsh");
+            info.shellInfo.version = versionAfter("zsh --version", "zsh ");
+        else if (info.shellInfo.name == "Bash")
+            info.shellInfo.version = versionAfter("bash --version", "GNU bash, version ");
+        else if (info.shellInfo.name == "Fish")
+            info.shellInfo.version = versionAfter("fish --version", "fish, version ");
         if (!env("SSH_CONNECTION").empty() || !env("SSH_TTY").empty()) return;
+        if (info.terminalInfo.name == "GNOME Terminal" && info.terminalInfo.version == "Unknown")
+            info.terminalInfo.version = versionAfter("gnome-terminal --version", "GNOME Terminal ");
         const auto xdg = env("XDG_CONFIG_HOME");
         const std::filesystem::path config = xdg.empty() ? env("HOME") + "/.config" : xdg;
         if (env("TMUX").empty() && env("STY").empty() &&

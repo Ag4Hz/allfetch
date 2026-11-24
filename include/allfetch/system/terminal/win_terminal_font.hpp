@@ -4,7 +4,9 @@
 #include "allfetch/system/terminal/font_settings.hpp"
 
 #if defined(_WIN32)
+#include "allfetch/system/windows/program_version.hpp"
 #include <windows.h>
+#include <appmodel.h>
 #include <tlhelp32.h>
 #endif
 
@@ -114,6 +116,77 @@ namespace allfetch::system::terminal_font_detail
         }();
         return executable;
     }
+
+#if defined(_WIN32)
+    inline PACKAGE_VERSION packageVersion(const wchar_t *fullName)
+    {
+        UINT32 bytes = 0;
+        if (PackageIdFromFullName(fullName, PACKAGE_INFORMATION_BASIC, &bytes, nullptr) !=
+            ERROR_INSUFFICIENT_BUFFER)
+            return {};
+        std::vector<BYTE> buffer(bytes);
+        if (bytes < sizeof(PACKAGE_ID) ||
+            PackageIdFromFullName(fullName, PACKAGE_INFORMATION_BASIC, &bytes, buffer.data()) != ERROR_SUCCESS)
+            return {};
+        return reinterpret_cast<const PACKAGE_ID *>(buffer.data())->version;
+    }
+
+    inline PACKAGE_VERSION installedTerminalVersion(const wchar_t *family)
+    {
+        UINT32 count = 0;
+        UINT32 length = 0;
+        if (GetPackagesByPackageFamily(family, &count, nullptr, &length, nullptr) != ERROR_INSUFFICIENT_BUFFER)
+            return {};
+        std::vector<wchar_t *> names(count);
+        std::vector<wchar_t> storage(length);
+        if (GetPackagesByPackageFamily(family, &count, names.data(), &length, storage.data()) != ERROR_SUCCESS)
+            return {};
+
+        PACKAGE_VERSION latest{};
+        for (UINT32 i = 0; i < count; ++i)
+        {
+            const auto version = packageVersion(names[i]);
+            if (version.Version > latest.Version)
+                latest = version;
+        }
+        return latest;
+    }
+
+    inline std::string windowsTerminalVersion()
+    {
+        const auto format = [](PACKAGE_VERSION version)
+        {
+            return windows_version_detail::formatVersion(
+                version.Major, version.Minor, version.Build, version.Revision);
+        };
+
+        const auto &executable = windowsTerminalExecutable();
+        if (executable.is_absolute())
+        {
+            const auto folder = executable.parent_path().filename().wstring();
+            if (folder.starts_with(L"Microsoft.WindowsTerminal"))
+                if (const auto version = packageVersion(folder.c_str()); version.Version != 0)
+                    return format(version);
+            // The live executable identifies portable and unpackaged installations.
+            return windows_version_detail::fileVersion(executable);
+        }
+
+        const auto configured = defaultWindowsTerminalPackage();
+        if (!configured.empty())
+            if (const auto version = packageVersion(configured.c_str()); version.Version != 0)
+                return format(version);
+
+        constexpr auto stableFamily = L"Microsoft.WindowsTerminal_8wekyb3d8bbwe";
+        constexpr auto previewFamily = L"Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe";
+        const auto stable = installedTerminalVersion(stableFamily);
+        const auto preview = installedTerminalVersion(previewFamily);
+        if (stable.Version && !preview.Version)
+            return format(stable);
+        if (preview.Version && !stable.Version)
+            return format(preview);
+        return {};
+    }
+#endif
 
     inline nlohmann::json windowsTerminalSettings()
     {

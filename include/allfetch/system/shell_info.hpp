@@ -11,6 +11,7 @@
 #include <string>
 
 #if defined(_WIN32)
+#include "allfetch/system/windows/program_version.hpp"
 #include <Windows.h>
 #include <tlhelp32.h>
 #elif defined(__linux__)
@@ -186,11 +187,30 @@ namespace allfetch::system
 
                         if (success)
                         {
-                            shellInfo.executable = shell_detail::toUtf8(
-                                std::wstring(path, length));
+                            const std::wstring executable(path, length);
+                            shellInfo.executable = shell_detail::toUtf8(executable);
+                            if (name != "Windows PowerShell")
+                            {
+                                const auto version = windows_version_detail::fileVersion(executable);
+                                if (!version.empty())
+                                    shellInfo.version = version;
+                            }
                         }
                     }
 
+                    if (name == "Windows PowerShell")
+                    {
+                        wchar_t version[64]{};
+                        DWORD bytes = sizeof(version);
+                        if (RegGetValueW(HKEY_LOCAL_MACHINE,
+                                L"SOFTWARE\\Microsoft\\PowerShell\\3\\PowerShellEngine",
+                                L"PowerShellVersion", RRF_RT_REG_SZ, nullptr, version, &bytes) == ERROR_SUCCESS)
+                        {
+                            const auto text = shell_detail::toUtf8(version);
+                            if (!text.empty())
+                                shellInfo.version = text;
+                        }
+                    }
                     return shellInfo;
                 }
             }
