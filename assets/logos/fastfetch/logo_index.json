@@ -1,0 +1,4466 @@
+[
+  {
+    "aliases": [
+      "Adélie",
+      "Adelie"
+    ],
+    "path": "a/adelie.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "aerOS"
+    ],
+    "path": "a/aeros.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Aeon"
+    ],
+    "path": "a/aeon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AerynOS"
+    ],
+    "path": "a/aerynos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AerynOS_old"
+    ],
+    "path": "a/aerynos_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Afterglow"
+    ],
+    "path": "a/afterglow.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "aix"
+    ],
+    "path": "a/aix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Almalinux"
+    ],
+    "path": "a/almalinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Alpine"
+    ],
+    "path": "a/alpine.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Alpine2"
+    ],
+    "path": "a/alpine2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Alpine_small"
+    ],
+    "path": "a/alpine_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "alpine2_small"
+    ],
+    "path": "a/alpine2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "alpine3_small"
+    ],
+    "path": "a/alpine3_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Alter"
+    ],
+    "path": "a/alter.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "alt-atomic"
+    ],
+    "path": "a/alt_atomic.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ALTLinux"
+    ],
+    "path": "a/altlinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Amazon"
+    ],
+    "path": "a/amazon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Amazon Linux",
+      "amzn"
+    ],
+    "path": "a/amazon_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Amiga"
+    ],
+    "path": "a/amiga.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AmogOS"
+    ],
+    "path": "a/amogos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Anarchy"
+    ],
+    "path": "a/anarchy.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "android"
+    ],
+    "path": "a/android.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "android_small"
+    ],
+    "path": "a/android_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "anduinos"
+    ],
+    "path": "a/anduinos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Antergos"
+    ],
+    "path": "a/antergos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "antiX"
+    ],
+    "path": "a/antix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AnushOS"
+    ],
+    "path": "a/anushos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Aosc OS/Retro",
+      "aoscosretro"
+    ],
+    "path": "a/aoscosretro.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Aosc OS/Retro_small",
+      "aoscosretro_small"
+    ],
+    "path": "a/aoscosretro_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Aosc OS",
+      "aoscos"
+    ],
+    "path": "a/aoscos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Aosc OS_old",
+      "aoscos_old"
+    ],
+    "path": "a/aoscos_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Aperture"
+    ],
+    "path": "a/aperture.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Apple"
+    ],
+    "path": "m/macos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Apple_small"
+    ],
+    "path": "m/macos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Apricity"
+    ],
+    "path": "a/apricity.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ArchBox"
+    ],
+    "path": "a/archbox.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Archcraft"
+    ],
+    "path": "a/archcraft.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Archcraft2"
+    ],
+    "path": "a/archcraft2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "arch",
+      "archmerge"
+    ],
+    "path": "a/arch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "arch2"
+    ],
+    "path": "a/arch2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "arch3"
+    ],
+    "path": "a/arch3.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "arch_small"
+    ],
+    "path": "a/arch_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "arch_old"
+    ],
+    "path": "a/arch_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "ARCHlabs"
+    ],
+    "path": "a/archlabs.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ArchStrike"
+    ],
+    "path": "a/archstrike.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Arkane",
+      "Arkane Linux"
+    ],
+    "path": "a/arkane.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Armada"
+    ],
+    "path": "a/armada.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Armbian"
+    ],
+    "path": "a/armbian.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Armbian2"
+    ],
+    "path": "a/armbian2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "artix"
+    ],
+    "path": "a/artix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "artix2"
+    ],
+    "path": "a/artix2.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "artix3"
+    ],
+    "path": "a/artix3.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "artix_small"
+    ],
+    "path": "a/artix_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "artix2_small"
+    ],
+    "path": "a/artix2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "arco",
+      "arcolinux"
+    ],
+    "path": "a/arco.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "arco_small",
+      "arcolinux_small"
+    ],
+    "path": "a/arco_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "arse",
+      "arselinux",
+      "arse-linux"
+    ],
+    "path": "a/arselinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Arya"
+    ],
+    "path": "a/arya.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "asahi",
+      "asahi-linux"
+    ],
+    "path": "a/asahi.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "asahi2",
+      "asahi-linux2"
+    ],
+    "path": "a/asahi2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "aster"
+    ],
+    "path": "a/aster.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AsteroidOS"
+    ],
+    "path": "a/asteroidos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "astOS"
+    ],
+    "path": "a/astos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Astra",
+      "Astra Linux",
+      "astralinux"
+    ],
+    "path": "a/astra_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AstrOS"
+    ],
+    "path": "a/astros.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Ataraxia"
+    ],
+    "path": "j/januslinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AthenaOS"
+    ],
+    "path": "a/athenaos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AthenaOS_old"
+    ],
+    "path": "a/athenaos_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Aurora"
+    ],
+    "path": "a/aurora.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AxOS"
+    ],
+    "path": "a/axos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Azos"
+    ],
+    "path": "a/azos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AzureLinux"
+    ],
+    "path": "a/azurelinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "AzureLinux2"
+    ],
+    "path": "a/azurelinux2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "bedrock"
+    ],
+    "path": "b/bedrock.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "bedrock_small"
+    ],
+    "path": "b/bedrock_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BerserkArch"
+    ],
+    "path": "b/berserkarch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BigLinux"
+    ],
+    "path": "b/biglinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Bitrig"
+    ],
+    "path": "b/bitrig.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Blackarch"
+    ],
+    "path": "b/blackarch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BlackMesa",
+      "black-mesa"
+    ],
+    "path": "b/blackmesa.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BlackPanther"
+    ],
+    "path": "b/blackpanther.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BLAG"
+    ],
+    "path": "b/blag.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BlankOn"
+    ],
+    "path": "b/blankon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BlueLight"
+    ],
+    "path": "b/bluelight.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Bodhi"
+    ],
+    "path": "b/bodhi.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Bonsai"
+    ],
+    "path": "b/bonsai.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Bredos"
+    ],
+    "path": "b/bredos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BSD"
+    ],
+    "path": "b/bsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "BunsenLabs"
+    ],
+    "path": "b/bunsenlabs.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CachyOS"
+    ],
+    "path": "c/cachyos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CachyOS_small"
+    ],
+    "path": "c/cachyos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CachyOS_old_small"
+    ],
+    "path": "c/cachyos_old_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Calculate"
+    ],
+    "path": "c/calculate.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CalinixOS"
+    ],
+    "path": "c/calinixos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CalinixOS_small"
+    ],
+    "path": "c/calinixos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Carbs"
+    ],
+    "path": "c/carbs.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CBL-Mariner"
+    ],
+    "path": "c/cbl_mariner.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CelOS"
+    ],
+    "path": "c/celos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Center"
+    ],
+    "path": "c/center.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CentOS"
+    ],
+    "path": "c/centos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CentOS_small"
+    ],
+    "path": "c/centos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Cereus"
+    ],
+    "path": "c/cereus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Chakra"
+    ],
+    "path": "c/chakra.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ChaletOS"
+    ],
+    "path": "c/chaletos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Chapeau"
+    ],
+    "path": "c/chapeau.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Chimera"
+    ],
+    "path": "c/chimera_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Chimera2"
+    ],
+    "path": "c/chimera_linux2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Chimera_small"
+    ],
+    "path": "c/chimera_linux_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ChonkySealOS"
+    ],
+    "path": "c/chonkysealos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Chrom",
+      "ChromeOS"
+    ],
+    "path": "c/chrom.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Cleanjaro"
+    ],
+    "path": "c/cleanjaro.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Cleanjaro_small"
+    ],
+    "path": "c/cleanjaro_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Clear Linux",
+      "clearlinux",
+      "Clear Linux OS"
+    ],
+    "path": "c/clear_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ClearOS"
+    ],
+    "path": "c/clearos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Clover"
+    ],
+    "path": "c/clover.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Cobalt"
+    ],
+    "path": "c/cobalt.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Codex Linux"
+    ],
+    "path": "c/codex.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Condres"
+    ],
+    "path": "c/condres.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CoreOS",
+      "Container Linux by CoreOS"
+    ],
+    "path": "f/fedora_coreos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "common-torizon"
+    ],
+    "path": "t/torizoncore.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Cosmic"
+    ],
+    "path": "c/cosmic.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CRUX"
+    ],
+    "path": "c/crux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CRUX_small"
+    ],
+    "path": "c/crux_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Crystal",
+      "Crystal",
+      "crystal-linux",
+      "Crystal-Linux"
+    ],
+    "path": "c/crystal.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Cucumber",
+      "CucumberOS"
+    ],
+    "path": "c/cucumber.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CuerdOS",
+      "CuerdOS GNU/Linux"
+    ],
+    "path": "c/cuerdos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CutefishOS"
+    ],
+    "path": "c/cutefishos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CuteOS"
+    ],
+    "path": "c/cuteos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "CyberOS"
+    ],
+    "path": "c/cyberos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "cycledream"
+    ],
+    "path": "c/cycledream.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "dahliaOS"
+    ],
+    "path": "d/dahlia.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "DarkOS"
+    ],
+    "path": "d/darkos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Debian"
+    ],
+    "path": "d/debian.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Debian_small"
+    ],
+    "path": "d/debian_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Deepin"
+    ],
+    "path": "d/deepin.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "DesaOS"
+    ],
+    "path": "d/desaos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Devuan"
+    ],
+    "path": "d/devuan.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Devuan_small"
+    ],
+    "path": "d/devuan_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "DietPi"
+    ],
+    "path": "d/dietpi.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "DracOS"
+    ],
+    "path": "d/dracos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "DragonFly"
+    ],
+    "path": "d/dragonfly.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "DragonFly_small"
+    ],
+    "path": "d/dragonfly_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "DragonFly_old"
+    ],
+    "path": "d/dragonfly_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "DraugerOS",
+      "Drauger"
+    ],
+    "path": "d/drauger.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Droidian"
+    ],
+    "path": "d/droidian.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "elbrus"
+    ],
+    "path": "e/elbrus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Elementary"
+    ],
+    "path": "e/elementary.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Elementary_small"
+    ],
+    "path": "e/elementary_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Elive"
+    ],
+    "path": "e/elive.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Emmabuntus"
+    ],
+    "path": "e/emmabuntus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ENOS"
+    ],
+    "path": "e/enos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EncryptOS"
+    ],
+    "path": "e/encryptos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EndeavourOS"
+    ],
+    "path": "e/endeavouros.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EndeavourOS_small"
+    ],
+    "path": "e/endeavouros_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Endless"
+    ],
+    "path": "e/endless.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Enso"
+    ],
+    "path": "e/enso.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EshanizedOS"
+    ],
+    "path": "e/eshanizedos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EuroLinux"
+    ],
+    "path": "e/eurolinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EvolutionOS"
+    ],
+    "path": "e/evolutionos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EvolutionOS_small"
+    ],
+    "path": "e/evolutionos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "EvolutionOS_old"
+    ],
+    "path": "e/evolutionos_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "eweOS"
+    ],
+    "path": "e/eweos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Exherbo"
+    ],
+    "path": "e/exherbo.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Exodia"
+    ],
+    "path": "e/exodia_predator.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Fastfetch",
+      "FF"
+    ],
+    "path": "f/fastfetch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Fedora"
+    ],
+    "path": "f/fedora.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "fedora-asahi-remix"
+    ],
+    "path": "a/asahi.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Fedora_small"
+    ],
+    "path": "f/fedora_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Fedora2_small"
+    ],
+    "path": "f/fedora2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Fedora_old"
+    ],
+    "path": "f/fedora_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Fedora-Silverblue"
+    ],
+    "path": "f/fedora_silverblue.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Fedora-Kinoite"
+    ],
+    "path": "f/fedora_kinoite.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Fedora-Sericea"
+    ],
+    "path": "f/fedora_sericea.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Fedora-CoreOS"
+    ],
+    "path": "f/fedora_coreos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "FemboyOS"
+    ],
+    "path": "f/femboyos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Feren"
+    ],
+    "path": "f/feren.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Flatcar"
+    ],
+    "path": "f/flatcar.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Filotimo"
+    ],
+    "path": "f/filotimo.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Finnix"
+    ],
+    "path": "f/finnix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Floflis"
+    ],
+    "path": "f/floflis.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Freebsd"
+    ],
+    "path": "f/freebsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "freebsd_small"
+    ],
+    "path": "f/freebsd_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "FreeMiNT"
+    ],
+    "path": "f/freemint.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Frugalware",
+      "frugalware-linux"
+    ],
+    "path": "f/frugalware.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Funtoo"
+    ],
+    "path": "f/funtoo.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GalliumOS"
+    ],
+    "path": "g/galliumos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Garuda"
+    ],
+    "path": "g/garuda.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GarudaDragon",
+      "garuda-dragon"
+    ],
+    "path": "g/garuda_dragon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Garuda_small",
+      "garuda-linux_small"
+    ],
+    "path": "g/garuda_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Gentoo"
+    ],
+    "path": "g/gentoo.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Gentoo_small"
+    ],
+    "path": "g/gentoo_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GhostBSD"
+    ],
+    "path": "g/ghostbsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GhostFreak"
+    ],
+    "path": "g/ghostfreak.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Glaucus"
+    ],
+    "path": "g/glaucus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "gNewSense"
+    ],
+    "path": "g/gnewsense.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GNOME OS"
+    ],
+    "path": "g/gnome.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GNU"
+    ],
+    "path": "g/gnu.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GoboLinux",
+      "Gobo"
+    ],
+    "path": "g/gobolinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GoldenDogLinux"
+    ],
+    "path": "g/goldendoglinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GrapheneOS"
+    ],
+    "path": "g/grapheneos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Grombyang"
+    ],
+    "path": "g/grombyang.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Guix"
+    ],
+    "path": "g/guix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Guix_small"
+    ],
+    "path": "g/guix_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "GXDE"
+    ],
+    "path": "g/gxde.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Haiku"
+    ],
+    "path": "h/haiku.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Haiku2"
+    ],
+    "path": "h/haiku2.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Haiku_small"
+    ],
+    "path": "h/haiku_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "HamoniKR"
+    ],
+    "path": "h/hamonikr.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "HarDClanZ"
+    ],
+    "path": "h/hardclanz.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "HardenedBSD"
+    ],
+    "path": "f/freebsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "HarmonyOS"
+    ],
+    "path": "h/harmonyos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Hash"
+    ],
+    "path": "h/hash.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "HeliumOS"
+    ],
+    "path": "h/heliumos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Huawei Cloud EulerOS",
+      "hce"
+    ],
+    "path": "h/hce.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Huayra"
+    ],
+    "path": "h/huayra.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Hybrid"
+    ],
+    "path": "h/hybrid.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "HydroOS"
+    ],
+    "path": "h/hydroos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Hyperbola"
+    ],
+    "path": "h/hyperbola.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Hyperbola_small"
+    ],
+    "path": "h/hyperbola_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Iglunix",
+      "Iglu"
+    ],
+    "path": "i/iglunix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "InstantOS"
+    ],
+    "path": "i/instantos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Interix"
+    ],
+    "path": "i/interix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "IRIX"
+    ],
+    "path": "i/irix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Ironclad"
+    ],
+    "path": "i/ironclad.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Itc"
+    ],
+    "path": "i/itc.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "januslinux"
+    ],
+    "path": "j/januslinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Kaisen"
+    ],
+    "path": "k/kaisen.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Kali"
+    ],
+    "path": "k/kali.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Kali_small"
+    ],
+    "path": "k/kali_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "kalpa-desktop"
+    ],
+    "path": "k/kalpa_desktop.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "KaOS"
+    ],
+    "path": "k/kaos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "KernelOS"
+    ],
+    "path": "k/kernelos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "kdelinux",
+      "kde-linux"
+    ],
+    "path": "k/kdelinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "KDE Neon"
+    ],
+    "path": "k/kdeneon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "KibaOS"
+    ],
+    "path": "k/kibaos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Kibojoe"
+    ],
+    "path": "k/kibojoe.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "KISS"
+    ],
+    "path": "k/kiss.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "kiss2"
+    ],
+    "path": "k/kiss2.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Kogaion"
+    ],
+    "path": "k/kogaion.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Korora"
+    ],
+    "path": "k/korora.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "KrassOS",
+      "Krass"
+    ],
+    "path": "k/krassos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "KSLinux"
+    ],
+    "path": "k/kslinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Kubuntu",
+      "kubuntu-linux",
+      "kde-ubuntu"
+    ],
+    "path": "k/kubuntu.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Kylin"
+    ],
+    "path": "k/kylin.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LainOS"
+    ],
+    "path": "l/lainos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "langitketujuh",
+      "l7"
+    ],
+    "path": "l/langitketujuh.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Laxeros"
+    ],
+    "path": "l/laxeros.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LEDE"
+    ],
+    "path": "l/lede.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LibreELEC"
+    ],
+    "path": "l/libreelec.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Lilidog"
+    ],
+    "path": "l/lilidog.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Lingmo",
+      "LingmoOS"
+    ],
+    "path": "l/lingmo.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LimeOS"
+    ],
+    "path": "l/limeos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Linspire",
+      "Lindows"
+    ],
+    "path": "l/linspire.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Linux",
+      "linux-generic"
+    ],
+    "path": "l/linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LinuxFromScratch",
+      "lfs"
+    ],
+    "path": "l/lfs.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Linux_small",
+      "linux-generic_small"
+    ],
+    "path": "l/linux_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LinuxLite"
+    ],
+    "path": "l/linuxlite.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LinuxLite_small"
+    ],
+    "path": "l/linuxlite_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "linuxmint"
+    ],
+    "path": "l/linuxmint.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "linuxmint_small"
+    ],
+    "path": "l/linuxmint_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "linuxmint2"
+    ],
+    "path": "l/linuxmint2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "linuxmint2_small"
+    ],
+    "path": "l/linuxmint2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "linuxmint_old"
+    ],
+    "path": "l/linuxmint_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Live Raizo",
+      "Live_Raizo"
+    ],
+    "path": "l/live_raizo.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LliureX"
+    ],
+    "path": "l/lliurex.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "LMDE"
+    ],
+    "path": "l/lmde.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "locos",
+      "loc-os",
+      "Loc-OS Linux"
+    ],
+    "path": "l/locos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "lubuntu"
+    ],
+    "path": "l/lubuntu.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Lunar"
+    ],
+    "path": "l/lunar.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Macaroni"
+    ],
+    "path": "m/macaronios.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "macOS"
+    ],
+    "path": "m/macos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "macOS_small"
+    ],
+    "path": "m/macos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "macOS2"
+    ],
+    "path": "m/macos2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "macOS2_small"
+    ],
+    "path": "m/macos2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "macOS3"
+    ],
+    "path": "m/macos3.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "macOS_old"
+    ],
+    "path": "m/macos_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "MainsailOS"
+    ],
+    "path": "m/mainsailos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MainsailOS_small"
+    ],
+    "path": "m/mainsailos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Mageia"
+    ],
+    "path": "m/mageia.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Mageia_small"
+    ],
+    "path": "m/mageia_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "mandriva",
+      "mandrake"
+    ],
+    "path": "m/mandriva.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "manjaro",
+      "manjaro-arm"
+    ],
+    "path": "m/manjaro.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "manjaro_small",
+      "manjaro-arm_small"
+    ],
+    "path": "m/manjaro_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MassOS"
+    ],
+    "path": "m/massos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MatuusOS",
+      "Matuus"
+    ],
+    "path": "m/matuusos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MaUI"
+    ],
+    "path": "m/maui.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Mauna"
+    ],
+    "path": "m/mauna.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Meowix"
+    ],
+    "path": "m/meowix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Mer"
+    ],
+    "path": "m/mer.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MidnightBSD"
+    ],
+    "path": "m/midnightbsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MidOS"
+    ],
+    "path": "m/midos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MidOS_old"
+    ],
+    "path": "m/midos_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Minimal_System"
+    ],
+    "path": "m/minimal.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Minix"
+    ],
+    "path": "m/minix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "miraclelinux"
+    ],
+    "path": "m/miracle_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MOS"
+    ],
+    "path": "m/mos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Msys2"
+    ],
+    "path": "m/msys2.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MX"
+    ],
+    "path": "m/mx.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MX_small"
+    ],
+    "path": "m/mx_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "MX2"
+    ],
+    "path": "m/mx2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Namib"
+    ],
+    "path": "n/namib.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NebiOS"
+    ],
+    "path": "n/nebios.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Nekos"
+    ],
+    "path": "n/nekos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Neptune"
+    ],
+    "path": "n/neptune.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NetRunner"
+    ],
+    "path": "n/netrunner.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "nexalinux"
+    ],
+    "path": "n/nexalinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Nitrux"
+    ],
+    "path": "n/nitrux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NixOS"
+    ],
+    "path": "n/nixos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NixOS_small"
+    ],
+    "path": "n/nixos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "nixos_old"
+    ],
+    "path": "n/nixos_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "nixos_old_small"
+    ],
+    "path": "n/nixos_old_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "NixOS2"
+    ],
+    "path": "n/nixos2.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NetBSD"
+    ],
+    "path": "n/netbsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NetBSD2"
+    ],
+    "path": "n/netbsd2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "NetBSD_small"
+    ],
+    "path": "n/netbsd_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "nobara"
+    ],
+    "path": "n/nobara.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "nomadbsd"
+    ],
+    "path": "n/nomadbsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Nura"
+    ],
+    "path": "p/nura.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Nura2"
+    ],
+    "path": "p/nura2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Nura_small"
+    ],
+    "path": "p/nura_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NurOS"
+    ],
+    "path": "n/nuros.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Nurunner"
+    ],
+    "path": "n/nurunner.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NuTyX"
+    ],
+    "path": "n/nutyx.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "NetHydra"
+    ],
+    "path": "n/nethydra.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Obarun"
+    ],
+    "path": "o/obarun.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OBRevenge"
+    ],
+    "path": "o/obrevenge.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ObsidianOS"
+    ],
+    "path": "o/obsidianos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Omarchy"
+    ],
+    "path": "o/omarchy.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Omarchy2"
+    ],
+    "path": "o/omarchy2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "OmniOS"
+    ],
+    "path": "o/omnios.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "openKylin"
+    ],
+    "path": "o/openkylin.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "openbsd"
+    ],
+    "path": "o/openbsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "openbsd_small"
+    ],
+    "path": "o/openbsd_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OpenEuler"
+    ],
+    "path": "o/openeuler.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OpenIndiana"
+    ],
+    "path": "o/openindiana.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OpenMamba"
+    ],
+    "path": "o/openmamba.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "openRuyi"
+    ],
+    "path": "o/openruyi.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OpenStage"
+    ],
+    "path": "o/openstage.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse"
+    ],
+    "path": "o/opensuse.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse_small"
+    ],
+    "path": "o/opensuse_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse-microos"
+    ],
+    "path": "o/opensuse_microos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse-leap"
+    ],
+    "path": "o/opensuse_leap.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse-leap-micro"
+    ],
+    "path": "o/opensuse_leap_micro.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse-leap_old"
+    ],
+    "path": "o/opensuse_leap_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "opensuse-tumbleweed"
+    ],
+    "path": "o/opensuse_tumbleweed.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse-tumbleweed_small"
+    ],
+    "path": "o/opensuse_tumbleweed_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "opensuse-tumbleweed_old"
+    ],
+    "path": "o/opensuse_tumbleweed_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "opensuse-tumbleweed2"
+    ],
+    "path": "o/opensuse_tumbleweed2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "opensuse-slowroll",
+      "opensuse-tumbleweed-slowroll"
+    ],
+    "path": "o/opensuse_slowroll.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OpenMandriva"
+    ],
+    "path": "o/openmandriva.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "openwrt"
+    ],
+    "path": "o/openwrt.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "openwrt_small"
+    ],
+    "path": "o/openwrt_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "openwrt_old"
+    ],
+    "path": "o/openwrt_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "OPNsense"
+    ],
+    "path": "o/opnsense.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ol",
+      "oracle"
+    ],
+    "path": "o/oracle.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "orchid"
+    ],
+    "path": "o/orchid.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "orchid_small"
+    ],
+    "path": "o/orchid_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Oreon"
+    ],
+    "path": "o/oreon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Origami"
+    ],
+    "path": "o/origami.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Origami_small"
+    ],
+    "path": "o/origami_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OS2Warp"
+    ],
+    "path": "o/os2warp.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OS Elbrus"
+    ],
+    "path": "o/os_elbrus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OSMC",
+      "Open Source Media Center"
+    ],
+    "path": "o/osmc.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OSX"
+    ],
+    "path": "m/macos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "OSX_small"
+    ],
+    "path": "m/macos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PacBSD"
+    ],
+    "path": "p/pacbsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Panwah"
+    ],
+    "path": "p/panwah.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Parabola"
+    ],
+    "path": "p/parabola.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Parabola_small"
+    ],
+    "path": "p/parabola_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Parabola2_small"
+    ],
+    "path": "p/parabola2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "Parch"
+    ],
+    "path": "p/parch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Pardus"
+    ],
+    "path": "p/pardus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Parrot"
+    ],
+    "path": "p/parrot.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Parsix"
+    ],
+    "path": "p/parsix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PCBSD",
+      "TrueOS"
+    ],
+    "path": "p/pcbsd.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PCLinuxOS"
+    ],
+    "path": "p/pclinuxos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PearOS"
+    ],
+    "path": "p/pearos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Pengwin"
+    ],
+    "path": "p/pengwin.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Pentoo"
+    ],
+    "path": "p/pentoo.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Peppermint"
+    ],
+    "path": "p/peppermint.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Peropesis"
+    ],
+    "path": "p/peropesis.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PhyOS"
+    ],
+    "path": "p/phyos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PikaOS"
+    ],
+    "path": "p/pikaos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PisiLinux"
+    ],
+    "path": "p/pisi.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PNM Linux"
+    ],
+    "path": "p/pnm_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "pop",
+      "popos"
+    ],
+    "path": "p/pop.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "pop_small",
+      "popos_small"
+    ],
+    "path": "p/pop_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Porteus"
+    ],
+    "path": "p/porteus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Proxmox"
+    ],
+    "path": "p/proxmox.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PuffOS"
+    ],
+    "path": "p/puffos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Puppy"
+    ],
+    "path": "p/puppy.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PureOS"
+    ],
+    "path": "p/pureos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PureOS_small"
+    ],
+    "path": "p/pureos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PrismLinux"
+    ],
+    "path": "p/prismlinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "PrismLinux_small"
+    ],
+    "path": "p/prismlinux_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "qts"
+    ],
+    "path": "q/qts.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Quasar"
+    ],
+    "path": "q/quasar.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Q4OS"
+    ],
+    "path": "q/q4os.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Qubes"
+    ],
+    "path": "q/qubes.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Qubes_small"
+    ],
+    "path": "q/qubes_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Qubyt"
+    ],
+    "path": "q/qubyt.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Quibian"
+    ],
+    "path": "q/quibian.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Quirinux"
+    ],
+    "path": "q/quirinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Radix"
+    ],
+    "path": "r/radix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "raspbian"
+    ],
+    "path": "r/raspbian.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "raspbian_small"
+    ],
+    "path": "r/raspbian_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "RavynOS"
+    ],
+    "path": "r/ravynos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "RebornOS"
+    ],
+    "path": "r/rebornos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "RebornOS_small"
+    ],
+    "path": "r/rebornos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "RedCore"
+    ],
+    "path": "r/redcore.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "rhel",
+      "redhat"
+    ],
+    "path": "r/rhel.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "rhel_small",
+      "redhat_small"
+    ],
+    "path": "r/rhel_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "rhel_old",
+      "redhat_old"
+    ],
+    "path": "r/rhel_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "RedOS"
+    ],
+    "path": "r/redos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "RedOS_small"
+    ],
+    "path": "r/redos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Redstar"
+    ],
+    "path": "r/redstar.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Redrose"
+    ],
+    "path": "r/redrose.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Refracta"
+    ],
+    "path": "r/refracta.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Regata"
+    ],
+    "path": "r/regata.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Regolith"
+    ],
+    "path": "r/regolith.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "RhaymOS"
+    ],
+    "path": "r/rhaymos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "rocky"
+    ],
+    "path": "r/rocky.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "rocky_small"
+    ],
+    "path": "r/rocky_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ROSA"
+    ],
+    "path": "r/rosa.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Rhino Linux"
+    ],
+    "path": "r/rhino.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "RengeOS"
+    ],
+    "path": "r/rengeos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Sabayon"
+    ],
+    "path": "s/sabayon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Sabotage"
+    ],
+    "path": "s/sabotage.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Sailfish"
+    ],
+    "path": "s/sailfish.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SalentOS"
+    ],
+    "path": "s/salentos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Salient OS",
+      "SalientOS"
+    ],
+    "path": "s/salientos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Salix"
+    ],
+    "path": "s/salix.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SambaBOX"
+    ],
+    "path": "s/sambabox.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Sasanqua"
+    ],
+    "path": "s/sasanqua.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Scientific"
+    ],
+    "path": "s/scientific.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "secureblue"
+    ],
+    "path": "s/secureblue.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Serpent OS"
+    ],
+    "path": "s/serpent_os.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "semc"
+    ],
+    "path": "s/semc.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Septor"
+    ],
+    "path": "s/septor.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Serene"
+    ],
+    "path": "s/serene.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SharkLinux"
+    ],
+    "path": "s/sharklinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ShastraOS"
+    ],
+    "path": "s/shastraos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Shebang"
+    ],
+    "path": "s/shebang.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Siduction"
+    ],
+    "path": "s/siduction.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SkiffOS"
+    ],
+    "path": "s/skiffos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SleeperOS"
+    ],
+    "path": "s/sleeperos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SleeperOS_small"
+    ],
+    "path": "s/sleeperos_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Slitaz"
+    ],
+    "path": "s/slitaz.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SpoinkOS",
+      "spoink-os"
+    ],
+    "path": "s/spoinkos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Slackel"
+    ],
+    "path": "s/slackel.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Slackware"
+    ],
+    "path": "s/slackware.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Slackware_small"
+    ],
+    "path": "s/slackware_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SmartOS"
+    ],
+    "path": "s/smartos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SnigdhaOS",
+      "Snigdha"
+    ],
+    "path": "s/snigdhaos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Soda"
+    ],
+    "path": "s/soda.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Source Mage",
+      "Source Mage GNU/Linux",
+      "source_mage",
+      "sourcemage"
+    ],
+    "path": "s/source_mage.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "solaris",
+      "sunos"
+    ],
+    "path": "s/solaris.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "solaris_small",
+      "sunos_small"
+    ],
+    "path": "s/solaris_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Solus",
+      "solus-linux"
+    ],
+    "path": "s/solus.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Sparky"
+    ],
+    "path": "s/sparky.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Star"
+    ],
+    "path": "s/star.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Stock Linux"
+    ],
+    "path": "s/stock_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SteamOS"
+    ],
+    "path": "s/steamos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SteamDeck"
+    ],
+    "path": "s/steamdeck.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SteamDeck_small"
+    ],
+    "path": "s/steamdeck_small.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SteamDeckOled"
+    ],
+    "path": "s/steamdeck.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Sulin"
+    ],
+    "path": "s/sulin.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "SummitOS"
+    ],
+    "path": "s/summitos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "suse",
+      "suse-linux"
+    ],
+    "path": "s/suse.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "suse_small",
+      "suse-linux_small"
+    ],
+    "path": "o/opensuse_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Swagarch"
+    ],
+    "path": "s/swagarch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "T2",
+      "T2 SDE",
+      "T2/Linux"
+    ],
+    "path": "t/t2.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "T2_small",
+      "T2 SDE_small",
+      "T2/Linux_small"
+    ],
+    "path": "t/t2_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Tails"
+    ],
+    "path": "t/tails.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Tatra"
+    ],
+    "path": "t/tatra.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "TeArch"
+    ],
+    "path": "t/tearch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "TempleOS"
+    ],
+    "path": "t/templeos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "TileOS"
+    ],
+    "path": "t/tileos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "TinyCore"
+    ],
+    "path": "t/tinycore.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Torizon OS",
+      "TorizonCore"
+    ],
+    "path": "t/torizoncore.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Trisquel"
+    ],
+    "path": "t/trisquel.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "TrueNAS-Scale"
+    ],
+    "path": "t/truenas_scale.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Tuxedo OS",
+      "tuxedo"
+    ],
+    "path": "t/tuxedo_os.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Twister"
+    ],
+    "path": "t/twister.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "UBLinux"
+    ],
+    "path": "u/ublinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "UBLinux_small"
+    ],
+    "path": "u/ublinux_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu"
+    ],
+    "path": "u/ubuntu.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu_small"
+    ],
+    "path": "u/ubuntu_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu_old"
+    ],
+    "path": "u/ubuntu_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "ubuntu_old2"
+    ],
+    "path": "u/ubuntu_old2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "ubuntu_old2_small"
+    ],
+    "path": "u/ubuntu_old2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "ubuntu budgie",
+      "ubuntu-budgie"
+    ],
+    "path": "u/ubuntu_budgie.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu cinnamon",
+      "ubuntu-cinnamon"
+    ],
+    "path": "u/ubuntu_cinnamon.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu gnome",
+      "ubuntu-gnome"
+    ],
+    "path": "u/ubuntu_gnome.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu kylin",
+      "ubuntu-kylin"
+    ],
+    "path": "u/ubuntu_kylin.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu mate",
+      "ubuntu-mate"
+    ],
+    "path": "u/ubuntu_mate.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu studio",
+      "ubuntu-studio"
+    ],
+    "path": "u/ubuntu_studio.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu sway",
+      "ubuntu-sway"
+    ],
+    "path": "u/ubuntu_sway.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu touch",
+      "ubuntu-touch"
+    ],
+    "path": "u/ubuntu_touch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "ubuntu unity",
+      "ubuntu-unity"
+    ],
+    "path": "u/ubuntu_unity.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Ultramarine"
+    ],
+    "path": "u/ultramarine.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Ultramarine_small"
+    ],
+    "path": "u/ultramarine_small.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Unifi"
+    ],
+    "path": "u/unifi.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Univalent"
+    ],
+    "path": "u/univalent.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Univention"
+    ],
+    "path": "u/univention.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "UOS"
+    ],
+    "path": "u/uos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "UrukOS"
+    ],
+    "path": "u/urukos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "uwuntu"
+    ],
+    "path": "u/uwuntu.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Uzbek"
+    ],
+    "path": "u/uzbek.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Valhalla",
+      "valhallaos",
+      "valhalla-linux"
+    ],
+    "path": "v/valhalla.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "vanilla"
+    ],
+    "path": "v/vanilla.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "vanilla2"
+    ],
+    "path": "v/vanilla2.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "vanilla_small"
+    ],
+    "path": "v/vanilla_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Venom"
+    ],
+    "path": "v/venom.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Venom_small"
+    ],
+    "path": "v/venom_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "VincentOS"
+    ],
+    "path": "v/vincentos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Vnux"
+    ],
+    "path": "v/vnux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Vzlinux"
+    ],
+    "path": "v/vzlinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "void"
+    ],
+    "path": "v/void.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "void_small"
+    ],
+    "path": "v/void_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "void2"
+    ],
+    "path": "v/void2.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "void2_small"
+    ],
+    "path": "v/void2_small.txt",
+    "small": true,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "WiiLinuxNgx",
+      "WiiLinux",
+      "Wii-Linux",
+      "Wii Linux"
+    ],
+    "path": "w/wii_linux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Windows Server 2025"
+    ],
+    "path": "w/windows_2025.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Windows 11",
+      "Windows Server 2022"
+    ],
+    "path": "w/windows_11.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Windows 11_small"
+    ],
+    "path": "w/windows_11_small.txt",
+    "small": true,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Windows 8",
+      "Windows 8.1",
+      "Windows 10",
+      "Windows Server 2012",
+      "Windows Server 2012 R2",
+      "Windows Server 2016",
+      "Windows Server 2019"
+    ],
+    "path": "w/windows_8.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Windows",
+      "Windows 7",
+      "Windows Server 2008",
+      "Windows Server 2008 R2"
+    ],
+    "path": "w/windows.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Windows 95",
+      "Windows 9x"
+    ],
+    "path": "w/windows_95.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "WolfOS"
+    ],
+    "path": "w/wolfos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "XCP-ng",
+      "xenenterprise"
+    ],
+    "path": "x/xcp_ng.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Xenia"
+    ],
+    "path": "x/xenia.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Xenia_old"
+    ],
+    "path": "x/xenia_old.txt",
+    "small": false,
+    "alternate": true
+  },
+  {
+    "aliases": [
+      "XeroArch"
+    ],
+    "path": "x/xeroarch.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Xferience"
+    ],
+    "path": "x/xferience.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Xubuntu"
+    ],
+    "path": "x/xubuntu.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Xray_OS"
+    ],
+    "path": "x/xray_os.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Xinux"
+    ],
+    "path": "x/xinux.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "XJ380"
+    ],
+    "path": "x/xj380.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Ximper"
+    ],
+    "path": "x/ximper.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "YiffOS"
+    ],
+    "path": "y/yiffos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Zorin"
+    ],
+    "path": "z/zorin.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "z/OS",
+      "zos"
+    ],
+    "path": "z/zos.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "Zraxyl"
+    ],
+    "path": "z/zraxyl.txt",
+    "small": false,
+    "alternate": false
+  },
+  {
+    "aliases": [
+      "unknown"
+    ],
+    "path": "_/unknown.txt",
+    "small": false,
+    "alternate": false
+  }
+]
