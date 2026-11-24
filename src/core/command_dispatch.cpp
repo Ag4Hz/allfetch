@@ -80,7 +80,8 @@ namespace allfetch::core
                   << "  -j, --json       Print system information as JSON\n"
                   << "  -a, --all        Show a more detailed system report\n"
                   << "      --no-logo    Hide the OS logo\n"
-                  << "      --no-color   Disable colored output\n";
+                  << "      --no-color   Disable colored output\n"
+                  << "      --color=always  Emit ANSI colors even when output is redirected\n";
     }
 
     void handleVersion()
@@ -107,12 +108,13 @@ namespace allfetch::core
             return true;
         case Action::fetch:
         {
+            const bool useColor = result.colorMode != ColorMode::never;
 #if defined(_WIN32)
-            const ConsoleOutput consoleOutput(result.isColored && !result.isJson);
+            const ConsoleOutput consoleOutput(useColor && !result.isJson);
 #endif
             try
             {
-                const auto info = system::getSystemInfo(result.isJson || result.isColored);
+                const auto info = system::getSystemInfo(result.isJson || useColor);
                 if (result.isJson)
                 {
                     render::renderJson(info, std::cout);
@@ -127,11 +129,14 @@ namespace allfetch::core
                     terminal.supportsAnsiColor = isatty(STDOUT_FILENO) &&
                         (!term || std::string_view(term) != "dumb");
 #endif
+                    if (result.colorMode == ColorMode::always)
+                        terminal.supportsAnsiColor = true;
+
                     const char *colorTerm = std::getenv("COLORTERM");
                     const std::string_view depth = colorTerm ? colorTerm : "";
                     terminal.supportsTrueColor = depth == "truecolor" || depth == "24bit";
 
-                    render::PrettyOptions options{result.isColored, result.showLogo, result.showAll};
+                    render::PrettyOptions options{useColor, result.showLogo, result.showAll};
                     std::filesystem::path logoRoot;
                     render::LogoIndex index;
                     if (options.showLogo || (options.colorEnabled && terminal.supportsAnsiColor))

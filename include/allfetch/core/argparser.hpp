@@ -13,11 +13,18 @@ namespace allfetch::core
         fetch,
     };
 
+    enum class ColorMode
+    {
+        automatic,
+        always,
+        never,
+    };
+
     // Struct to hold the result of parsing the command line arguments
     struct ParserResult
     {
         Action action = Action::fetch;
-        bool isColored = true;
+        ColorMode colorMode = ColorMode::automatic;
         bool isJson = false;
         std::string errorMessage;
         bool showLogo = true;

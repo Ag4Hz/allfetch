@@ -44,7 +44,11 @@ namespace allfetch::core
             }
             else if (strcmp(argv[i], "--no-color") == 0)
             {
-                result.isColored = false;
+                result.colorMode = ColorMode::never;
+            }
+            else if (strcmp(argv[i], "--color=always") == 0)
+            {
+                result.colorMode = ColorMode::always;
             }
             else if (strcmp(argv[i], "--no-logo") == 0)
             {

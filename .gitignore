@@ -67,3 +67,6 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+manifests/a/Ag4Hz/allfetch/1.0.0/Ag4Hz.allfetch.installer.yaml
+manifests/a/Ag4Hz/allfetch/1.0.0/Ag4Hz.allfetch.locale.en-US.yaml
+manifests/a/Ag4Hz/allfetch/1.0.0/Ag4Hz.allfetch.yaml
