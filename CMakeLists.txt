@@ -12,6 +12,8 @@ add_executable(allfetch
     src/core/argparser.cpp
     src/core/command_dispatch.cpp
     src/render/json_render.cpp
+    src/render/pretty_render.cpp
+    src/render/logo_selector.cpp
 )
 
 find_package(nlohmann_json 3.9 CONFIG REQUIRED)
