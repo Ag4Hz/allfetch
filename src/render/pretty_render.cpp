@@ -218,6 +218,54 @@ namespace allfetch::render
             return result;
         }
 
+        std::string joinKnown(const std::vector<std::string> &values)
+        {
+            std::string result;
+            for (const auto &value : values)
+            {
+                if (!known(value))
+                    continue;
+                if (!result.empty())
+                    result += ", ";
+                result += value;
+            }
+            return result;
+        }
+
+        void appendDetail(std::string &value, std::string_view detail)
+        {
+            if (!known(detail))
+                return;
+            if (!value.empty())
+                value += ", ";
+            value += detail;
+        }
+
+        std::string formatDuration(long long seconds)
+        {
+            if (seconds < 0)
+                return {};
+
+            std::string result;
+            for (const auto &[unit, suffix] : std::array{
+                     std::pair{86400, "d"}, std::pair{3600, "h"}, std::pair{60, "m"}})
+            {
+                if (seconds < unit)
+                    continue;
+                if (!result.empty())
+                    result += ' ';
+                result += std::to_string(seconds / unit) + suffix;
+                seconds %= unit;
+            }
+            if (result.empty() || seconds > 0)
+            {
+                if (!result.empty())
+                    result += ' ';
+                result += std::to_string(seconds) + 's';
+            }
+            return result;
+        }
+
         std::vector<InfoRow> buildInfoRows(
             const system::SystemInfo &info, bool showAll, bool useColor, std::string_view titleStyle)
         {
@@ -289,6 +337,8 @@ namespace allfetch::render
                 hostName += " (" + info.hostInfo.version + ')';
             add("Host", std::move(hostName));
             add("Kernel", withVersion(info.osInfo.kernelName, info.osInfo.kernelVersion));
+            if (showAll)
+                add("Uptime", formatDuration(info.uptimeInfo.seconds));
             add("Shell", withVersion(info.shellInfo.name, info.shellInfo.version));
             for (const auto &display : info.displayInfo)
             {
@@ -317,10 +367,36 @@ namespace allfetch::render
                         value += ' ';
                     value += '[' + display.type + ']';
                 }
+                if (showAll)
+                {
+                    if (display.effectiveDpi > 0 || (display.width > 0 && display.scaledWidth > 0))
+                    {
+                        const double scale = display.effectiveDpi > 0 ? display.effectiveDpi / 96.0 :
+                            static_cast<double>(display.width) / display.scaledWidth;
+                        if (std::abs(scale - 1.0) >= 0.01)
+                            appendDetail(value, decimal(scale, 2) + "x scale");
+                    }
+                    if (display.physicalWidthMm > 0 && display.physicalHeightMm > 0)
+                    {
+                        const double diagonal = std::hypot(display.physicalWidthMm, display.physicalHeightMm);
+                        appendDetail(value, decimal(diagonal / 25.4, 1) + " in");
+                    }
+                    if (display.bitsPerColorChannel > 0)
+                        appendDetail(value, std::to_string(display.bitsPerColorChannel) + "-bit color");
+                    if (known(display.hdrStatus))
+                        appendDetail(value, "HDR " + display.hdrStatus);
+                }
                 add(deviceLabel("Display", display.name),
                     value.empty() ? "Mode unavailable" : std::move(value));
             }
-            add("Terminal", withVersion(info.terminalInfo.name, info.terminalInfo.version));
+            auto terminal = withVersion(info.terminalInfo.name, info.terminalInfo.version);
+            if (showAll && known(info.terminalInfo.font))
+            {
+                if (!known(terminal))
+                    terminal.clear();
+                appendDetail(terminal, "font " + info.terminalInfo.font);
+            }
+            add("Terminal", std::move(terminal));
 
             const auto &cpu = info.cpuInfo;
             if (known(cpu.model) || cpu.physicalCores > 0 || cpu.logicalCores > 0 ||
@@ -334,6 +410,13 @@ namespace allfetch::render
                     value += " (" + std::to_string(cpu.physicalCores) + " physical)";
                 else if (cpu.logicalCores > 0)
                     value += " (" + std::to_string(cpu.logicalCores) + " logical)";
+                if (showAll)
+                {
+                    if (cpu.onlineCores > 0 && cpu.onlineCores != cpu.logicalCores)
+                        appendDetail(value, std::to_string(cpu.onlineCores) + " online");
+                    if (cpu.maxFrequency > 0 && std::isfinite(cpu.baseFrequency) && cpu.baseFrequency > 0)
+                        appendDetail(value, decimal(cpu.baseFrequency / 1000, 2) + " GHz base");
+                }
                 appendClock(value, cpu.maxFrequency > 0 ? cpu.maxFrequency :
                     (cpu.baseFrequency > 0 ? cpu.baseFrequency : cpu.reportedFrequency));
                 add("CPU", std::move(value));
@@ -347,6 +430,13 @@ namespace allfetch::render
                     value += " (" + formatSize(gpu.memorySizeMB * bytesPerMiB) + ')';
                 if (known(gpu.type))
                     value += " [" + gpu.type + ']';
+                if (showAll)
+                {
+                    if (gpu.sharedMemorySizeMB > 0)
+                        appendDetail(value, formatSize(gpu.sharedMemorySizeMB * bytesPerMiB) + " shared");
+                    if (known(gpu.driverVersion))
+                        appendDetail(value, "driver " + gpu.driverVersion);
+                }
                 appendClock(value, gpu.maxFrequencyMHz);
                 add("GPU " + std::to_string(++gpuNumber), std::move(value));
             }
@@ -356,13 +446,22 @@ namespace allfetch::render
             const auto used = total >= 0 && available >= 0 && available <= total
                 ? total - available : -1;
             add("Memory", formatUsage(used, total), usagePercent(used, total));
+            if (showAll && info.memoryInfo.totalVirtualMemory > 0)
+            {
+                const auto virtualTotal = info.memoryInfo.totalVirtualMemory;
+                const auto virtualAvailable = info.memoryInfo.availableVirtualMemory;
+                const auto virtualUsed = virtualAvailable >= 0 && virtualAvailable <= virtualTotal
+                    ? virtualTotal - virtualAvailable : -1;
+                add("Virtual Memory", formatUsage(virtualUsed, virtualTotal),
+                    usagePercent(virtualUsed, virtualTotal));
+            }
             if (info.swapInfo.totalBytes > 0 || info.swapInfo.usedBytes > 0)
                 add("Swap", formatUsage(info.swapInfo.usedBytes, info.swapInfo.totalBytes),
                     usagePercent(info.swapInfo.usedBytes, info.swapInfo.totalBytes));
 
             for (const auto &disk : info.diskInfo)
             {
-                if (std::ranges::find(disk.volumeType, "Network") != disk.volumeType.end())
+                if (!showAll && std::ranges::find(disk.volumeType, "Network") != disk.volumeType.end())
                     continue;
 
                 auto value = formatUsage(disk.usedBytes, disk.totalBytes);
@@ -370,6 +469,15 @@ namespace allfetch::render
                     value = known(value) ? value + " - " + disk.filesystem : disk.filesystem;
                 if (!known(value))
                     value = "Capacity unavailable";
+                if (showAll)
+                {
+                    appendDetail(value, disk.name);
+                    appendDetail(value, disk.type);
+                    if (disk.freeBytes >= 0)
+                        appendDetail(value, formatSize(disk.freeBytes) + " free");
+                    if (std::ranges::find(disk.volumeType, "Network") != disk.volumeType.end())
+                        appendDetail(value, "network volume");
+                }
                 add(deviceLabel("Disk", disk.mountpoint), std::move(value),
                     usagePercent(disk.usedBytes, disk.totalBytes));
             }
@@ -393,26 +501,51 @@ namespace allfetch::render
                 if (battery.capacityPercent >= 0 && battery.capacityPercent <= 100)
                     charge = static_cast<int>(std::lround(battery.capacityPercent));
 
-                std::string status;
-                for (const auto &item : battery.status)
+                auto status = joinKnown(battery.status);
+                if (showAll)
                 {
-                    if (!known(item))
-                        continue;
-                    if (!status.empty())
-                        status += ", ";
-                    status += item;
+                    appendDetail(status, battery.technology);
+                    if (battery.cycleCount >= 0)
+                        appendDetail(status, std::to_string(battery.cycleCount) + " cycles");
+                    if (battery.timeRemainingSeconds >= 0)
+                        appendDetail(status, formatDuration(battery.timeRemainingSeconds) + " remaining");
+                    if (std::isfinite(battery.temperatureCelsius) && battery.temperatureCelsius != -999.0)
+                        appendDetail(status, decimal(battery.temperatureCelsius, 1) + " °C");
                 }
                 if (status.empty() && !charge)
                     status = "Present";
-                add(deviceLabel("Battery", battery.modelName), std::move(status),
+                const auto &batteryName = showAll && !known(battery.modelName)
+                    ? battery.manufacturer : battery.modelName;
+                add(deviceLabel("Battery", batteryName), std::move(status),
                     charge, PercentKind::BatteryCharge);
             }
 
             if (showAll)
             {
-                add("Window Manager", info.windowManagerInfo.name);
-                add("Terminal Font", info.terminalInfo.font);
-                add("Theme", info.desktopAppearanceInfo.theme);
+                const auto &wm = info.windowManagerInfo;
+                auto manager = withVersion(wm.name, wm.version);
+                if (known(manager) && known(wm.protocol))
+                    manager += " (" + wm.protocol + ')';
+                if (known(manager) && known(wm.theme))
+                    appendDetail(manager, "theme " + wm.theme);
+                add("Window Manager", std::move(manager));
+
+                const auto &desktop = info.desktopAppearanceInfo;
+                std::string appearance;
+                appendDetail(appearance, desktop.theme);
+                appendDetail(appearance, desktop.colorScheme);
+                if (known(desktop.iconTheme))
+                    appendDetail(appearance, "icons " + desktop.iconTheme);
+                if (known(desktop.font))
+                    appendDetail(appearance, "font " + desktop.font);
+                if (known(desktop.cursorTheme))
+                {
+                    auto cursor = "cursor " + desktop.cursorTheme;
+                    if (desktop.cursorSize > 0)
+                        cursor += " (" + std::to_string(desktop.cursorSize) + " px)";
+                    appendDetail(appearance, cursor);
+                }
+                add("Desktop", std::move(appearance));
                 add("Locale", info.localeInfo.name);
             }
 

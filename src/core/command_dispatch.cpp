@@ -78,7 +78,7 @@ namespace allfetch::core
                   << "  -h, --help       Show this help message\n"
                   << "  -v, --version    Show version information\n"
                   << "  -j, --json       Print system information as JSON\n"
-                  << "  -a, --all        Show extra system information\n"
+                  << "  -a, --all        Show a more detailed system report\n"
                   << "      --no-logo    Hide the OS logo\n"
                   << "      --no-color   Disable colored output\n";
     }
