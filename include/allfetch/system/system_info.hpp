@@ -14,6 +14,8 @@ namespace allfetch::system
         std::string kernelName = "Unknown";
         std::string kernelVersion = "Unknown";
         std::string architecture = "Unknown";
+        std::string id;
+        std::vector<std::string> idLike;
     };
 
     // Struct to hold terminal information

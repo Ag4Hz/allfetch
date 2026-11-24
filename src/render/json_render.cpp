@@ -34,6 +34,8 @@ namespace allfetch::system
     void to_json(nlohmann::json &json, const OSInfo &info)
     {
         json = {
+            {"id", info.id.empty() ? nlohmann::json(nullptr) : nlohmann::json(info.id)},
+            {"idLike", info.idLike},
             {"name", valueOrNull(info.name)},
             {"version", valueOrNull(info.version)},
             {"kernelName", valueOrNull(info.kernelName)},
