@@ -11,3 +11,8 @@ A CLI fetch utility application just like [fastfetch](https://github.com/fastfet
 ## Installation
 
 Currently you can download the desired platform specific version from the [releases](https://github.com/Ag4Hz/allfetch/releases)
+
+> ## Other notes
+>
+> - AI was used in the implementation process (Codex).
+> - I started developing this app as a self-education project
