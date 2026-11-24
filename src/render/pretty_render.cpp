@@ -34,7 +34,7 @@ namespace allfetch::render
         constexpr std::string_view brightGreen = "\x1b[92m";
         constexpr std::string_view brightYellow = "\x1b[93m";
         constexpr std::string_view brightRed = "\x1b[91m";
-        constexpr std::string_view white = "\x1b[37m";
+        constexpr std::string_view white = "\x1b[0;37m";
         constexpr std::string_view swatch = "   ";
         constexpr std::size_t logoGap = 4;
 
@@ -50,17 +50,36 @@ namespace allfetch::render
             std::string value;
         };
 
+        std::string brightTitleStyle(const LogoEntry *logo)
+        {
+            if (!logo || logo->colors.empty())
+                return std::string(brightLogoAccent);
+
+            std::string_view color = logo->colors.front();
+            if (color.starts_with("1;"))
+                color.remove_prefix(2);
+            if (color.size() == 2 && color[0] == '3' && color[1] >= '0' && color[1] <= '7')
+                return std::string("\x1b[9") + color[1] + 'm';
+            if (color.starts_with("38;") || color == "39" || color.starts_with('9'))
+                return "\x1b[1;" + std::string(color) + 'm';
+            return std::string(brightLogoAccent);
+        }
+
         std::vector<LogoRow> loadLogoRows(
-            const std::filesystem::path &path, bool useColor)
+            const std::filesystem::path &path, const LogoEntry &logo, bool useColor)
         {
             std::ifstream file(path);
             std::vector<LogoRow> rows;
 
-            // First pass uses one accent. Later, give each slot its own style.
-            const std::array<std::string_view, 9> styles{
-                accent, accent, accent, accent, accent,
-                accent, accent, accent, accent};
-            auto style = styles.front();
+            std::array<std::string, 9> styles;
+            if (useColor)
+            {
+                styles.front() = logo.colors.empty() ? std::string(accent) :
+                    "\x1b[0;" + logo.colors.front() + 'm';
+                for (std::size_t i = 1; i < styles.size(); ++i)
+                    styles[i] = i < logo.colors.size() ? "\x1b[0;" + logo.colors[i] + 'm' : styles.front();
+            }
+            std::string_view style = styles.front();
 
             for (std::string line; std::getline(file, line);)
             {
@@ -200,7 +219,7 @@ namespace allfetch::render
         }
 
         std::vector<InfoRow> buildInfoRows(
-            const system::SystemInfo &info, bool showAll, bool useColor)
+            const system::SystemInfo &info, bool showAll, bool useColor, std::string_view titleStyle)
         {
             std::vector<InfoRow> rows;
 
@@ -250,10 +269,10 @@ namespace allfetch::render
                 {
                     if (hasUser && hasHost)
                     {
-                        title.insert(user.size() + 1, brightLogoAccent);
+                        title.insert(user.size() + 1, titleStyle);
                         title.insert(user.size(), white);
                     }
-                    title.insert(0, brightLogoAccent);
+                    title.insert(0, titleStyle);
                     title += reset;
                 }
                 rows.push_back({{}, std::move(title)});
@@ -439,11 +458,12 @@ namespace allfetch::render
             const bool useColor = options.colorEnabled && terminal.supportsAnsiColor;
 
             std::vector<LogoRow> logoRows;
-            if (options.showLogo)
-                if (const auto path = logoIndex.selectLogo(info.osInfo))
-                    logoRows = loadLogoRows(logoRoot / std::filesystem::path(*path), useColor);
+            const auto *logo = options.showLogo ? logoIndex.selectEntry(info.osInfo) : nullptr;
+            if (logo)
+                logoRows = loadLogoRows(logoRoot / logo->path, *logo, useColor);
 
-            const auto infoRows = buildInfoRows(info, options.showAll, useColor);
+            const auto infoRows = buildInfoRows(info, options.showAll, useColor,
+                useColor ? brightTitleStyle(logo) : std::string{});
 
             std::optional<PrettyPalette> palette;
             if (useColor)
