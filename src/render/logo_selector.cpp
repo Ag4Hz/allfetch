@@ -44,6 +44,24 @@ namespace allfetch::render
                        (c >= '0' && c <= '9') || c == '_' || c == '-';
             });
         }
+
+        bool validColor(std::string_view color)
+        {
+            if (color.empty() || color.size() > 32)
+                return false;
+
+            bool needsDigit = true;
+            for (const char c : color)
+            {
+                if (c >= '0' && c <= '9')
+                    needsDigit = false;
+                else if (c == ';' && !needsDigit)
+                    needsDigit = true;
+                else
+                    return false;
+            }
+            return !needsDigit;
+        }
     }
 
     LogoIndex LogoIndex::load(const std::filesystem::path &indexFile)
@@ -59,7 +77,7 @@ namespace allfetch::render
             if (!document.is_array())
                 throw std::runtime_error("Logo index must contain an array");
 
-            index.paths.reserve(document.size());
+            index.logos.reserve(document.size());
             index.aliases.reserve(document.size());
             for (const auto &entry : document)
             {
@@ -69,6 +87,19 @@ namespace allfetch::render
                 const auto &path = entry.at("path").get_ref<const std::string &>();
                 if (!validLogoPath(path))
                     throw std::runtime_error("Invalid relative logo path");
+                LogoEntry logo{path, {}};
+                if (const auto colors = entry.find("colors"); colors != entry.end())
+                {
+                    if (!colors->is_array() || colors->size() > 9)
+                        throw std::runtime_error("Invalid logo color slots");
+                    for (const auto &slot : *colors)
+                    {
+                        const auto &color = slot.get_ref<const std::string &>();
+                        if (!validColor(color))
+                            throw std::runtime_error("Invalid logo color");
+                        logo.colors.push_back(color);
+                    }
+                }
 
                 const auto &names = entry.at("aliases");
                 if (!names.is_array() || names.empty())
@@ -79,9 +110,9 @@ namespace allfetch::render
                     const auto &alias = name.get_ref<const std::string &>();
                     if (alias.empty() || alias.find('\0') != std::string::npos)
                         throw std::runtime_error("Invalid logo alias");
-                    index.aliases.push_back({alias, index.paths.size()});
+                    index.aliases.push_back({alias, index.logos.size()});
                 }
-                index.paths.push_back(path);
+                index.logos.push_back(std::move(logo));
             }
         }
         catch (const nlohmann::json::exception &error)
@@ -98,16 +129,17 @@ namespace allfetch::render
             const auto &previous = index.aliases[i - 1];
             const auto &current = index.aliases[i];
             if (compareAliases(previous.name, current.name) == 0 &&
-                index.paths[previous.logo] != index.paths[current.logo])
+                (index.logos[previous.logo].path != index.logos[current.logo].path ||
+                 index.logos[previous.logo].colors != index.logos[current.logo].colors))
                 throw std::runtime_error("Ambiguous logo alias: " + current.name);
         }
         return index;
     }
 
-    std::optional<std::string_view> LogoIndex::find(std::string_view name) const
+    const LogoEntry *LogoIndex::find(std::string_view name) const
     {
         if (name.empty())
-            return std::nullopt;
+            return nullptr;
 
         const auto match = std::lower_bound(aliases.begin(), aliases.end(), name,
             [](const Alias &alias, std::string_view key)
@@ -115,15 +147,22 @@ namespace allfetch::render
                 return compareAliases(alias.name, key) < 0;
             });
         if (match != aliases.end() && compareAliases(match->name, name) == 0)
-            return std::string_view(paths[match->logo]);
-        return std::nullopt;
+            return &logos[match->logo];
+        return nullptr;
     }
 
     std::optional<std::string_view> LogoIndex::selectLogo(const system::OSInfo &os) const &
     {
-        const auto findKnown = [this](std::string_view name) -> std::optional<std::string_view>
+        if (const auto *logo = selectEntry(os))
+            return std::string_view(logo->path);
+        return std::nullopt;
+    }
+
+    const LogoEntry *LogoIndex::selectEntry(const system::OSInfo &os) const &
+    {
+        const auto findKnown = [this](std::string_view name)
         {
-            return compareAliases(name, "unknown") == 0 ? std::nullopt : find(name);
+            return compareAliases(name, "unknown") == 0 ? nullptr : find(name);
         };
 
         if (auto logo = findKnown(os.id))

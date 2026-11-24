@@ -10,6 +10,12 @@
 
 namespace allfetch::render
 {
+    struct LogoEntry
+    {
+        std::string path;
+        std::vector<std::string> colors;
+    };
+
     class LogoIndex
     {
     public:
@@ -19,6 +25,8 @@ namespace allfetch::render
         // Returns a relative art path borrowed from this index.
         std::optional<std::string_view> selectLogo(const system::OSInfo &os) const &;
         std::optional<std::string_view> selectLogo(const system::OSInfo &) const && = delete;
+        const LogoEntry *selectEntry(const system::OSInfo &os) const &;
+        const LogoEntry *selectEntry(const system::OSInfo &) const && = delete;
 
     private:
         struct Alias
@@ -27,9 +35,9 @@ namespace allfetch::render
             std::size_t logo;
         };
 
-        std::optional<std::string_view> find(std::string_view name) const;
+        const LogoEntry *find(std::string_view name) const;
 
         std::vector<Alias> aliases;
-        std::vector<std::string> paths;
+        std::vector<LogoEntry> logos;
     };
 }
