@@ -1,0 +1,36 @@
+# Use the compiler target so a 32-bit build on a 64-bit host is named correctly.
+execute_process(COMMAND "${CMAKE_CXX_COMPILER}" -dumpmachine
+    OUTPUT_VARIABLE target OUTPUT_STRIP_TRAILING_WHITESPACE
+    COMMAND_ERROR_IS_FATAL ANY)
+string(REGEX REPLACE "-.*" "" arch "${target}")
+if(arch MATCHES "^(i[3-6]86|x86_64|amd64)$")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(arch x86_64)
+    else()
+        set(arch x86)
+    endif()
+elseif(arch MATCHES "^(arm64|aarch64|arm.*)$")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(arch aarch64)
+    else()
+        set(arch arm)
+    endif()
+endif()
+
+if(WIN32 AND MINGW)
+    set(CPACK_GENERATOR ZIP)
+    get_filename_component(bin "${CMAKE_CXX_COMPILER}" DIRECTORY)
+    set(notices "${bin}/../share/licenses")
+    install(FILES "${notices}/libwinpthread/COPYING" DESTINATION licenses/winpthreads)
+    install(FILES "${notices}/gcc-libs/COPYING3" "${notices}/gcc-libs/COPYING.RUNTIME"
+        DESTINATION licenses/gcc)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(CPACK_GENERATOR TGZ)
+else()
+    message(FATAL_ERROR "Release packaging supports MSYS2 MinGW and Linux.")
+endif()
+
+string(TOLOWER "${CMAKE_SYSTEM_NAME}" platform)
+set(CPACK_PACKAGE_FILE_NAME "allfetch-${PROJECT_VERSION}-${platform}-${arch}")
+set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY ON)
+include(CPack)

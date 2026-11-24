@@ -17,6 +17,7 @@ add_executable(allfetch
 )
 
 find_package(nlohmann_json 3.9 CONFIG REQUIRED)
+target_compile_definitions(allfetch PRIVATE ALLFETCH_VERSION="${PROJECT_VERSION}")
 
 set(logo_root "${CMAKE_CURRENT_SOURCE_DIR}/assets/logos/fastfetch")
 file(GLOB logo_files CONFIGURE_DEPENDS "${logo_root}/[a-z_]/*.txt")
@@ -46,8 +47,7 @@ target_include_directories(allfetch PRIVATE
 
 if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_link_options(allfetch PRIVATE
-        -static-libgcc
-        -static-libstdc++
+        -static
     )
 endif()
 
@@ -113,3 +113,17 @@ set_target_properties(allfetch PROPERTIES
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
 )
+
+install(TARGETS allfetch RUNTIME DESTINATION .)
+install(FILES README.md LICENSE DESTINATION .)
+install(FILES licenses/nlohmann-json.txt DESTINATION licenses)
+foreach(file IN LISTS logo_files)
+    file(RELATIVE_PATH relative "${logo_root}" "${file}")
+    get_filename_component(folder "${relative}" DIRECTORY)
+    install(FILES "${file}" DESTINATION "logos/${folder}")
+endforeach()
+
+option(ALLFETCH_PACKAGE_RELEASE "Configure a portable-layout release archive" OFF)
+if(ALLFETCH_PACKAGE_RELEASE)
+    include(tools/release_package.cmake)
+endif()

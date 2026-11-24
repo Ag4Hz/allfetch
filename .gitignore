@@ -39,6 +39,7 @@
 *.app
 
 # Build directories
+/dist/
 [Bb]uild/
 [Bb]uild-*/
 cmake-build-*/

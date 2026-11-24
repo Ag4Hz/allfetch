@@ -85,9 +85,7 @@ namespace allfetch::core
 
     void handleVersion()
     {
-        std::string version = "1.0.0";
-
-        std::cout << "allfetch version " << version << "\n";
+        std::cout << "allfetch version " << ALLFETCH_VERSION << "\n";
     }
 
 
