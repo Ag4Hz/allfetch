@@ -50,7 +50,7 @@ namespace allfetch::render
             std::string value;
         };
 
-        std::string brightTitleStyle(const LogoEntry *logo)
+        std::string brightAccentStyle(const LogoEntry *logo)
         {
             if (!logo || logo->colors.empty())
                 return std::string(brightLogoAccent);
@@ -458,12 +458,12 @@ namespace allfetch::render
             const bool useColor = options.colorEnabled && terminal.supportsAnsiColor;
 
             std::vector<LogoRow> logoRows;
-            const auto *logo = options.showLogo ? logoIndex.selectEntry(info.osInfo) : nullptr;
-            if (logo)
+            const auto *logo = options.showLogo || useColor ? logoIndex.selectEntry(info.osInfo) : nullptr;
+            if (options.showLogo && logo)
                 logoRows = loadLogoRows(logoRoot / logo->path, *logo, useColor);
 
-            const auto infoRows = buildInfoRows(info, options.showAll, useColor,
-                useColor ? brightTitleStyle(logo) : std::string{});
+            const auto brightAccent = useColor ? brightAccentStyle(logo) : std::string{};
+            const auto infoRows = buildInfoRows(info, options.showAll, useColor, brightAccent);
 
             std::optional<PrettyPalette> palette;
             if (useColor)
@@ -496,7 +496,7 @@ namespace allfetch::render
                         if (!row.label.empty())
                         {
                             if (useColor)
-                                output << accent;
+                                output << brightAccent;
                             output << row.label;
                             if (useColor)
                                 output << reset;

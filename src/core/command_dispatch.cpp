@@ -136,7 +136,7 @@ namespace allfetch::core
                     render::PrettyOptions options{result.isColored, result.showLogo, result.showAll};
                     std::filesystem::path logoRoot;
                     render::LogoIndex index;
-                    if (options.showLogo)
+                    if (options.showLogo || (options.colorEnabled && terminal.supportsAnsiColor))
                     {
                         const auto &executable = info.titleInfo.exePath;
                         const std::filesystem::path executablePath(
