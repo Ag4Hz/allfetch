@@ -1,3 +1,6 @@
+# Leave python json generator
+/tools/generate_logo_index.py
+
 # Prerequisites
 *.d
 
