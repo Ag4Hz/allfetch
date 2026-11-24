@@ -47,6 +47,14 @@ namespace allfetch::core
             {
                 result.isColored = false;
             }
+            else if (strcmp(argv[i], "--no-logo") == 0)
+            {
+                result.showLogo = false;
+            }
+            else if (strcmp(argv[i], "--all") == 0 || strcmp(argv[i], "-a") == 0)
+            {
+                result.showAll = true;
+            }
             else
             {
                 result.errorMessage = "Unknown argument: " + std::string(argv[i]) + "\nUse --help or -h for usage information.";

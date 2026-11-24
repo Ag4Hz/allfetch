@@ -18,6 +18,13 @@ add_executable(allfetch
 
 find_package(nlohmann_json 3.9 CONFIG REQUIRED)
 
+add_custom_command(TARGET allfetch POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/assets/logos/fastfetch"
+        "$<TARGET_FILE_DIR:allfetch>/logos"
+    VERBATIM
+)
+
 target_link_libraries(allfetch PRIVATE
     nlohmann_json::nlohmann_json
 )

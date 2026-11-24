@@ -20,6 +20,8 @@ namespace allfetch::core
         bool isColored = true;
         bool isJson = false;
         std::string errorMessage;
+        bool showLogo = true;
+        bool showAll = false;
     };
 
     // Function to call in main for parsing the command line arguments
