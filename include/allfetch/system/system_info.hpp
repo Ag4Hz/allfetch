@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -39,6 +40,12 @@ namespace allfetch::system
     struct UptimeInfo
     {
         long long seconds = -1;
+    };
+
+    struct PackageCount
+    {
+        std::string manager;
+        std::size_t installed = 0;
     };
 
     // Struct to hold the memory information
@@ -241,6 +248,7 @@ namespace allfetch::system
         TerminalInfo terminalInfo;
         ShellInfo shellInfo;
         UptimeInfo uptimeInfo;
+        std::vector<PackageCount> packagesInfo;
         SwapInfo swapInfo;
         std::vector<LocalIPInfo> localIPInfo;
         std::vector<DisplayInfo> displayInfo;

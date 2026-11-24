@@ -255,6 +255,11 @@ namespace allfetch::system
         };
     }
 
+    void to_json(nlohmann::json &json, const PackageCount &info)
+    {
+        json = {{"manager", info.manager}, {"installed", info.installed}};
+    }
+
     void to_json(nlohmann::json &json, const SystemInfo &info)
     {
         json = {
@@ -266,6 +271,7 @@ namespace allfetch::system
             {"terminalInfo", info.terminalInfo},
             {"shellInfo", info.shellInfo},
             {"uptimeInfo", info.uptimeInfo},
+            {"packagesInfo", info.packagesInfo},
             {"swapInfo", info.swapInfo},
             {"localIPInfo", info.localIPInfo},
             {"displayInfo", info.displayInfo},

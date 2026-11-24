@@ -339,6 +339,10 @@ namespace allfetch::render
             add("Kernel", withVersion(info.osInfo.kernelName, info.osInfo.kernelVersion));
             if (showAll)
                 add("Uptime", formatDuration(info.uptimeInfo.seconds));
+            std::string packages;
+            for (const auto &count : info.packagesInfo)
+                appendDetail(packages, std::to_string(count.installed) + " (" + count.manager + ')');
+            add("Packages", std::move(packages));
             add("Shell", withVersion(info.shellInfo.name, info.shellInfo.version));
             for (const auto &display : info.displayInfo)
             {
@@ -438,7 +442,9 @@ namespace allfetch::render
                         appendDetail(value, "driver " + gpu.driverVersion);
                 }
                 appendClock(value, gpu.maxFrequencyMHz);
-                add("GPU " + std::to_string(++gpuNumber), std::move(value));
+                ++gpuNumber;
+                add(info.gpuInfo.size() == 1 ? "GPU" : "GPU " + std::to_string(gpuNumber),
+                    std::move(value));
             }
 
             const auto total = info.memoryInfo.totalPhysicalMemory;
