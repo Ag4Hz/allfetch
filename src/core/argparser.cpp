@@ -14,7 +14,6 @@ namespace allfetch::core
     ParserResult parseArguments(int argc, char *argv[])
     {
         ParserResult result;
-        std::string errorMessage = "";
 
         bool ActionSet = false;
         for (int i = 1; i < argc; i++)

@@ -2,7 +2,7 @@
 
 #include "allfetch/system/system_info.hpp"
 
-#include <windows.h>
+#include "allfetch/system/windows/platform.hpp"
 #include <winioctl.h>
 #include <winternl.h>
 
@@ -54,32 +54,7 @@ namespace allfetch::system
                 handle == INVALID_HANDLE_VALUE ? nullptr : handle);
         }
 
-        inline std::string utf8(std::wstring_view text)
-        {
-            if (text.empty())
-                return {};
-
-            const int length = static_cast<int>(text.size());
-
-            const int required = WideCharToMultiByte(
-                CP_UTF8, WC_ERR_INVALID_CHARS,
-                text.data(), length,
-                nullptr, 0, nullptr, nullptr);
-
-            if (required <= 0)
-                return {};
-
-            std::string result(required, '\0');
-
-            if (!WideCharToMultiByte(
-                    CP_UTF8, WC_ERR_INVALID_CHARS,
-                    text.data(), length,
-                    result.data(), required,
-                    nullptr, nullptr))
-                return {};
-
-            return result;
-        }
+        using windows_platform::utf8;
 
         inline long long signedBytes(ULONGLONG value)
         {

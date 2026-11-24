@@ -1,7 +1,7 @@
 #pragma once
 
 #include <allfetch/system/system_info.hpp>
-#include <windows.h>
+#include "allfetch/system/windows/platform.hpp"
 #include <dxgi.h>
 #include <directx/dxcore.h>
 #include <array>
@@ -155,28 +155,6 @@ namespace allfetch::system
             return integrated ? "Integrated" : "Discrete";
         }
 
-        inline std::string toUtf8(const wchar_t *text)
-        {
-            const int required = WideCharToMultiByte(
-                CP_UTF8, 0, text, -1, nullptr, 0, nullptr, nullptr);
-
-            if (required <= 1)
-            {
-                return "Unknown";
-            }
-
-            std::string result(required, '\0');
-
-            if (WideCharToMultiByte(
-                    CP_UTF8, 0, text, -1,
-                    result.data(), required, nullptr, nullptr) == 0)
-            {
-                return "Unknown";
-            }
-
-            result.pop_back();
-            return result;
-        }
 
         inline std::string vendorName(UINT id)
         {
@@ -249,16 +227,15 @@ namespace allfetch::system
             GPUInfo gpu;
 
             gpu.type = gpu_detail::adapterType(description.AdapterLuid);
-            gpu.model = gpu_detail::toUtf8(description.Description);
+            gpu.model = windows_platform::utf8OrUnknown(description.Description);
             gpu.vendor = gpu_detail::vendorName(description.VendorId);
             gpu.deviceId = static_cast<int>(description.DeviceId);
             gpu.maxFrequencyMHz = gpu_detail::maxGraphicsClockMHz(description.AdapterLuid);
 
-            // These existing fields store MiB, despite their MB names.
-            gpu.memorySizeMB = static_cast<int>(
+            gpu.memorySizeMiB = static_cast<int>(
                 description.DedicatedVideoMemory / (1024ULL * 1024ULL));
 
-            gpu.sharedMemorySizeMB = static_cast<int>(
+            gpu.sharedMemorySizeMiB = static_cast<int>(
                 description.SharedSystemMemory / (1024ULL * 1024ULL));
 
             LARGE_INTEGER version{};

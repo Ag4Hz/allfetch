@@ -6,11 +6,10 @@
 #include <filesystem>
 #include <fstream>
 #include <sstream>
-#include <chrono>
-#include <fcntl.h>
-#include <poll.h>
-#include <termios.h>
-#include <unistd.h>
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <type_traits>
 #include <nlohmann/json.hpp>
 
 namespace allfetch::system::linux_session
@@ -21,10 +20,9 @@ namespace allfetch::system::linux_session
         return value ? value : "";
     }
 
-    // Only fixed commands are passed here. Capture their output for JSON mode.
-    inline std::string query(const char *command)
+    inline std::string query(const std::string &command)
     {
-        const auto invocation = std::string("timeout -k 0.2s 1s ") + command + " </dev/null 2>/dev/null";
+        const auto invocation = std::string("LC_ALL=C timeout -k 0.2s 1s ") + command + " </dev/null 2>/dev/null";
         FILE *pipe = popen(invocation.c_str(), "r");
         if (!pipe) return {};
         std::string output;
@@ -35,7 +33,7 @@ namespace allfetch::system::linux_session
         return output;
     }
 
-    inline std::string versionAfter(const char *command, std::string_view prefix)
+    inline std::string versionAfter(const std::string &command, std::string_view prefix)
     {
         const auto output = query(command);
         const auto start = output.find(prefix);
@@ -56,66 +54,7 @@ namespace allfetch::system::linux_session
             if (key == "color" + std::to_string(i)) colors.hexValues[i] = rgb;
     }
 
-    // Kitty answers OSC 4 on the controlling terminal, even when stdout is piped.
-    inline void queryPalette(ColorsInfo &colors)
-    {
-        const int fd = open("/dev/tty", O_RDWR | O_NONBLOCK | O_CLOEXEC);
-        if (fd < 0) return;
-        struct Terminal
-        {
-            int fd;
-            termios original{};
-            bool changed = false;
-            ~Terminal()
-            {
-                if (changed) tcsetattr(fd, TCSANOW, &original);
-                close(fd);
-            }
-        } terminal{fd};
-        if (tcgetpgrp(fd) != getpgrp() || tcgetattr(fd, &terminal.original) != 0) return;
-        auto mode = terminal.original;
-        mode.c_lflag &= ~(ICANON | ECHO);
-        if (tcsetattr(fd, TCSANOW, &mode) != 0) return;
-        terminal.changed = true;
-        std::string requests;
-        for (int i = 0; i < 16; ++i)
-            requests += "\033]4;" + std::to_string(i) + ";?\033\\";
-        if (write(fd, requests.data(), requests.size()) != static_cast<ssize_t>(requests.size())) return;
-        const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(180);
-        std::string replies;
-        pollfd descriptor{fd, POLLIN, 0};
-        while (replies.size() < 8192)
-        {
-            auto wait = std::chrono::duration_cast<std::chrono::milliseconds>(deadline - std::chrono::steady_clock::now()).count();
-            if (wait <= 0 || poll(&descriptor, 1, static_cast<int>(wait)) <= 0) break;
-            char buffer[1024];
-            auto n = read(fd, buffer, sizeof(buffer));
-            if (n <= 0) break;
-            replies.append(buffer, n);
-            if (replies.find("\033]4;15;") != std::string::npos &&
-                (replies.ends_with('\a') || replies.ends_with("\033\\"))) break;
-        }
-        for (int i = 0; i < 16; ++i)
-        {
-            const auto prefix = "\033]4;" + std::to_string(i) + ";rgb:";
-            auto pos = replies.find(prefix);
-            if (pos == std::string::npos) continue;
-            pos += prefix.size();
-            std::string rgb = "#";
-            for (int component = 0; component < 3; ++component)
-            {
-                auto end = replies.find_first_not_of("0123456789abcdefABCDEF", pos);
-                if (end == std::string::npos || end <= pos || end - pos > 4) break;
-                if (component < 2 ? replies[end] != '/' : (replies[end] != '\a' && replies[end] != '\033')) break;
-                rgb += replies.substr(pos, 1);
-                rgb += replies[end - pos == 1 ? pos : pos + 1];
-                pos = end + 1;
-            }
-            if (rgb.size() == 7) colors.hexValues[i] = rgb;
-        }
-    }
-
-    inline void kitty(SystemInfo &info, const std::filesystem::path &config)
+    inline void kitty(SystemInfo &info, const std::filesystem::path &config, bool collectColors)
     {
         info.terminalInfo.name = "kitty";
         if (info.terminalInfo.version == "Unknown")
@@ -132,19 +71,93 @@ namespace allfetch::system::linux_session
                 info.terminalInfo.font = value;
                 info.terminalInfo.fontSource = path.string();
             }
-            paletteEntry(info.colorsInfo, key, value);
+            if (collectColors) paletteEntry(info.colorsInfo, key, value);
         }
-        queryPalette(info.colorsInfo);
+        // A socket keeps palette replies separate from keyboard input.
+        const auto window = env("KITTY_WINDOW_ID");
+        if (collectColors && env("KITTY_LISTEN_ON").starts_with("unix:") &&
+            !window.empty() && window.find_first_not_of("0123456789") == std::string::npos)
+        {
+            std::istringstream colors(query(
+                R"(kitten @ --to "$KITTY_LISTEN_ON" get-colors --match "id:$KITTY_WINDOW_ID")"));
+            while (std::getline(colors, line))
+            {
+                std::istringstream fields(line);
+                if (fields >> key >> value) paletteEntry(info.colorsInfo, key, value);
+            }
+        }
     }
 
-    inline void collect(SystemInfo &info)
+    inline void collectShellVersion(ShellInfo &shell)
     {
-        if (info.shellInfo.name == "Zsh")
-            info.shellInfo.version = versionAfter("zsh --version", "zsh ");
-        else if (info.shellInfo.name == "Bash")
-            info.shellInfo.version = versionAfter("bash --version", "GNU bash, version ");
-        else if (info.shellInfo.name == "Fish")
-            info.shellInfo.version = versionAfter("fish --version", "fish, version ");
+        if (!std::filesystem::path(shell.executable).is_absolute()) return;
+        std::string_view prefix;
+        if (shell.name == "Zsh") prefix = "zsh ";
+        else if (shell.name == "Bash") prefix = "GNU bash, version ";
+        else if (shell.name == "Fish") prefix = "fish, version ";
+        else return;
+
+        // Quote the detected executable as a single POSIX shell argument.
+        std::string command = "'";
+        for (const char c : shell.executable)
+        {
+            if (c == '\'') command += "'\\''";
+            else command += c;
+        }
+        shell.version = versionAfter(command + "' --version", prefix);
+    }
+
+    inline std::string_view connectorName(std::string_view name)
+    {
+        if (name.starts_with("card"))
+        {
+            const auto end = name.find_first_not_of("0123456789", 4);
+            if (end != name.npos && end > 4 && name[end] == '-')
+                name.remove_prefix(end + 1);
+        }
+        return name;
+    }
+
+    inline void mergeDisplays(std::vector<DisplayInfo> &displays, const nlohmann::json &monitors)
+    {
+        if (!monitors.is_array()) return;
+        for (const auto &monitor : monitors)
+        {
+            const auto name = monitor.find("name");
+            if (name == monitor.end() || !name->is_string()) continue;
+            const auto &connector = name->get_ref<const std::string &>();
+            if (connector.empty()) continue;
+            auto match = std::ranges::find_if(displays, [&](const DisplayInfo &display)
+            {
+                return connectorName(display.name) == connector;
+            });
+            auto &display = match == displays.end() ? displays.emplace_back() : *match;
+            display.name = connector;
+            display.platformApi = "Hyprland IPC";
+            if (connector.starts_with("eDP-")) display.type = "Builtin";
+            const auto integer = [&](const char *key, auto &field, int minimum)
+            {
+                const auto it = monitor.find(key);
+                if (it == monitor.end() || !it->is_number_integer()) return;
+                using T = std::remove_reference_t<decltype(field)>;
+                if (*it >= minimum && *it <= (std::numeric_limits<T>::max)())
+                    field = it->get<T>();
+            };
+            integer("id", display.id, 0);
+            integer("width", display.width, 1);
+            integer("height", display.height, 1);
+            const auto hz = monitor.find("refreshRate");
+            if (hz != monitor.end() && hz->is_number())
+            {
+                const double rate = hz->get<double>();
+                if (rate > 0 && std::isfinite(rate)) display.refreshRateHz = rate;
+            }
+        }
+    }
+
+    inline void collect(SystemInfo &info, bool collectColors)
+    {
+        collectShellVersion(info.shellInfo);
         if (!env("SSH_CONNECTION").empty() || !env("SSH_TTY").empty()) return;
         if (info.terminalInfo.name == "GNOME Terminal" && info.terminalInfo.version == "Unknown")
             info.terminalInfo.version = versionAfter("gnome-terminal --version", "GNOME Terminal ");
@@ -153,7 +166,7 @@ namespace allfetch::system::linux_session
         if (env("TMUX").empty() && env("STY").empty() &&
             (info.terminalInfo.name == "Unknown" || info.terminalInfo.name == "kitty") &&
             (!env("KITTY_WINDOW_ID").empty() || env("TERM") == "xterm-kitty"))
-            kitty(info, config);
+            kitty(info, config, collectColors);
         if (env("HYPRLAND_INSTANCE_SIGNATURE").empty() || env("WAYLAND_DISPLAY").empty()) return;
         info.windowManagerInfo.name = "Hyprland";
         info.windowManagerInfo.protocol = "Wayland";
@@ -165,22 +178,7 @@ namespace allfetch::system::linux_session
                 break;
             }
         const auto monitors = nlohmann::json::parse(query("hyprctl -j monitors"), nullptr, false);
-        std::vector<DisplayInfo> displays;
-        if (monitors.is_array())
-            for (const auto &monitor : monitors)
-            {
-                if (!monitor.is_object()) continue;
-                DisplayInfo display;
-                display.name = monitor.value("name", std::string("Unknown"));
-                display.id = monitor.value("id", -1);
-                display.width = monitor.value("width", -1);
-                display.height = monitor.value("height", -1);
-                display.refreshRateHz = monitor.value("refreshRate", -1.0);
-                display.platformApi = "Hyprland IPC";
-                if (display.name.starts_with("eDP-")) display.type = "Builtin";
-                displays.push_back(display);
-            }
-        if (!displays.empty()) info.displayInfo = std::move(displays);
+        mergeDisplays(info.displayInfo, monitors);
         auto &appearance = info.desktopAppearanceInfo;
         std::ifstream gtk(config / "gtk-3.0/settings.ini");
         std::string line;

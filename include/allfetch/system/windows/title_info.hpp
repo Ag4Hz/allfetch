@@ -2,7 +2,7 @@
 
 #include "allfetch/system/system_info.hpp"
 
-#include <windows.h>
+#include "allfetch/system/windows/platform.hpp"
 #include <sddl.h>
 #include <userenv.h>
 #include <lm.h>
@@ -29,32 +29,7 @@ namespace allfetch::system
         using LocalMemory =
             std::unique_ptr<void, decltype(&LocalFree)>;
 
-        inline std::string utf8(std::wstring_view value)
-        {
-            if (value.empty())
-                return {};
-
-            const int length = static_cast<int>(value.size());
-
-            const int required = WideCharToMultiByte(
-                CP_UTF8, WC_ERR_INVALID_CHARS,
-                value.data(), length,
-                nullptr, 0, nullptr, nullptr);
-
-            if (required <= 0)
-                return {};
-
-            std::string result(required, '\0');
-
-            if (!WideCharToMultiByte(
-                    CP_UTF8, WC_ERR_INVALID_CHARS,
-                    value.data(), length,
-                    result.data(), required,
-                    nullptr, nullptr))
-                return {};
-
-            return result;
-        }
+        using windows_platform::utf8;
 
         inline std::string path(
             std::wstring_view value,

@@ -42,7 +42,7 @@ namespace allfetch::system
     Output:
         SystemInfo: The system information
     */
-    SystemInfo getSystemInfo()
+    SystemInfo getSystemInfo(bool collectColors)
     {
         SystemInfo info;
 
@@ -60,14 +60,14 @@ namespace allfetch::system
         info.diskInfo = getDiskInfo();
         info.batteryInfo = getBatteryInfo();
         info.localeInfo = getLocaleInfo();
-        info.colorsInfo = getColorsInfo();
+        if (collectColors) info.colorsInfo = getColorsInfo();
         info.titleInfo = getTitleInfo();
         info.windowManagerInfo = getWindowManagerInfo();
         info.desktopAppearanceInfo = getDesktopAppearanceInfo();
 
 #if defined(__linux__)
         info.packagesInfo = getPackagesInfo();
-        linux_session::collect(info);
+        linux_session::collect(info, collectColors);
 #endif
         return info;
     }

@@ -101,8 +101,8 @@ namespace allfetch::system
             {"driverVersion", valueOrNull(info.driverVersion)},
             {"type", valueOrNull(info.type)},
             {"deviceId", valueOrNull(info.deviceId)},
-            {"memorySizeMB", valueOrNull(info.memorySizeMB)},
-            {"sharedMemorySizeMB", valueOrNull(info.sharedMemorySizeMB)},
+            {"memorySizeMiB", valueOrNull(info.memorySizeMiB)},
+            {"sharedMemorySizeMiB", valueOrNull(info.sharedMemorySizeMiB)},
             {"maxFrequencyMHz", valueOrNull(info.maxFrequencyMHz)},
         };
     }
@@ -293,7 +293,7 @@ namespace allfetch::render
         std::ostream &output)
     {
         const nlohmann::json document = {
-            {"schemaVersion", 1},
+            {"schemaVersion", 2},
             {"systemInfo", info}};
 
         // Paths and device labels can contain invalid bytes. Keep the rest of the report usable.

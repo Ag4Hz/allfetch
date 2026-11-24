@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(allfetch
-    VERSION 0.1.0
+    VERSION 1.0.0
     DESCRIPTION "CLI fetch utility with some easter eggs and other fun functionalities"
     LANGUAGES CXX
 )
@@ -18,12 +18,23 @@ add_executable(allfetch
 
 find_package(nlohmann_json 3.9 CONFIG REQUIRED)
 
-add_custom_command(TARGET allfetch POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy_directory
-        "${CMAKE_CURRENT_SOURCE_DIR}/assets/logos/fastfetch"
-        "$<TARGET_FILE_DIR:allfetch>/logos"
+set(logo_root "${CMAKE_CURRENT_SOURCE_DIR}/assets/logos/fastfetch")
+file(GLOB logo_files CONFIGURE_DEPENDS "${logo_root}/[a-z_]/*.txt")
+list(APPEND logo_files "${logo_root}/logo_index.json" "${logo_root}/LICENSE" "${logo_root}/SOURCE.txt")
+set(logo_stamp "${CMAKE_CURRENT_BINARY_DIR}/logos-$<CONFIG>.stamp")
+file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/logo-files.cmake"
+    CONTENT "set(logo_files [==[${logo_files}]==])\n")
+add_custom_command(OUTPUT "${logo_stamp}"
+    COMMAND "${CMAKE_COMMAND}"
+        "-Dmanifest=${CMAKE_CURRENT_BINARY_DIR}/logo-files.cmake"
+        "-Dsource=${logo_root}" "-Ddestination=$<TARGET_FILE_DIR:allfetch>/logos"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/tools/stage_logos.cmake"
+    COMMAND "${CMAKE_COMMAND}" -E touch "${logo_stamp}"
+    DEPENDS ${logo_files} "${CMAKE_CURRENT_BINARY_DIR}/logo-files.cmake" tools/stage_logos.cmake
     VERBATIM
 )
+add_custom_target(allfetch_logos DEPENDS "${logo_stamp}")
+add_dependencies(allfetch allfetch_logos)
 
 target_link_libraries(allfetch PRIVATE
     nlohmann_json::nlohmann_json
@@ -46,7 +57,6 @@ if (WIN32)
         dxgi
         dxguid
         dxcore
-        powrprof
         iphlpapi
         shcore
         setupapi

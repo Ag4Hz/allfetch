@@ -22,7 +22,7 @@ namespace allfetch::system
     */
     inline TerminalInfo getTerminalInfo(
         const nlohmann::json &fontSettings = nlohmann::json::object(),
-        const std::string &gnomeProfileId = {})
+        [[maybe_unused]] const std::string &gnomeProfileId = {})
     {
         TerminalInfo terminalInfo;
 

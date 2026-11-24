@@ -1,3 +1,4 @@
+#include "cell_width.hpp"
 #include "allfetch/render/render.hpp"
 #include "allfetch/render/logo_selector.hpp"
 
@@ -87,6 +88,7 @@ namespace allfetch::render
                     line.pop_back();
 
                 LogoRow row;
+                std::string visible;
                 if (useColor && !line.empty())
                     row.text += style;
 
@@ -114,18 +116,19 @@ namespace allfetch::render
                     if (c == '\t')
                     {
                         row.text.append(4, ' ');
-                        row.columns += 4;
+                        visible.append(4, ' ');
                     }
                     else
                     {
                         row.text += c;
-                        ++row.columns;
+                        visible += c;
                     }
                 }
 
                 if (useColor && !row.text.empty())
                     row.text += reset;
 
+                row.columns = detail::cellWidth(visible);
                 rows.push_back(std::move(row));
             }
 
@@ -309,10 +312,7 @@ namespace allfetch::render
             {
                 auto title = hasUser && hasHost ? user + "@" + host : (hasUser ? user : host);
                 sanitizeRow(title);
-                const auto length = std::ranges::count_if(title, [](unsigned char c)
-                {
-                    return (c & 0xc0) != 0x80; // Skip UTF-8 continuation bytes.
-                });
+                const auto length = detail::cellWidth(title);
                 if (useColor)
                 {
                     if (hasUser && hasHost)
@@ -430,14 +430,14 @@ namespace allfetch::render
             for (const auto &gpu : info.gpuInfo)
             {
                 std::string value = known(gpu.model) ? gpu.model : "Unknown model";
-                if (gpu.memorySizeMB >= 0)
-                    value += " (" + formatSize(gpu.memorySizeMB * bytesPerMiB) + ')';
+                if (gpu.memorySizeMiB >= 0)
+                    value += " (" + formatSize(gpu.memorySizeMiB * bytesPerMiB) + ')';
                 if (known(gpu.type))
                     value += " [" + gpu.type + ']';
                 if (showAll)
                 {
-                    if (gpu.sharedMemorySizeMB > 0)
-                        appendDetail(value, formatSize(gpu.sharedMemorySizeMB * bytesPerMiB) + " shared");
+                    if (gpu.sharedMemorySizeMiB > 0)
+                        appendDetail(value, formatSize(gpu.sharedMemorySizeMiB * bytesPerMiB) + " shared");
                     if (known(gpu.driverVersion))
                         appendDetail(value, "driver " + gpu.driverVersion);
                 }

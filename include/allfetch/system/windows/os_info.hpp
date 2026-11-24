@@ -4,6 +4,8 @@
 #include <string>
 #include <windows.h>
 #include <optional>
+#include <memory>
+#include "allfetch/system/windows/platform.hpp"
 
 namespace
 {
@@ -34,9 +36,11 @@ namespace
             return std::nullopt;
         }
 
-        PWSTR text = brandingFormatString(L"%WINDOWS_LONG%");
+        std::unique_ptr<wchar_t, decltype(&GlobalFree)> text(
+            brandingFormatString(L"%WINDOWS_LONG%"), &GlobalFree);
         FreeLibrary(library);
-        return std::make_optional<std::wstring>(text);
+        if (!text || !*text) return std::nullopt;
+        return std::wstring(text.get());
     }
 
     // Function to get the Windows release information from the registry
@@ -139,33 +143,19 @@ inline allfetch::system::OSInfo getOSInfo()
 
     if (const auto windowsName = getWindowsName())
     {
-        windows.name = std::string(windowsName->begin(), windowsName->end());
+        auto value = allfetch::system::windows_platform::utf8(*windowsName);
+        if (!value.empty()) windows.name = value;
     }
     if (const auto windowsRelease = getWindowsRelease())
     {
-        windows.version = std::string(windowsRelease->begin(), windowsRelease->end());
+        auto value = allfetch::system::windows_platform::utf8(*windowsRelease);
+        if (!value.empty()) windows.version = value;
     }
     if (const auto windowsKernelVersion = getWindowsKernelVersion())
     {
         windows.kernelVersion = *windowsKernelVersion;
     }
-    SYSTEM_INFO sysInfo;
-    GetNativeSystemInfo(&sysInfo);
-    switch (sysInfo.wProcessorArchitecture)
-    {
-    case PROCESSOR_ARCHITECTURE_AMD64:
-        windows.architecture = "x86_64";
-        break;
-    case PROCESSOR_ARCHITECTURE_ARM:
-        windows.architecture = "ARM";
-        break;
-    case PROCESSOR_ARCHITECTURE_ARM64:
-        windows.architecture = "ARM64";
-        break;
-    case PROCESSOR_ARCHITECTURE_INTEL:
-        windows.architecture = "x86";
-        break;
-    }
+    windows.architecture = allfetch::system::windows_platform::architecture();
 
     return windows;
 }

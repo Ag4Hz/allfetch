@@ -1,0 +1,5 @@
+include("${manifest}")
+foreach(file IN LISTS logo_files)
+    file(RELATIVE_PATH relative "${source}" "${file}")
+    configure_file("${file}" "${destination}/${relative}" COPYONLY)
+endforeach()

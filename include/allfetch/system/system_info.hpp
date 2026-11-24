@@ -79,8 +79,8 @@ namespace allfetch::system
         std::string driverVersion = "Unknown";
         std::string type = "Unknown"; // Integrated or Discrete
         int deviceId = -1;
-        int memorySizeMB = -1;
-        int sharedMemorySizeMB = -1;
+        int memorySizeMiB = -1;
+        int sharedMemorySizeMiB = -1;
         double maxFrequencyMHz = -1.0;
     };
 
@@ -262,5 +262,5 @@ namespace allfetch::system
     };
 
     // Function to get the system information
-    SystemInfo getSystemInfo();
+    SystemInfo getSystemInfo(bool collectColors = true);
 }

@@ -2,7 +2,7 @@
 
 #include <allfetch/system/system_info.hpp>
 #include <windows.h>
-#include <powrprof.h>
+#include "allfetch/system/windows/platform.hpp"
 #include <string>
 #include <memory>
 #include <vector>
@@ -149,63 +149,6 @@ namespace allfetch::system
                 frequency != 0)
             {
                 info.reportedFrequency = static_cast<float>(frequency);
-            }
-        }
-
-        inline void collectMaximumFrequencyFallback(CPUInfo &info)
-        {
-            if (info.maxFrequency > 0)
-            {
-                return;
-            }
-
-            // Layout documented for PROCESSOR_POWER_INFORMATION.
-            struct ProcessorPowerInfo
-            {
-                ULONG number;
-                ULONG maxMhz;
-                ULONG currentMhz;
-                ULONG mhzLimit;
-                ULONG maxIdleState;
-                ULONG currentIdleState;
-            };
-
-            const DWORD count = GetActiveProcessorCount(
-                ALL_PROCESSOR_GROUPS);
-
-            if (count == 0)
-            {
-                return;
-            }
-
-            std::vector<ProcessorPowerInfo> processors(count);
-
-            const auto status = CallNtPowerInformation(
-                ProcessorInformation,
-                nullptr,
-                0,
-                processors.data(),
-                static_cast<ULONG>(
-                    processors.size() * sizeof(ProcessorPowerInfo)));
-
-            if (status != 0)
-            {
-                return;
-            }
-
-            ULONG maximum = 0;
-
-            for (const auto &processor : processors)
-            {
-                if (processor.maxMhz > maximum)
-                {
-                    maximum = processor.maxMhz;
-                }
-            }
-
-            if (maximum != 0)
-            {
-                info.maxFrequency = static_cast<float>(maximum);
             }
         }
 
@@ -371,24 +314,7 @@ namespace allfetch::system
         cpuInfo.model = cpu_detail::readRegistryString(L"ProcessorNameString");
         cpuInfo.vendor = cpu_detail::readRegistryString(L"VendorIdentifier");
 
-        SYSTEM_INFO sysInfo{};
-        GetNativeSystemInfo(&sysInfo);
-
-        switch (sysInfo.wProcessorArchitecture)
-        {
-        case PROCESSOR_ARCHITECTURE_AMD64:
-            cpuInfo.architecture = "x86_64";
-            break;
-        case PROCESSOR_ARCHITECTURE_ARM:
-            cpuInfo.architecture = "ARM";
-            break;
-        case PROCESSOR_ARCHITECTURE_ARM64:
-            cpuInfo.architecture = "aarch64";
-            break;
-        case PROCESSOR_ARCHITECTURE_INTEL:
-            cpuInfo.architecture = "x86";
-            break;
-        }
+        cpuInfo.architecture = windows_platform::architecture();
 
         cpuInfo.physicalCores = cpu_detail::countPhysicalCores();
 

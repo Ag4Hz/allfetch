@@ -2,7 +2,7 @@
 
 #include "allfetch/system/system_info.hpp"
 
-#include <windows.h>
+#include "allfetch/system/windows/platform.hpp"
 #include <shellscalingapi.h>
 
 #include <cmath>
@@ -13,32 +13,6 @@
 
 namespace allfetch::system
 {
-    namespace windows_display_detail
-    {
-        inline std::string utf8(const wchar_t *value)
-        {
-            const int size = WideCharToMultiByte(
-                CP_UTF8, 0, value, -1, nullptr, 0, nullptr, nullptr);
-
-            if (size <= 1)
-            {
-                return "Unknown";
-            }
-
-            std::string result(size, '\0');
-
-            if (!WideCharToMultiByte(
-                    CP_UTF8, 0, value, -1,
-                    result.data(), size, nullptr, nullptr))
-            {
-                return "Unknown";
-            }
-
-            result.pop_back();
-            return result;
-        }
-    }
-
     inline std::vector<DisplayInfo> getDisplayInfo()
     {
         std::vector<DisplayInfo> result;
@@ -127,12 +101,12 @@ namespace allfetch::system
             if (DisplayConfigGetDeviceInfo(
                     &name.header) == ERROR_SUCCESS)
             {
-                info.name = windows_display_detail::utf8(
+                info.name = windows_platform::utf8OrUnknown(
                     name.monitorFriendlyDeviceName);
 
                 if (info.name == "Unknown")
                 {
-                    const auto devicePath = windows_display_detail::utf8(
+                    const auto devicePath = windows_platform::utf8OrUnknown(
                         name.monitorDevicePath);
                     const std::string_view prefix = R"(\\?\DISPLAY#)";
                     if (devicePath.starts_with(prefix))

@@ -12,7 +12,7 @@
 
 #if defined(_WIN32)
 #include "allfetch/system/windows/program_version.hpp"
-#include <Windows.h>
+#include "allfetch/system/windows/platform.hpp"
 #include <tlhelp32.h>
 #elif defined(__linux__)
 #include <unistd.h>
@@ -79,36 +79,6 @@ namespace allfetch::system
             }
         };
 
-        inline std::string toUtf8(const std::wstring &value)
-        {
-            if (value.empty())
-            {
-                return {};
-            }
-
-            const int size = WideCharToMultiByte(
-                CP_UTF8, 0, value.data(),
-                static_cast<int>(value.size()),
-                nullptr, 0, nullptr, nullptr);
-
-            if (size <= 0)
-            {
-                return {};
-            }
-
-            std::string text(size, '\0');
-
-            if (WideCharToMultiByte(
-                    CP_UTF8, 0, value.data(),
-                    static_cast<int>(value.size()),
-                    text.data(), size,
-                    nullptr, nullptr) == 0)
-            {
-                return {};
-            }
-
-            return text;
-        }
 #endif
 
     }
@@ -164,7 +134,7 @@ namespace allfetch::system
             if (depth > 0)
             {
                 const auto name = shell_detail::shellName(
-                    shell_detail::toUtf8(entry.szExeFile));
+                    windows_platform::utf8(entry.szExeFile));
 
                 if (!name.empty())
                 {
@@ -188,7 +158,7 @@ namespace allfetch::system
                         if (success)
                         {
                             const std::wstring executable(path, length);
-                            shellInfo.executable = shell_detail::toUtf8(executable);
+                            shellInfo.executable = windows_platform::utf8(executable);
                             if (name != "Windows PowerShell")
                             {
                                 const auto version = windows_version_detail::fileVersion(executable);
@@ -206,7 +176,7 @@ namespace allfetch::system
                                 L"SOFTWARE\\Microsoft\\PowerShell\\3\\PowerShellEngine",
                                 L"PowerShellVersion", RRF_RT_REG_SZ, nullptr, version, &bytes) == ERROR_SUCCESS)
                         {
-                            const auto text = shell_detail::toUtf8(version);
+                            const auto text = windows_platform::utf8(version);
                             if (!text.empty())
                                 shellInfo.version = text;
                         }

@@ -114,7 +114,7 @@ namespace allfetch::core
 #endif
             try
             {
-                const auto info = system::getSystemInfo();
+                const auto info = system::getSystemInfo(result.isJson || result.isColored);
                 if (result.isJson)
                 {
                     render::renderJson(info, std::cout);

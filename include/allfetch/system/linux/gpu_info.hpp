@@ -367,7 +367,7 @@ namespace allfetch::system
                     mib <= static_cast<VkDeviceSize>(
                                std::numeric_limits<int>::max()))
                 {
-                    gpu.memorySizeMB = static_cast<int>(mib);
+                    gpu.memorySizeMiB = static_cast<int>(mib);
                 }
             }
 
