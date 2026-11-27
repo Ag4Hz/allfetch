@@ -2,17 +2,99 @@
 
 #include "allfetch/system/system_info.hpp"
 
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
+#include <string>
+#include <string_view>
+
 #if defined(ALLFETCH_HAS_GIO)
 #include <gio/gio.h>
 
 #include <algorithm>
 #include <cctype>
-#include <cstdlib>
 #include <memory>
-#include <string>
+#endif
 
 namespace allfetch::system::appearance_detail
 {
+    inline std::string_view trimGtkSetting(std::string_view text)
+    {
+        constexpr std::string_view whitespace = " \t\r";
+        const auto first = text.find_first_not_of(whitespace);
+        if (first == text.npos)
+            return {};
+        return text.substr(first, text.find_last_not_of(whitespace) - first + 1);
+    }
+
+    inline void readGtkSettings(const std::filesystem::path &path, DesktopAppearanceInfo &info)
+    {
+        std::ifstream file(path);
+        bool settings = false;
+        for (std::string line; std::getline(file, line);)
+        {
+            const auto text = trimGtkSetting(line);
+            if (text.starts_with('['))
+                settings = text == "[Settings]";
+            if (!settings || text.starts_with('#'))
+                continue;
+            const auto separator = text.find('=');
+            if (separator == text.npos)
+                continue;
+            const auto key = trimGtkSetting(text.substr(0, separator));
+            const auto value = trimGtkSetting(text.substr(separator + 1));
+            if (value.empty())
+                continue;
+
+            if (key == "gtk-theme-name" && info.theme == "Unknown")
+                info.theme = value;
+            else if (key == "gtk-icon-theme-name" && info.iconTheme == "Unknown")
+                info.iconTheme = value;
+            else if (key == "gtk-font-name" && info.font == "Unknown")
+                info.font = value;
+            else if (key == "gtk-cursor-theme-name" && info.cursorTheme == "Unknown")
+                info.cursorTheme = value;
+        }
+    }
+
+    inline void readGtkFallback(DesktopAppearanceInfo &info)
+    {
+        if (const char *theme = std::getenv("GTK_THEME"); theme && *theme)
+            info.theme = theme;
+
+        if (info.theme != "Unknown" && info.iconTheme != "Unknown" &&
+            info.font != "Unknown" && info.cursorTheme != "Unknown")
+            return;
+
+        std::filesystem::path userConfig;
+        if (const char *xdg = std::getenv("XDG_CONFIG_HOME"); xdg && *xdg)
+            userConfig = xdg;
+        if (!userConfig.is_absolute())
+            if (const char *home = std::getenv("HOME"); home && *home)
+                userConfig = std::filesystem::path(home) / ".config";
+
+        const auto readConfigDirectory = [&](const std::filesystem::path &dir)
+        {
+            if (dir.is_absolute())
+                for (const char *gtk : {"gtk-4.0", "gtk-3.0"})
+                    readGtkSettings(dir / gtk / "settings.ini", info);
+        };
+        readConfigDirectory(userConfig);
+
+        const char *configuredDirs = std::getenv("XDG_CONFIG_DIRS");
+        std::string_view dirs = configuredDirs && *configuredDirs ? configuredDirs : "/etc/xdg";
+        while (!dirs.empty())
+        {
+            const auto separator = dirs.find(':');
+            readConfigDirectory(std::filesystem::path(dirs.substr(0, separator)));
+            if (separator == dirs.npos)
+                break;
+            dirs.remove_prefix(separator + 1);
+        }
+        readConfigDirectory("/etc");
+    }
+
+#if defined(ALLFETCH_HAS_GIO)
     inline bool isGnomeSession()
     {
         const char *desktop = std::getenv("XDG_CURRENT_DESKTOP");
@@ -30,12 +112,9 @@ namespace allfetch::system::appearance_detail
                        { return static_cast<char>(std::tolower(character)); });
         return name == "gnome" || name.starts_with("gnome-");
     }
-}
 #endif
 
-namespace allfetch::system
-{
-    inline DesktopAppearanceInfo getDesktopAppearanceInfo()
+    inline DesktopAppearanceInfo readDesktopSettings()
     {
         DesktopAppearanceInfo info;
 
@@ -98,6 +177,16 @@ namespace allfetch::system
         }
 #endif
 
+        return info;
+    }
+}
+
+namespace allfetch::system
+{
+    inline DesktopAppearanceInfo getDesktopAppearanceInfo()
+    {
+        auto info = appearance_detail::readDesktopSettings();
+        appearance_detail::readGtkFallback(info);
         return info;
     }
 }

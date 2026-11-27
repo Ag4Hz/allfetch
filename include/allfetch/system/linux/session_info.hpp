@@ -204,26 +204,6 @@ namespace allfetch::system::linux_session
                 break;
             }
         auto &appearance = info.desktopAppearanceInfo;
-        std::ifstream gtk(config / "gtk-3.0/settings.ini");
-        std::string line;
-        bool active = false;
-        while (std::getline(gtk, line))
-        {
-            if (line.starts_with("["))
-                active = line == "[Settings]";
-            const auto sep = line.find('=');
-            if (!active || sep == std::string::npos)
-                continue;
-            auto key = line.substr(0, sep), value = line.substr(sep + 1);
-            if (key == "gtk-theme-name")
-                appearance.theme = value;
-            if (key == "gtk-icon-theme-name")
-                appearance.iconTheme = value;
-            if (key == "gtk-font-name")
-                appearance.font = value;
-            if (key == "gtk-cursor-theme-name")
-                appearance.cursorTheme = value;
-        }
         if (!env("XCURSOR_THEME").empty())
             appearance.cursorTheme = env("XCURSOR_THEME");
         int size;

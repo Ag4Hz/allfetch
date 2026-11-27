@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(allfetch
-    VERSION 1.0.4
+    VERSION 1.0.5
     DESCRIPTION "CLI fetch utility with some easter eggs and other fun functionalities"
     LANGUAGES CXX
 )
