@@ -16,9 +16,22 @@ namespace allfetch::system
     {
         // The MinGW headers do not provide d3dkmthk.h. These are the
         // Windows ABI layouts for the adapter and node queries used below.
-        struct OpenAdapter { LUID luid; UINT handle; };
-        struct CloseAdapter { UINT handle; };
-        struct AdapterQuery { UINT handle; UINT type; void *data; UINT size; };
+        struct OpenAdapter
+        {
+            LUID luid;
+            UINT handle;
+        };
+        struct CloseAdapter
+        {
+            UINT handle;
+        };
+        struct AdapterQuery
+        {
+            UINT handle;
+            UINT type;
+            void *data;
+            UINT size;
+        };
         struct NodeMetadata
         {
             UINT ordinal;
@@ -46,11 +59,11 @@ namespace allfetch::system
             if (!gdi)
                 return -1;
 
-            const auto open = reinterpret_cast<LONG (WINAPI *)(OpenAdapter *)>(
+            const auto open = reinterpret_cast<LONG(WINAPI *)(OpenAdapter *)>(
                 GetProcAddress(gdi.get(), "D3DKMTOpenAdapterFromLuid"));
-            const auto query = reinterpret_cast<LONG (WINAPI *)(const AdapterQuery *)>(
+            const auto query = reinterpret_cast<LONG(WINAPI *)(const AdapterQuery *)>(
                 GetProcAddress(gdi.get(), "D3DKMTQueryAdapterInfo"));
-            const auto close = reinterpret_cast<LONG (WINAPI *)(const CloseAdapter *)>(
+            const auto close = reinterpret_cast<LONG(WINAPI *)(const CloseAdapter *)>(
                 GetProcAddress(gdi.get(), "D3DKMTCloseAdapter"));
             OpenAdapter adapter{luid, 0};
             if (!open || !query || !close || open(&adapter) < 0)
@@ -110,20 +123,10 @@ namespace allfetch::system
         inline constexpr GUID adapterId{
             0xf0db4c7f, 0xfe5a, 0x42a2, {0xbd, 0x62, 0xf2, 0xa6, 0xcf, 0x6f, 0xc8, 0x3e}};
 
-        inline std::string adapterType(const LUID &luid)
+        inline std::string adapterType(IDXCoreAdapterFactory *factory, const LUID &luid)
         {
-            IDXCoreAdapterFactory *rawFactory = nullptr;
-
-            if (FAILED(DXCoreCreateAdapterFactory(
-                    adapterFactoryId,
-                    reinterpret_cast<void **>(&rawFactory))))
-            {
+            if (!factory)
                 return "Unknown";
-            }
-
-            std::unique_ptr<IDXCoreAdapterFactory, ReleaseInterface>
-                factory(rawFactory);
-
             IDXCoreAdapter *rawAdapter = nullptr;
 
             if (FAILED(factory->GetAdapterByLuid(
@@ -154,7 +157,6 @@ namespace allfetch::system
 
             return integrated ? "Integrated" : "Discrete";
         }
-
 
         inline std::string vendorName(UINT id)
         {
@@ -192,6 +194,12 @@ namespace allfetch::system
         std::unique_ptr<IDXGIFactory1, gpu_detail::ReleaseInterface>
             factory(rawFactory);
 
+        IDXCoreAdapterFactory *core = nullptr;
+        const HRESULT coreStatus = DXCoreCreateAdapterFactory(
+            gpu_detail::adapterFactoryId, reinterpret_cast<void **>(&core));
+        std::unique_ptr<IDXCoreAdapterFactory, gpu_detail::ReleaseInterface>
+            coreFactory(SUCCEEDED(coreStatus) ? core : nullptr);
+
         for (UINT index = 0;; ++index)
         {
             IDXGIAdapter1 *rawAdapter = nullptr;
@@ -226,7 +234,7 @@ namespace allfetch::system
 
             GPUInfo gpu;
 
-            gpu.type = gpu_detail::adapterType(description.AdapterLuid);
+            gpu.type = gpu_detail::adapterType(coreFactory.get(), description.AdapterLuid);
             gpu.model = windows_platform::utf8OrUnknown(description.Description);
             gpu.vendor = gpu_detail::vendorName(description.VendorId);
             gpu.deviceId = static_cast<int>(description.DeviceId);

@@ -7,13 +7,12 @@
 #include "allfetch/system/windows/program_version.hpp"
 #include <windows.h>
 #include <appmodel.h>
-#include <tlhelp32.h>
+#include "allfetch/system/windows/process_snapshot.hpp"
 #endif
 
 #include <cctype>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 #include <utility>
 
 namespace allfetch::system::terminal_font_detail
@@ -47,8 +46,7 @@ namespace allfetch::system::terminal_font_detail
         const std::wstring path =
             std::wstring(L"SOFTWARE\\Classes\\PackagedCom\\ClassIndex\\") + delegation;
         HKEY key = nullptr;
-        if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, path.c_str(), 0, KEY_READ, &key)
-            != ERROR_SUCCESS)
+        if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, path.c_str(), 0, KEY_READ, &key) != ERROR_SUCCESS)
             return {};
 
         wchar_t package[512]{};
@@ -64,60 +62,41 @@ namespace allfetch::system::terminal_font_detail
         return {};
     }
 
-    inline const std::filesystem::path &windowsTerminalExecutable()
-    {
-        static const std::filesystem::path executable = []() -> std::filesystem::path
-        {
 #if defined(_WIN32)
-            const HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-            if (snapshot == INVALID_HANDLE_VALUE)
-                return {};
-
-            std::unordered_map<DWORD, std::pair<DWORD, std::wstring>> processes;
-            PROCESSENTRY32W entry{};
-            entry.dwSize = sizeof(entry);
-            for (BOOL found = Process32FirstW(snapshot, &entry); found;
-                 found = Process32NextW(snapshot, &entry))
-                processes.emplace(entry.th32ProcessID,
-                                  std::make_pair(entry.th32ParentProcessID, entry.szExeFile));
-            CloseHandle(snapshot);
-
-            DWORD consolePid = 0;
-            GetWindowThreadProcessId(GetConsoleWindow(), &consolePid);
-            for (DWORD start : {GetCurrentProcessId(), consolePid})
+    inline std::filesystem::path windowsTerminalExecutable(const windows_platform::ProcessList &processes)
+    {
+        DWORD consolePid = 0;
+        GetWindowThreadProcessId(GetConsoleWindow(), &consolePid);
+        for (DWORD start : {GetCurrentProcessId(), consolePid})
+        {
+            DWORD pid = start;
+            for (unsigned depth = 0; pid != 0 && depth < 64; ++depth)
             {
-                DWORD pid = start;
-                for (unsigned depth = 0; pid != 0 && depth < 64; ++depth)
-                {
-                    const auto process = processes.find(pid);
-                    if (process == processes.end())
-                        break;
+                const auto process = processes.find(pid);
+                if (process == processes.end())
+                    break;
 
-                    if (_wcsicmp(process->second.second.c_str(), L"WindowsTerminal.exe") == 0)
+                if (_wcsicmp(process->second.executable.c_str(), L"WindowsTerminal.exe") == 0)
+                {
+                    const HANDLE handle = OpenProcess(
+                        PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid);
+                    if (handle != nullptr)
                     {
-                        const HANDLE handle = OpenProcess(
-                            PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid);
-                        if (handle != nullptr)
-                        {
-                            wchar_t path[32768]{};
-                            DWORD length = 32768;
-                            const BOOL found = QueryFullProcessImageNameW(handle, 0, path, &length);
-                            CloseHandle(handle);
-                            if (found)
-                                return std::wstring(path, length);
-                        }
-                        return L"WindowsTerminal.exe";
+                        wchar_t path[32768]{};
+                        DWORD length = 32768;
+                        const BOOL found = QueryFullProcessImageNameW(handle, 0, path, &length);
+                        CloseHandle(handle);
+                        if (found)
+                            return std::wstring(path, length);
                     }
-                    pid = process->second.first;
+                    return L"WindowsTerminal.exe";
                 }
+                pid = process->second.parent;
             }
-#endif
-            return {};
-        }();
-        return executable;
+        }
+        return {};
     }
 
-#if defined(_WIN32)
     inline PACKAGE_VERSION packageVersion(const wchar_t *fullName)
     {
         UINT32 bytes = 0;
@@ -152,7 +131,7 @@ namespace allfetch::system::terminal_font_detail
         return latest;
     }
 
-    inline std::string windowsTerminalVersion()
+    inline std::string windowsTerminalVersion(const std::filesystem::path &executable)
     {
         const auto format = [](PACKAGE_VERSION version)
         {
@@ -160,7 +139,6 @@ namespace allfetch::system::terminal_font_detail
                 version.Major, version.Minor, version.Build, version.Revision);
         };
 
-        const auto &executable = windowsTerminalExecutable();
         if (executable.is_absolute())
         {
             const auto folder = executable.parent_path().filename().wstring();
@@ -188,10 +166,9 @@ namespace allfetch::system::terminal_font_detail
     }
 #endif
 
-    inline nlohmann::json windowsTerminalSettings()
+    inline nlohmann::json windowsTerminalSettings([[maybe_unused]] const std::filesystem::path &host)
     {
 #if defined(_WIN32)
-        const auto &host = windowsTerminalExecutable();
         std::error_code portableError;
         if (host.has_parent_path() &&
             std::filesystem::exists(host.parent_path() / ".portable", portableError))
@@ -248,9 +225,9 @@ namespace allfetch::system::terminal_font_detail
     inline void collectWindowsTerminalFont(
         const nlohmann::json &settings,
         const std::string &profileId,
-        TerminalInfo &info)
+        TerminalInfo &info, const std::filesystem::path &host)
     {
-        const auto configuration = settings.empty() ? windowsTerminalSettings() : settings;
+        const auto configuration = settings.empty() ? windowsTerminalSettings(host) : settings;
         if (!configuration.is_object())
             return;
 

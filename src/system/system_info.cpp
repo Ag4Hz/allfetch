@@ -50,8 +50,15 @@ namespace allfetch::system
         info.memoryInfo = getMemoryInfo();
         info.cpuInfo = getCPUInfo();
         info.gpuInfo = getGPUInfo();
+#if defined(_WIN32)
+        const auto processes = windows_platform::readProcesses();
+        const auto terminalHost = terminal_font_detail::windowsTerminalExecutable(processes);
+        info.terminalInfo = getTerminalInfo(nlohmann::json::object(), {}, collectFull, terminalHost);
+        info.shellInfo = getShellInfo(processes);
+#else
         info.terminalInfo = getTerminalInfo(nlohmann::json::object(), {}, collectFull);
         info.shellInfo = getShellInfo();
+#endif
         info.swapInfo = getSwapInfo();
         info.localIPInfo = getLocalIPInfo();
         info.hostInfo = getHostInfo();

@@ -13,6 +13,7 @@
 #include <limits>
 #include <memory>
 #include <set>
+#include <map>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -179,7 +180,7 @@ namespace allfetch::system
             return seek.IncursSeekPenalty ? "HDD" : "SSD";
         }
 
-        inline std::string volumeType(HANDLE handle)
+        inline std::string volumeType(HANDLE handle, std::map<DWORD, std::string> &physicalTypes)
         {
             // A fixed limit keeps unusual or unsupported layouts safe.
             alignas(VOLUME_DISK_EXTENTS) unsigned char buffer[65536]{};
@@ -222,7 +223,12 @@ namespace allfetch::system
             }
 
             for (DWORD disk : disks)
-                types.insert(physicalType(disk));
+            {
+                auto [entry, inserted] = physicalTypes.try_emplace(disk);
+                if (inserted)
+                    entry->second = physicalType(disk);
+                types.insert(entry->second);
+            }
 
             if (types.contains("Unknown"))
                 return "Unknown";
@@ -279,6 +285,7 @@ namespace allfetch::system
     inline std::vector<DiskInfo> getDiskInfo()
     {
         std::vector<DiskInfo> result;
+        std::map<DWORD, std::string> physicalTypes;
         wchar_t volumeBuffer[256]{};
 
         HANDLE rawSearch = FindFirstVolumeW(
@@ -348,7 +355,7 @@ namespace allfetch::system
             if (handle)
             {
                 base.type =
-                    disk_detail::volumeType(handle.get());
+                    disk_detail::volumeType(handle.get(), physicalTypes);
 
                 base.creationTimeMs =
                     disk_detail::creationTime(handle.get());

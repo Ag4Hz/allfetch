@@ -23,7 +23,12 @@ namespace allfetch::system
     inline TerminalInfo getTerminalInfo(
         const nlohmann::json &fontSettings = nlohmann::json::object(),
         [[maybe_unused]] const std::string &gnomeProfileId = {},
-        bool collectFont = true)
+        bool collectFont = true,
+#if defined(_WIN32)
+        const std::filesystem::path &host = terminal_font_detail::windowsTerminalExecutable(windows_platform::readProcesses()))
+#else
+        const std::filesystem::path &host = {})
+#endif
     {
         TerminalInfo terminalInfo;
 
@@ -36,7 +41,7 @@ namespace allfetch::system
 #if defined(_WIN32)
                 if (terminalInfo.version == "Unknown")
                 {
-                    const auto version = terminal_font_detail::windowsTerminalVersion();
+                    const auto version = terminal_font_detail::windowsTerminalVersion(host);
                     if (!version.empty())
                         terminalInfo.version = version;
                 }
@@ -46,7 +51,7 @@ namespace allfetch::system
                 terminal_font_detail::collectWindowsTerminalFont(
                     fontSettings,
                     environment("WT_PROFILE_ID"),
-                    terminalInfo);
+                    terminalInfo, host);
             }
             else if (collectFont && terminalInfo.name == "VS Code integrated terminal")
             {
@@ -144,7 +149,7 @@ namespace allfetch::system
             {
                 terminalInfo.name = "Windows Console";
             }
-            else if (!terminal_font_detail::windowsTerminalExecutable().empty())
+            else if (!host.empty())
             {
                 terminalInfo.name = "Windows Terminal";
             }

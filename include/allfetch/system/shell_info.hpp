@@ -13,7 +13,7 @@
 #if defined(_WIN32)
 #include "allfetch/system/windows/program_version.hpp"
 #include "allfetch/system/windows/platform.hpp"
-#include <tlhelp32.h>
+#include "allfetch/system/windows/process_snapshot.hpp"
 #elif defined(__linux__)
 #include <unistd.h>
 #endif
@@ -70,39 +70,21 @@ namespace allfetch::system
             return {};
         }
 
-#if defined(_WIN32)
-        struct CloseSnapshot
-        {
-            void operator()(void *handle) const noexcept
-            {
-                CloseHandle(handle);
-            }
-        };
-
-#endif
-
     }
 
     /* Implementation of the getShellInfo function
     Output:
         ShellInfo
     */
+#if defined(_WIN32)
+    inline ShellInfo getShellInfo(const windows_platform::ProcessList &processes = windows_platform::readProcesses())
+#else
     inline ShellInfo getShellInfo()
+#endif
     {
         ShellInfo shellInfo;
 
 #if defined(_WIN32)
-        HANDLE rawSnapshot = CreateToolhelp32Snapshot(
-            TH32CS_SNAPPROCESS, 0);
-
-        if (rawSnapshot == INVALID_HANDLE_VALUE)
-        {
-            return shellInfo;
-        }
-
-        std::unique_ptr<void, shell_detail::CloseSnapshot>
-            snapshot(rawSnapshot);
-
         DWORD pid = GetCurrentProcessId();
         std::set<DWORD> visited;
 
@@ -110,31 +92,14 @@ namespace allfetch::system
              depth < 64 && pid != 0 && visited.insert(pid).second;
              ++depth)
         {
-            PROCESSENTRY32W entry{};
-            entry.dwSize = sizeof(entry);
-            bool found = false;
-
-            if (Process32FirstW(snapshot.get(), &entry))
-            {
-                do
-                {
-                    if (entry.th32ProcessID == pid)
-                    {
-                        found = true;
-                        break;
-                    }
-                } while (Process32NextW(snapshot.get(), &entry));
-            }
-
-            if (!found)
-            {
+            const auto processEntry = processes.find(pid);
+            if (processEntry == processes.end())
                 break;
-            }
 
             if (depth > 0)
             {
                 const auto name = shell_detail::shellName(
-                    windows_platform::utf8(entry.szExeFile));
+                    windows_platform::utf8(processEntry->second.executable));
 
                 if (!name.empty())
                 {
@@ -173,8 +138,8 @@ namespace allfetch::system
                         wchar_t version[64]{};
                         DWORD bytes = sizeof(version);
                         if (RegGetValueW(HKEY_LOCAL_MACHINE,
-                                L"SOFTWARE\\Microsoft\\PowerShell\\3\\PowerShellEngine",
-                                L"PowerShellVersion", RRF_RT_REG_SZ, nullptr, version, &bytes) == ERROR_SUCCESS)
+                                         L"SOFTWARE\\Microsoft\\PowerShell\\3\\PowerShellEngine",
+                                         L"PowerShellVersion", RRF_RT_REG_SZ, nullptr, version, &bytes) == ERROR_SUCCESS)
                         {
                             const auto text = windows_platform::utf8(version);
                             if (!text.empty())
@@ -185,7 +150,7 @@ namespace allfetch::system
                 }
             }
 
-            pid = entry.th32ParentProcessID;
+            pid = processEntry->second.parent;
         }
 
 #elif defined(__linux__)
