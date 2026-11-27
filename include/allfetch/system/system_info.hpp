@@ -262,5 +262,5 @@ namespace allfetch::system
     };
 
     // Function to get the system information
-    SystemInfo getSystemInfo(bool collectColors = true);
+    SystemInfo getSystemInfo(bool collectColors = true, bool collectFull = true, bool collectHID = false);
 }

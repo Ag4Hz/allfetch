@@ -42,7 +42,7 @@ namespace allfetch::system
     Output:
         SystemInfo: The system information
     */
-    SystemInfo getSystemInfo(bool collectColors)
+    SystemInfo getSystemInfo(bool collectColors, bool collectFull, [[maybe_unused]] bool collectHID)
     {
         SystemInfo info;
 
@@ -50,24 +50,34 @@ namespace allfetch::system
         info.memoryInfo = getMemoryInfo();
         info.cpuInfo = getCPUInfo();
         info.gpuInfo = getGPUInfo();
-        info.terminalInfo = getTerminalInfo();
+        info.terminalInfo = getTerminalInfo(nlohmann::json::object(), {}, collectFull);
         info.shellInfo = getShellInfo();
-        info.uptimeInfo = getUptimeInfo();
         info.swapInfo = getSwapInfo();
         info.localIPInfo = getLocalIPInfo();
         info.hostInfo = getHostInfo();
         info.displayInfo = getDisplayInfo();
         info.diskInfo = getDiskInfo();
         info.batteryInfo = getBatteryInfo();
-        info.localeInfo = getLocaleInfo();
-        if (collectColors) info.colorsInfo = getColorsInfo();
         info.titleInfo = getTitleInfo();
-        info.windowManagerInfo = getWindowManagerInfo();
-        info.desktopAppearanceInfo = getDesktopAppearanceInfo();
+
+        if (collectColors)
+        {
+            info.colorsInfo = getColorsInfo();
+        }
+
+        if (collectFull)
+        {
+            info.uptimeInfo = getUptimeInfo();
+            info.localeInfo = getLocaleInfo();
+            info.windowManagerInfo = getWindowManagerInfo();
+            info.desktopAppearanceInfo = getDesktopAppearanceInfo();
+        }
 
 #if defined(__linux__)
         info.packagesInfo = getPackagesInfo();
-        linux_session::collect(info, collectColors);
+#endif
+#if defined(__linux__)
+        linux_session::collect(info, collectColors, collectFull);
 #endif
         return info;
     }

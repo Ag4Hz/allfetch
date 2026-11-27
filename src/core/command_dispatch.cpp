@@ -89,7 +89,6 @@ namespace allfetch::core
         std::cout << "allfetch version " << ALLFETCH_VERSION << "\n";
     }
 
-
     /* Implementation of the dispatchCommand function
     Input:
         result: The result of parsing the command line arguments
@@ -114,7 +113,8 @@ namespace allfetch::core
 #endif
             try
             {
-                const auto info = system::getSystemInfo(result.isJson || useColor);
+                const bool collectFull = result.isJson || result.showAll;
+                const auto info = system::getSystemInfo(result.isJson || useColor, collectFull, false);
                 if (result.isJson)
                 {
                     render::renderJson(info, std::cout);
@@ -127,7 +127,7 @@ namespace allfetch::core
 #elif defined(__linux__)
                     const char *term = std::getenv("TERM");
                     terminal.supportsAnsiColor = isatty(STDOUT_FILENO) &&
-                        (!term || std::string_view(term) != "dumb");
+                                                 (!term || std::string_view(term) != "dumb");
 #endif
                     if (result.colorMode == ColorMode::always)
                         terminal.supportsAnsiColor = true;
